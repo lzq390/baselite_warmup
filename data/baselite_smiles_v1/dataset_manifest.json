@@ -1,0 +1,49 @@
+{
+  "dataset_name": "baselite_smiles_v1",
+  "generated_at_utc": "2026-05-07T03:20:35.979943+00:00",
+  "quality_checks": {
+    "canonical_hash_leakage": {
+      "field": "canonical_hash",
+      "total_pairwise_leakage": 0,
+      "train_test": 0,
+      "train_valid": 0,
+      "valid_test": 0
+    },
+    "graph_hash_leakage": {
+      "field": "graph_hash",
+      "total_pairwise_leakage": 0,
+      "train_test": 0,
+      "train_valid": 0,
+      "valid_test": 0
+    },
+    "total_records": 11580,
+    "unique_canonical_hash": 11580,
+    "unique_graph_hash": 11439,
+    "unique_record_id": 11580
+  },
+  "schema_fields": [
+    "record_id",
+    "canonical_smiles",
+    "canonical_hash",
+    "graph_hash",
+    "split"
+  ],
+  "source": {
+    "canonical_repeat_units_jsonl": "/home/lzq390/gith/baselite_warmup/data/processed/canonical_repeat_units.jsonl",
+    "canonical_repeat_units_sha256": "3ef7257eb0b348bb5bfd05cc7429cd9474117c43c2dcec8cb67e04f9806305b0"
+  },
+  "split": {
+    "counts": {
+      "test": 1158,
+      "train": 9264,
+      "valid": 1158
+    },
+    "seed": "baselite_smiles_v1_split_seed_2026_05_07",
+    "target_ratios": {
+      "test": 0.1,
+      "train": 0.8,
+      "valid": 0.1
+    },
+    "unit": "graph_hash"
+  }
+}
