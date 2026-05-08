@@ -5,6 +5,8 @@
 训练类型：自监督预训练为主 + 规则弱监督辅助  
 适用阶段：BaseLite warmup → Prop-first 性质预测微调
 
+更新注记：当前基座模型已选择 Qwen2.5-7B Base。tokenizer 和模板设计以 `docs/baselite_qwen25_warmup_template_design.md` 为准：第一阶段不新增 special tokens，不使用 chat template，`L_restore` 的 canonical target 作为独立 `restore_labels` 监督 restore head，不拼入 decoder trunk 输入。
+
 ---
 
 ## 1. 文档目标
@@ -398,79 +400,83 @@ y_frag[k] = 0 表示第 k 类片段不存在
 
 ### 9.1 Tokenizer 目标
 
-Tokenizer 需要稳定处理：
+第一阶段使用 Qwen2.5-7B Base 原生 tokenizer：
+
+```text
+models/qwen2.5-7b-tokenizer/
+```
+
+Tokenizer 需要稳定处理 polymer repeat-unit SMILES 中的：
 
 ```text
 - 化学原子 token
 - 键 token
 - 括号、环闭合 token
 - 聚合物连接位点 token
-- 任务控制 token
+- 普通文本模板标签
 ```
 
-### 9.2 推荐新增 special tokens
+### 9.2 Special tokens 策略
 
 ```text
-<restore>
-<target>
-<polymer>
-<view1>
-<view2>
-<graph>
-<frag>
-<sep>
-<mask>
-<bos>
-<eos>
-<pad>
+不新增 special tokens
+不 resize embedding
+不训练自定义化学 tokenizer
+不使用 Qwen chat template
 ```
 
-### 9.3 聚合物连接位点 token
+`<polymer_smiles>`、`<polymer_view_smiles>` 等标签只是普通文本模板标签，由 Qwen tokenizer 按原词表切分。
+
+### 9.3 聚合物连接位点表示
 
 ```text
 [*]
 [*:1]
 [*:2]
-[HEAD]
-[TAIL]
-[CONN]
+*
 ```
 
-### 9.4 新增 embedding 初始化
+聚合物连接位点保留 SMILES 原始表示，不额外引入 `[HEAD]`、`[TAIL]`、`[CONN]` 这类训练专用 token。
 
-新增 token 的 embedding 建议用相关已有 token 的均值初始化。
+### 9.4 Embedding 初始化
 
 ```text
-new_embedding = mean(related_existing_token_embeddings) + small_noise
+第一阶段没有新增 token，因此没有新增 embedding 初始化步骤。
 ```
 
-推荐：
-
-```yaml
-embedding_init_noise_std: 0.01
-```
+LoRA、projector、graph encoder、fusion layer 和辅助 head 按训练配置初始化或加载。
 
 ### 9.5 任务输入模板
 
 任务 1：
 
 ```text
-<restore> <view1> {text_view_1} <target> {canonical_text_target} <eos>
+输入：
+<polymer_view_smiles>
+{text_view_1}
+</polymer_view_smiles>
+
+监督目标：
+{canonical_text_target}<|endoftext|>
 ```
 
 任务 2：
 
 ```text
-<polymer> {text_view_1} <eos>
+<polymer_smiles>
+{text_view_1}
+</polymer_smiles>
 ```
 
 任务 4：
 
 ```text
-<polymer> {text_view_2} <eos>
+<polymer_smiles>
+{text_view_2}
+</polymer_smiles>
 ```
 
-任务 1 中只对 target 段计算 token-level CE loss。
+任务 1 的 canonical target 单独 tokenize 成 `restore_labels`，只用于 `fusion / interaction layer -> restore head` 的 token-level CE loss；它不进入 decoder trunk，也不是 `L_align` 的输入。
 
 ---
 
@@ -718,7 +724,8 @@ L_align = 0.5 * L_text_to_graph + 0.5 * L_graph_to_text
 任务 3 是多标签分类任务，用 fused representation 预测当前 polymer 中出现了哪些规则片段。
 
 ```text
-fused rep / graph rep -> fragment_presence_multi_hot_labels
+fused rep -> fragment presence head -> fragment_presence_logits
+fragment_presence_multi_hot_labels -> BCE labels
 ```
 
 ### 标签来源
@@ -852,10 +859,12 @@ L_fragment_consistency = mean_m ||z_m_view1 - z_m_view2||^2
 
 ### presence label 的作用
 
-`fragment_presence_multi_hot_labels` 不用于构造 view2。它最多作为 mask / selector：
+`fragment_presence_multi_hot_labels` 只用于 `L_fragment_presence` 的多标签监督。
 
 ```text
-只对真实存在的片段计算一致性损失
+不用于构造 view2
+不作为 L_fragment_consistency 的输入
+不作为 fragment consistency 的 mask / selector
 ```
 
 真正决定片段边界的是：
@@ -893,7 +902,13 @@ lambda_fragment_presence: 0.5
 lambda_fragment_consistency: 0.2
 ```
 
-如果训练不稳定，可以先只开启任务 1 和任务 2，再逐步加入任务 3 和任务 4。
+执行顺序：
+
+```text
+smoke test: 只开启 L_restore，验证 text-only restore 流程。
+正式第一阶段: 开启 L_restore + L_align，不依赖 fragment 词表。
+fragment-aware 阶段: fragment_vocab_v1 稳定后，再加入 L_fragment_presence + L_fragment_consistency。
+```
 
 ---
 
@@ -921,6 +936,8 @@ decoder backbone 主体
 图构建 parser
 fragment_vocab_v1 规则匹配器
 ```
+
+说明：正式第一阶段不加载 fragment_vocab_v1 规则匹配器；该项只适用于后续 fragment-aware 阶段。
 
 ### 13.3 warmup 后保留
 
@@ -986,7 +1003,7 @@ train:
     "input_ids_view1": LongTensor[B, L1],
     "attention_mask_view1": LongTensor[B, L1],
     "restore_labels": LongTensor[B, L_restore],
-    "restore_loss_mask": BoolTensor[B, L_restore],
+    "restore_label_mask": BoolTensor[B, L_restore],
     "input_ids_view2": LongTensor[B, L2],
     "attention_mask_view2": LongTensor[B, L2]
 }
@@ -1051,7 +1068,7 @@ for batch in dataloader:
     L_restore = token_ce_loss(
         restore_logits,
         batch["restore_labels"],
-        loss_mask=batch["restore_loss_mask"]
+        loss_mask=batch["restore_label_mask"]
     )
 
     # Task 2: text-graph align
@@ -1083,6 +1100,104 @@ for batch in dataloader:
     optimizer.step()
     scheduler.step()
     optimizer.zero_grad()
+```
+
+---
+
+## 16.5 不依赖词表的执行顺序
+
+当前可以先不接入 fragment_vocab_v1，把微调主流程分三步打通。
+
+### Step 0：模板和 dataloader preview
+
+不训练，只生成并检查：
+
+```text
+input_ids_view1 / attention_mask_view1
+input_ids_view2 / attention_mask_view2
+restore_labels / restore_label_mask
+repeat_unit_graph batch
+length stats
+round-trip stats
+```
+
+### Step 1：Text-only restore smoke test
+
+用途：
+
+```text
+验证 Qwen2.5 tokenizer、LoRA、restore head、decode/eval、checkpoint 保存加载。
+```
+
+开启：
+
+```text
+L_restore
+```
+
+关闭：
+
+```text
+L_align
+L_fragment_presence
+L_fragment_consistency
+graph encoder
+fragment_vocab matcher
+```
+
+该阶段只作为工程冒烟测试和 baseline，不作为正式 BaseLite 底座。
+
+### Step 2：Non-vocab BaseLite warmup
+
+用途：
+
+```text
+打通正式第一阶段：text_view + repeat_unit_graph -> fusion / alignment / restore。
+```
+
+开启：
+
+```text
+L_restore
+L_align
+graph encoder
+fusion / interaction layer
+text projector
+graph projector
+restore head
+```
+
+关闭：
+
+```text
+L_fragment_presence
+L_fragment_consistency
+fragment_vocab matcher
+fragment labels
+```
+
+验收指标：
+
+```text
+restore valid string rate
+canonical exact match rate
+text-to-graph retrieval top1 / top5
+graph-to-text retrieval top1 / top5
+checkpoint / adapter export and reload
+```
+
+### Step 3：Fragment-aware warmup
+
+fragment_vocab_v1 稳定后再进入：
+
+```text
+L_restore
+L_align
+L_fragment_presence
+L_fragment_consistency
+fragment_vocab matcher
+fragment_instances
+fragment_presence_labels
 ```
 
 ---
@@ -1227,17 +1342,19 @@ Stage 3: 小学习率联合训练 LoRA、graph encoder、fusion、property heads
 ```text
 baselite/
   configs/
-    warmup_v1.yaml
-    tokenizer.yaml
+    restore_smoke_test.yaml
+    non_vocab_warmup_v1.yaml
+    fragment_warmup_v1.yaml
     fragment_vocab_v1.yaml
 
   data/
-    raw/
-      polymers.csv
-    processed/
+    baselite_smiles_v1/
       train.jsonl
       valid.jsonl
       test.jsonl
+      token_stats.json
+    processed/
+      repeat_unit_graphs.jsonl
 
   preprocessing/
     canonicalize.py
@@ -1274,40 +1391,43 @@ baselite/
 
 ---
 
-## 21. warmup_v1.yaml 示例
+## 21. non_vocab_warmup_v1.yaml 示例
 
 ```yaml
 experiment:
-  name: baselite_warmup_v1
+  name: baselite_non_vocab_warmup_v1
   seed: 42
-  output_dir: checkpoints/baselite_warmup_v1
+  output_dir: checkpoints/baselite_non_vocab_warmup_v1
+  stage: non_vocab_warmup
 
 data:
-  raw_path: data/raw/polymers.csv
-  input_col: smiles
-  processed_dir: data/processed
+  train_path: data/baselite_smiles_v1/train.jsonl
+  valid_path: data/baselite_smiles_v1/valid.jsonl
+  test_path: data/baselite_smiles_v1/test.jsonl
+  graph_path: data/processed/repeat_unit_graphs.jsonl
   split:
-    train: 0.90
-    valid: 0.05
-    test: 0.05
+    train: 0.80
+    valid: 0.10
+    test: 0.10
 
 preprocess:
   canonicalize: true
   require_connected_repeat_unit_graph: true
   max_atoms: 256
-  max_text_length: 256
-  fragment_vocab: configs/fragment_vocab_v1.yaml
+  max_seq_len_view: 512
+  max_seq_len_restore_label: 512
+  fragment_vocab: null
 
 augmentation:
   num_text_views: 2
-  equivalent_smiles_aug: true
-  random_direction_flip: true
-  text_mask_ratio: 0.10
+  equivalent_smiles_aug: false
+  random_direction_flip: false
+  text_mask_ratio: 0.00
 
 tokenizer:
-  add_polymer_special_tokens: true
-  new_embedding_init: related_token_mean
-  embedding_init_noise_std: 0.01
+  path: models/qwen2.5-7b-tokenizer
+  use_chat_template: false
+  add_polymer_special_tokens: false
 
 model:
   decoder:
@@ -1330,7 +1450,7 @@ model:
 
   graph_memory:
     use_atom_tokens: true
-    use_fragment_tokens: true
+    use_fragment_tokens: false
     use_global_token: true
     hidden_dim: 256
 
@@ -1349,9 +1469,15 @@ model:
 loss:
   lambda_restore: 1.0
   lambda_align: 1.0
-  lambda_fragment_presence: 0.5
-  lambda_fragment_consistency: 0.2
+  lambda_fragment_presence: 0.0
+  lambda_fragment_consistency: 0.0
   contrastive_temperature: 0.07
+
+tasks:
+  enable_restore: true
+  enable_align: true
+  enable_fragment_presence: false
+  enable_fragment_consistency: false
 
 train:
   optimizer: adamw
@@ -1374,7 +1500,7 @@ train:
 
 ## 22. 里程碑计划
 
-### Milestone 1：数据管线打通
+### Milestone 1：模板和基础数据管线打通
 
 验收标准：
 
@@ -1382,34 +1508,47 @@ train:
 - raw SMILES 可生成 canonical string
 - 可生成 text_view_1 / text_view_2
 - 可生成 repeat_unit_graph
-- 可生成 fragment_instances
-- 可生成 multi-hot labels
 - dataloader 可正常 batch
+- tokenizer round-trip 无失败
+- restore label mask 正确
 ```
 
-### Milestone 2：单任务 overfit 测试
+### Milestone 2：Text-only restore smoke test
 
 验收标准：
 
 ```text
 - 小数据集上 L_restore 下降
-- L_align 正样本相似度上升
-- fragment presence F1 上升
-- fragment consistency 距离下降
+- decoded string 可完成后处理和 RDKit 校验
+- checkpoint / adapter 可保存和重新加载
+- 明确该阶段只作为 baseline，不作为正式 BaseLite 底座
 ```
 
-### Milestone 3：多任务联合训练
+### Milestone 3：Non-vocab BaseLite warmup
 
 验收标准：
 
 ```text
+- L_restore 和 L_align 同时可训练
+- validation retrieval 提升
+- canonical exact match 或 valid string rate 不劣化
+- checkpoint / adapter export 可用于下游加载
+```
+
+### Milestone 4：Fragment-aware warmup
+
+验收标准：
+
+```text
+- fragment_vocab_v1 matcher 稳定
+- 可生成 fragment_instances
+- 可生成 multi-hot labels
 - 四个 loss 不爆炸
-- 总 loss 稳定下降
 - validation retrieval 提升
 - fragment F1 提升
 ```
 
-### Milestone 4：导出 checkpoint
+### Milestone 5：导出 checkpoint
 
 验收标准：
 
@@ -1420,7 +1559,7 @@ train:
 - downstream 可加载
 ```
 
-### Milestone 5：Prop-first 验证
+### Milestone 6：Prop-first 验证
 
 验收标准：
 
@@ -1542,4 +1681,3 @@ text-graph 对齐
 ```
 
 这就是后续性质预测、片段归因和 polymer design 的基础底座。
-

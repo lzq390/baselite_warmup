@@ -11,12 +11,12 @@ tokenizer：`models/qwen2.5-7b-tokenizer/`
 
 BaseLite warmup 不是单一 SMILES 去噪恢复任务。当前模板设计必须同时服务四类目标：
 
-| 任务 | 目标 | 是否需要文本生成模板 | 是否需要 graph / fragment 张量 |
+| 任务 | 目标 | 文本侧输入 / 监督 | 是否需要 graph / fragment 张量 |
 |---|---|---:|---:|
-| 任务 1：字符串恢复 `L_restore` | 从文本视图和结构表示恢复 canonical SMILES | 需要 | 需要 graph memory |
-| 任务 2：Text-Graph 对齐 `L_align` | 让文本表示和图表示进入同一结构语义空间 | 需要文本输入模板 | 需要 graph tensor |
-| 任务 3：片段存在性 `L_fragment_presence` | 让 fused 表示显式学习规则片段语义 | 需要文本输入模板 | 需要 fragment labels |
-| 任务 4：片段一致性 `L_fragment_consistency` | 稳定同一片段在图侧和融合侧的 embedding | 需要第二文本视图模板 | 需要 fragment instances |
+| 任务 1：字符串恢复 `L_restore` | 从文本视图和结构表示恢复 canonical SMILES | `text_view_1` 输入 + 独立 `restore_labels` | 需要 graph memory |
+| 任务 2：Text-Graph 对齐 `L_align` | 让文本表示和图表示进入同一结构语义空间 | `text_view_1` 输入 | 需要 graph tensor |
+| 任务 3：片段存在性 `L_fragment_presence` | 让 fused 表示显式学习规则片段语义 | `text_view_1` 输入 | 需要 fragment labels |
+| 任务 4：片段一致性 `L_fragment_consistency` | 稳定同一片段在图侧和融合侧的 embedding | `text_view_2` 输入 | 需要 fragment instances |
 
 第一版模板策略：
 
@@ -54,7 +54,7 @@ test token max: 366
 
 ```text
 该统计只针对 raw canonical_smiles。
-模板拼接后必须重新统计 prompt + target 的长度。
+模板定稿后必须分别统计 view 输入长度和 restore label 长度。
 ```
 
 第一版不新增以下 token：
@@ -104,7 +104,7 @@ loss：
 
 ```text
 不计算 token-level LM loss
-只取 decoder hidden states 做 pooling / fusion / projection
+只取 decoder hidden states 做 text projector / fusion / downstream heads
 ```
 
 ---
@@ -121,14 +121,12 @@ loss：
 给后续生成任务提供 canonical 输出能力
 ```
 
-### 4.2 模板
+### 4.2 输入模板
 
 ```text
 <polymer_view_smiles>
 {text_view_1}
 </polymer_view_smiles>
-<canonical_smiles>
-{canonical_text_target}<|endoftext|>
 ```
 
 示例：
@@ -137,50 +135,51 @@ loss：
 <polymer_view_smiles>
 *#Cc1cccc(C#C[SiH](C#*)c2ccccc2)c1
 </polymer_view_smiles>
-<canonical_smiles>
-*#Cc1cccc(C#C[SiH](C#*)c2ccccc2)c1<|endoftext|>
 ```
 
-### 4.3 Loss mask
+### 4.3 Restore target
 
-只对 target 段计算 CE：
-
-```text
-<polymer_view_smiles>
-{text_view_1}
-</polymer_view_smiles>
-<canonical_smiles>
-```
-
-上面 prompt 段：
-
-```text
-labels = -100
-```
-
-下面 target 段：
+`L_restore` 的 target 不拼进 decoder trunk 输入。target 单独 tokenize 成 restore labels：
 
 ```text
 {canonical_text_target}<|endoftext|>
-labels = token ids
+```
+
+原因：
+
+```text
+decoder trunk 的 `H_text_1` 同时送往 text projector 和 fusion layer。
+canonical target 不能拼进 decoder trunk 输入，否则 text projector 会看到答案，污染 L_align。
+```
+
+正确路径：
+
+```text
+input_ids_view1
+-> decoder trunk
+-> H_text_1
+   ├── text projector -> z_text -> L_align
+   └── fusion / interaction layer + graph memory
+       -> restore head
+       -> L_restore(restore_logits, restore_labels)
 ```
 
 伪代码：
 
 ```python
-prompt = (
+view1_text = (
     "<polymer_view_smiles>\n"
     f"{text_view_1}\n"
     "</polymer_view_smiles>\n"
-    "<canonical_smiles>\n"
 )
-target = canonical_text_target + tokenizer.eos_token
 
-prompt_ids = tokenizer.encode(prompt, add_special_tokens=False)
-target_ids = tokenizer.encode(target, add_special_tokens=False)
+input_ids_view1 = tokenizer.encode(view1_text, add_special_tokens=False)
+restore_labels = tokenizer.encode(canonical_text_target + tokenizer.eos_token, add_special_tokens=False)
 
-input_ids = prompt_ids + target_ids
-labels = [-100] * len(prompt_ids) + target_ids
+H_text_1 = decoder_trunk(input_ids_view1)
+H_fused_1 = fusion_layer(H_text_1, graph_memory)
+restore_logits = restore_head(H_fused_1, target_length=len(restore_labels))
+L_restore = token_ce_loss(restore_logits, restore_labels)
 ```
 
 ### 4.4 text_view_1 策略
@@ -235,8 +234,15 @@ graph_batch
 ### 5.4 训练目标
 
 ```text
-text_view_1 -> Qwen decoder + pooling -> z_text
-repeat_unit_graph -> graph encoder + pooling -> z_graph
+text_view_1
+-> Qwen decoder trunk
+-> text projector
+-> z_text
+
+repeat_unit_graph
+-> graph encoder
+-> graph projector
+-> z_graph
 ```
 
 损失：
@@ -246,6 +252,13 @@ InfoNCE(z_text, z_graph)
 ```
 
 模板不包含 target，不计算 LM loss。
+
+注意：
+
+```text
+L_align 不接收 restore head 输出，也不接收 restore labels。
+它只比较 text projector 和 graph projector 的输出。
+```
 
 ### 5.5 Pooling 建议
 
@@ -432,7 +445,7 @@ InfoNCE(z_fragment, z_fragment_text)
 
 ## 9. Dataloader 字段方案
 
-### 9.1 第一阶段可立即实现
+### 9.1 不依赖词表的字段
 
 当前 `data/baselite_smiles_v1` 已有：
 
@@ -452,33 +465,71 @@ split
     "canonical_text_target": str,
     "text_view_1": str,
     "text_view_2": str,
-    "restore_input_ids": LongTensor[L],
-    "restore_attention_mask": LongTensor[L],
-    "restore_labels": LongTensor[L],
     "input_ids_view1": LongTensor[L1],
     "attention_mask_view1": LongTensor[L1],
     "input_ids_view2": LongTensor[L2],
-    "attention_mask_view2": LongTensor[L2]
+    "attention_mask_view2": LongTensor[L2],
+    "restore_labels": LongTensor[L_restore],
+    "restore_label_mask": BoolTensor[L_restore]
 }
 ```
 
-第一阶段可只开启：
+字段关系：
 
 ```text
-L_restore text-only baseline
-L_align 的文本侧 preview
+input_ids_view1:
+    decoder trunk 的共享输入。
+    分叉到 text projector -> L_align，以及 fusion layer -> restore / fragment presence。
+
+input_ids_view2:
+    decoder trunk 的第二文本视图输入。
+    用于 fragment consistency 的 fused-side readout。
+
+restore_labels:
+    canonical_text_target 的 token ids。
+    只监督 fusion -> restore head，不作为 L_align 的输入。
 ```
 
-### 9.2 图和 fragment 接入后
+这些字段足够支持两个不依赖 fragment 词表的检查：
 
-再追加：
+```text
+1. text-only restore smoke test
+2. non-vocab BaseLite warmup: L_restore + L_align
+```
+
+### 9.2 图接入后即可正式训练
+
+只要 `repeat_unit_graphs.jsonl` 可用，即可追加图张量字段，并启动不依赖词表的正式第一阶段：
 
 ```python
 {
     "node_features": FloatTensor[N_total, node_dim],
     "edge_index": LongTensor[2, E_total],
     "edge_features": FloatTensor[E_total, edge_dim],
-    "graph_batch": LongTensor[N_total],
+    "graph_batch": LongTensor[N_total]
+}
+```
+
+开启：
+
+```text
+L_restore
+L_align
+```
+
+关闭：
+
+```text
+L_fragment_presence
+L_fragment_consistency
+```
+
+### 9.3 fragment 词表稳定后
+
+再追加：
+
+```python
+{
     "fragment_instances": List[List[FragmentInstance]],
     "fragment_presence_labels": FloatTensor[B, K]
 }
@@ -495,23 +546,21 @@ raw SMILES 统计：
 最长 raw sample: test / ru_010959 / 366 tokens
 ```
 
-模板拼接后建议重新统计：
+模板定稿后建议重新统计：
 
 ```text
-restore template length = prompt tags + text_view_1 + canonical target + eos
-align template length = tags + text_view_1
-consistency template length = tags + text_view_2
+view1 length = tags + text_view_1
+view2 length = tags + text_view_2
+restore label length = canonical target + eos
 ```
 
 第一版建议：
 
 ```yaml
-max_seq_len_restore: 1024
 max_seq_len_view: 512
+max_seq_len_restore_label: 512
 truncate: false
 ```
-
-如果实际模板统计显示 restore max 仍低于 768，可以再降到 768 或 512。
 
 ---
 
@@ -530,17 +579,19 @@ data/baselite_smiles_v1/training_template_report.md
 验证：
 
 ```text
-prompt + target round-trip = 0 failure
+view template round-trip = 0 failure
+restore label round-trip = 0 failure
 restore label mask 正确
 max length 明确
 ```
 
-### Stage B：Text-only restore baseline
+### Stage B：Text-only restore smoke test
 
 目标：
 
 ```text
-验证 Qwen LoRA 能学习 polymer canonical SMILES 输出格式。
+验证 Qwen tokenizer、LoRA、restore head、decode/eval、checkpoint 保存加载能跑通。
+这是工程冒烟测试和 baseline，不是正式 BaseLite warmup 第一阶段。
 ```
 
 开启：
@@ -557,12 +608,22 @@ L_fragment_presence
 L_fragment_consistency
 ```
 
-### Stage C：Text-Graph alignment
+建议：
+
+```text
+小样本 / 短步数
+identity view 优先
+只检查流程可运行和 loss 可下降
+不要把该 checkpoint 当作正式底座
+```
+
+### Stage C：Non-vocab BaseLite warmup
 
 目标：
 
 ```text
-引入 repeat_unit_graph tensor，训练文本和图结构对齐。
+引入 repeat_unit_graph tensor，打通不依赖 fragment 词表的完整微调主链路。
+这是当前正式第一阶段训练。
 ```
 
 开启：
@@ -572,12 +633,30 @@ L_restore
 L_align
 ```
 
+关闭：
+
+```text
+L_fragment_presence
+L_fragment_consistency
+fragment_vocab matcher
+fragment labels
+```
+
+验证：
+
+```text
+restore valid / canonical match
+text-to-graph retrieval top1 / top5
+graph-to-text retrieval top1 / top5
+checkpoint / adapter export
+```
+
 ### Stage D：Fragment-aware warmup
 
 目标：
 
 ```text
-接入 fragment_vocab_v1 matcher 输出的 fragment_instances 和 fragment_presence_labels。
+等待 fragment_vocab_v1 稳定后，接入 matcher 输出的 fragment_instances 和 fragment_presence_labels。
 ```
 
 开启：
@@ -597,11 +676,17 @@ L_fragment_consistency
 
 ### Restore
 
+输入：
+
 ```text
 <polymer_view_smiles>
 {text_view_1}
 </polymer_view_smiles>
-<canonical_smiles>
+```
+
+监督目标：
+
+```text
 {canonical_text_target}<|endoftext|>
 ```
 
@@ -631,7 +716,7 @@ description: {description}
 ## 13. 关键原则
 
 1. `L_restore` 负责 canonical 输出能力，但不是唯一目标。
-2. `L_align` 应使用干净的 polymer text view，不要混入生成 target。
+2. `L_align` 只使用 text projector / graph projector 输出，不经过 restore head。
 3. `L_fragment_presence` 的标签不能写进 prompt。
 4. `L_fragment_consistency` 的文本扰动不能破坏结构语义。
 5. graph 和 fragment 是张量侧结构监督，不应被简化成纯文本 prompt。
