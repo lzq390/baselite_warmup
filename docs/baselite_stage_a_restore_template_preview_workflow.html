@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BaseLite Stage A Restore-Only Template Preview 完整流程说明</title>
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #5f6b7a;
+      --line: #d8dee7;
+      --panel: #f7f9fc;
+      --accent: #1f6feb;
+      --accent-soft: #eaf2ff;
+      --ok: #16794c;
+      --warn: #9a5b00;
+      --code: #111827;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 28px 64px;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 30px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      border-top: 1px solid var(--line);
+      margin: 34px 0 14px;
+      padding-top: 26px;
+      font-size: 22px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 24px 0 10px;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 8px 0 12px;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code,
+    pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    code {
+      border: 1px solid #d9e0ea;
+      border-radius: 4px;
+      background: #f3f6fa;
+      padding: 1px 5px;
+      color: var(--code);
+      font-size: 0.92em;
+    }
+
+    pre {
+      overflow-x: auto;
+      border: 1px solid #d7dee8;
+      border-radius: 8px;
+      background: #101827;
+      color: #eef4ff;
+      padding: 14px 16px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    pre code {
+      border: 0;
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 18px;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--line);
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef3f9;
+      font-weight: 650;
+    }
+
+    ul,
+    ol {
+      padding-left: 24px;
+    }
+
+    li {
+      margin: 4px 0;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0 8px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 12px;
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .note {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      padding: 12px 14px;
+      margin: 14px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .ok {
+      color: var(--ok);
+      font-weight: 650;
+    }
+
+    .warn {
+      color: var(--warn);
+      font-weight: 650;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 16px 0 20px;
+    }
+
+    .step {
+      position: relative;
+      min-height: 108px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+    }
+
+    .step::after {
+      content: "→";
+      position: absolute;
+      top: 38%;
+      right: -14px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .step:last-child::after {
+      display: none;
+    }
+
+    .step b {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .step small {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 14px 16px;
+    }
+
+    .footer {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        padding: 28px 18px 48px;
+      }
+
+      .summary,
+      .flow,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .step::after {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>BaseLite Stage A Restore-Only Template Preview 完整流程说明</h1>
+      <p>
+        本文档说明当前仓库中 Stage A 的完整数据流、字段定义、执行命令、质量检查和验收结果。
+        Stage A 的目标是生成 restore-only 模板预览产物，用于进入 Stage B 训练前的模板审计和长度预算。
+      </p>
+      <div class="summary">
+        <div class="metric">
+          <strong>11,580</strong>
+          <span>总 preview 记录数</span>
+        </div>
+        <div class="metric">
+          <strong>0</strong>
+          <span>view / restore round-trip failures</span>
+        </div>
+        <div class="metric">
+          <strong>381</strong>
+          <span>最大 view token length</span>
+        </div>
+        <div class="metric">
+          <strong>367</strong>
+          <span>最大 restore label token length</span>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <h2>1. Stage A 的定位</h2>
+      <p>
+        Stage A 不是训练阶段，而是一个可复现的数据模板预览阶段。它把已经划分好的
+        <code>data/baselite_smiles_v1/train.jsonl</code>、<code>valid.jsonl</code> 和
+        <code>test.jsonl</code> 转换为 restore-only 训练样本的审计形态，并记录完整 tokenizer
+        长度与 round-trip 结果。
+      </p>
+      <div class="note">
+        当前 Stage A 明确不接入 <code>text_view_2</code>、graph tensor、fragment vocab、
+        fragment labels，也不做 SMILES 扰动。<code>text_view_1</code> 固定为 identity view。
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>项目</th>
+            <th>Stage A 当前选择</th>
+            <th>原因</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>任务</td>
+            <td><code>L_restore</code> 数据模板预览</td>
+            <td>先验证 restore 输入、target、token ids、mask 和长度预算。</td>
+          </tr>
+          <tr>
+            <td>文本视图</td>
+            <td><code>text_view_1 = canonical_smiles</code></td>
+            <td>避免把扰动策略和模板正确性混在一起。</td>
+          </tr>
+          <tr>
+            <td>target</td>
+            <td><code>canonical_text_target + &lt;|endoftext|&gt;</code></td>
+            <td>target 单独监督 restore head，不拼入 decoder trunk 输入。</td>
+          </tr>
+          <tr>
+            <td>tokenizer</td>
+            <td><code>Qwen2Tokenizer</code>，EOS 为 <code>&lt;|endoftext|&gt;</code></td>
+            <td>对应 Qwen2.5-7B Base 行为，不使用 Instruct 的 <code>&lt;|im_end|&gt;</code>。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>2. 输入、脚本与输出</h2>
+      <div class="two-col">
+        <div class="panel">
+          <h3>输入文件</h3>
+          <ul>
+            <li><code>data/baselite_smiles_v1/train.jsonl</code></li>
+            <li><code>data/baselite_smiles_v1/valid.jsonl</code></li>
+            <li><code>data/baselite_smiles_v1/test.jsonl</code></li>
+          </ul>
+          <p>每行必须包含 <code>record_id</code>、<code>canonical_smiles</code>、<code>canonical_hash</code>、<code>graph_hash</code> 和 <code>split</code>。</p>
+        </div>
+        <div class="panel">
+          <h3>实现脚本</h3>
+          <ul>
+            <li><code>scripts/build_baselite_restore_template_preview.py</code></li>
+            <li>默认 tokenizer: <code>models/qwen2.5-7b-tokenizer/</code></li>
+            <li>默认输出目录: <code>data/baselite_smiles_v1/</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>输出文件</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>文件</th>
+            <th>用途</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data/baselite_smiles_v1/training_template_preview.jsonl</code></td>
+            <td>合并的 preview 数据，每行带 <code>split</code> 字段，顺序为 train → valid → test。</td>
+          </tr>
+          <tr>
+            <td><code>data/baselite_smiles_v1/training_template_stats.json</code></td>
+            <td>机器可读统计，包括 tokenizer 信息、长度分布、质量检查和输出路径。</td>
+          </tr>
+          <tr>
+            <td><code>data/baselite_smiles_v1/training_template_report.md</code></td>
+            <td>人工可读 Markdown 报告，记录 Stage A 口径、模板、长度和质量检查结果。</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="note">
+        <code>training_template_preview.jsonl</code> 是一个合并文件，不是只包含 train。valid 和 test 位于文件后段，并通过
+        <code>split</code> 字段区分。
+      </div>
+    </section>
+
+    <section>
+      <h2>3. 完整处理流程</h2>
+      <div class="flow">
+        <div class="step">
+          <b>1. 读取 split 数据</b>
+          <small>按 <code>train</code>、<code>valid</code>、<code>test</code> 顺序读取 JSONL。</small>
+        </div>
+        <div class="step">
+          <b>2. 校验输入字段</b>
+          <small>检查 <code>record_id</code>、<code>canonical_smiles</code>、hash 和 split 一致性。</small>
+        </div>
+        <div class="step">
+          <b>3. 构造 restore 文本</b>
+          <small>生成 <code>input_text_view1</code> 和 <code>target_text</code>。</small>
+        </div>
+        <div class="step">
+          <b>4. Qwen tokenizer</b>
+          <small>分别 tokenize input 和 target，生成 ids 与 mask。</small>
+        </div>
+        <div class="step">
+          <b>5. 统计与验收</b>
+          <small>检查 round-trip、长度上限、mask，并写出三类产物。</small>
+        </div>
+      </div>
+
+      <h3>3.1 输入字段校验</h3>
+      <p>每条输入记录必须满足：</p>
+      <ul>
+        <li><code>record_id</code> 非空，用于追踪原始样本。</li>
+        <li><code>canonical_smiles</code> 非空，是 restore 的 identity view 和 canonical target 来源。</li>
+        <li><code>canonical_hash</code> 非空，用于 canonical identity 审计。</li>
+        <li><code>graph_hash</code> 非空，用于后续 graph identity 防泄漏和 Stage C 对接。</li>
+        <li><code>split</code> 必须与当前读取的 split 文件一致。</li>
+      </ul>
+
+      <h3>3.2 restore-only 文本构造</h3>
+      <pre><code>text_view_1 = canonical_smiles
+canonical_text_target = canonical_smiles
+
+input_text_view1 =
+  "&lt;polymer_view_smiles&gt;\n"
+  + text_view_1
+  + "\n&lt;/polymer_view_smiles&gt;\n"
+
+target_text = canonical_text_target + tokenizer.eos_token</code></pre>
+      <p>
+        这里的关键约束是：<code>target_text</code> 不拼入 <code>input_text_view1</code>。
+        训练阶段 decoder trunk 只能看到 view 输入；restore target 只作为 <code>restore_labels</code> 监督 restore head。
+      </p>
+
+      <h3>3.3 token ids 与 mask</h3>
+      <pre><code>input_ids_view1 = tokenizer.encode(input_text_view1, add_special_tokens=False)
+attention_mask_view1 = [1] * len(input_ids_view1)
+
+restore_labels = tokenizer.encode(target_text, add_special_tokens=False)
+restore_label_mask = [True] * len(restore_labels)</code></pre>
+      <p>
+        当前 Stage A 不 padding、不截断，只记录原始长度。由于每条记录都是单样本预览，mask 全部为有效位。
+        真正 batch padding 会在 Stage B dataloader 或 collator 中处理。
+      </p>
+    </section>
+
+    <section>
+      <h2>4. Preview JSONL 字段说明</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>字段</th>
+            <th>类型</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>record_id</code>, <code>split</code>, <code>canonical_hash</code>, <code>graph_hash</code></td>
+            <td>string</td>
+            <td>从原始 split JSONL 继承，用于追踪、审计和后续 join。</td>
+          </tr>
+          <tr>
+            <td><code>canonical_smiles</code></td>
+            <td>string</td>
+            <td>当前样本的 canonical repeat-unit SMILES。</td>
+          </tr>
+          <tr>
+            <td><code>text_view_1_strategy</code></td>
+            <td>string</td>
+            <td>固定为 <code>identity</code>。</td>
+          </tr>
+          <tr>
+            <td><code>text_view_1</code></td>
+            <td>string</td>
+            <td>restore 输入视图，当前等于 <code>canonical_smiles</code>。</td>
+          </tr>
+          <tr>
+            <td><code>canonical_text_target</code></td>
+            <td>string</td>
+            <td>restore 的 canonical 目标文本，不含 EOS。</td>
+          </tr>
+          <tr>
+            <td><code>input_text_view1</code></td>
+            <td>string</td>
+            <td>带 <code>&lt;polymer_view_smiles&gt;</code> 标签的 decoder trunk 输入文本。</td>
+          </tr>
+          <tr>
+            <td><code>target_text</code></td>
+            <td>string</td>
+            <td><code>canonical_text_target + &lt;|endoftext|&gt;</code>。</td>
+          </tr>
+          <tr>
+            <td><code>input_ids_view1</code>, <code>restore_labels</code></td>
+            <td>list[int]</td>
+            <td>分别是 input view 和 target text 的 Qwen token ids。</td>
+          </tr>
+          <tr>
+            <td><code>attention_mask_view1</code>, <code>restore_label_mask</code></td>
+            <td>list[int] / list[bool]</td>
+            <td>当前全有效；后续 batch padding 时再扩展 padding mask。</td>
+          </tr>
+          <tr>
+            <td><code>view1_token_length</code>, <code>restore_label_length</code></td>
+            <td>int</td>
+            <td>用于长度预算和 overflow 检查。</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="warn">当前 preview 记录中不应出现 <code>text_view_2</code> 字段。</p>
+    </section>
+
+    <section>
+      <h2>5. split 覆盖与长度统计</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>split</th>
+            <th>记录数</th>
+            <th>preview JSONL 行范围</th>
+            <th>view max</th>
+            <th>restore max</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>train</td>
+            <td>9,264</td>
+            <td>1-9,264</td>
+            <td>235</td>
+            <td>221</td>
+          </tr>
+          <tr>
+            <td>valid</td>
+            <td>1,158</td>
+            <td>9,265-10,422</td>
+            <td>166</td>
+            <td>152</td>
+          </tr>
+          <tr>
+            <td>test</td>
+            <td>1,158</td>
+            <td>10,423-11,580</td>
+            <td>381</td>
+            <td>367</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        由于写出顺序固定为 train → valid → test，直接查看文件开头只会看到 train。
+        valid 和 test 已包含在同一个 preview JSONL 中，可通过 <code>split</code> 字段过滤。
+      </p>
+    </section>
+
+    <section>
+      <h2>6. 质量检查规则</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>检查项</th>
+            <th>规则</th>
+            <th>当前结果</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>view round-trip</td>
+            <td><code>decode(input_ids_view1) == input_text_view1</code></td>
+            <td><span class="ok">0 failures</span></td>
+          </tr>
+          <tr>
+            <td>restore round-trip</td>
+            <td><code>decode(restore_labels) == target_text</code></td>
+            <td><span class="ok">0 failures</span></td>
+          </tr>
+          <tr>
+            <td>view length overflow</td>
+            <td><code>view1_token_length &lt;= 512</code></td>
+            <td><span class="ok">0 overflows</span></td>
+          </tr>
+          <tr>
+            <td>restore length overflow</td>
+            <td><code>restore_label_length &lt;= 512</code></td>
+            <td><span class="ok">0 overflows</span></td>
+          </tr>
+          <tr>
+            <td>mask consistency</td>
+            <td>mask 长度等于 token ids 长度，且当前全部为有效位</td>
+            <td><span class="ok">0 failures</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        脚本会在上述任一 count 非 0 时以非 0 状态退出，避免生成“看似成功但质量检查失败”的 Stage A 产物。
+      </p>
+    </section>
+
+    <section>
+      <h2>7. 复现命令</h2>
+      <p>在仓库根目录运行：</p>
+      <pre><code>/home/lzq390/miniconda3/envs/mllms/bin/python3.11 \
+  scripts/build_baselite_restore_template_preview.py \
+  --summary</code></pre>
+      <p>脚本支持的关键参数：</p>
+      <table>
+        <thead>
+          <tr>
+            <th>参数</th>
+            <th>默认值</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--dataset-dir</code></td>
+            <td><code>data/baselite_smiles_v1</code></td>
+            <td>读取 train/valid/test JSONL 的目录。</td>
+          </tr>
+          <tr>
+            <td><code>--tokenizer-dir</code></td>
+            <td><code>models/qwen2.5-7b-tokenizer</code></td>
+            <td>本地 Qwen2.5-7B Base tokenizer 目录。</td>
+          </tr>
+          <tr>
+            <td><code>--output-dir</code></td>
+            <td><code>data/baselite_smiles_v1</code></td>
+            <td>写出 preview、stats 和 report 的目录。</td>
+          </tr>
+          <tr>
+            <td><code>--max-seq-len-view</code></td>
+            <td><code>512</code></td>
+            <td>view 输入长度上限。</td>
+          </tr>
+          <tr>
+            <td><code>--max-seq-len-restore-label</code></td>
+            <td><code>512</code></td>
+            <td>restore label 长度上限。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>8. 与 Stage B 的关系</h2>
+      <p>
+        Stage A 只证明模板和 tokenizer 路径可用，并给出长度预算。Stage B 的 text-only restore smoke test
+        可以直接复用相同字段，也可以在 dataloader 中在线生成完全等价的字段。无论哪种方式，都应保持：
+      </p>
+      <ul>
+        <li><code>input_text_view1</code> 只包含 view，不包含 target。</li>
+        <li><code>restore_labels</code> 只监督 restore head。</li>
+        <li>第一轮 restore smoke test 仍使用 identity view，先不做扰动。</li>
+        <li>如果后续加入 random SMILES、direction flip 或 mask，应作为 Stage B 之后的增强实验，不回写当前 Stage A 审计口径。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>9. 当前完成状态</h2>
+      <ul>
+        <li><span class="ok">已完成</span> Stage A restore-only preview 脚本。</li>
+        <li><span class="ok">已完成</span> 11,580 条 train/valid/test 合并 preview 产物。</li>
+        <li><span class="ok">已完成</span> tokenizer round-trip、长度上限和 mask 校验。</li>
+        <li><span class="ok">已确认</span> preview 中没有 <code>text_view_2</code>。</li>
+      </ul>
+      <p class="footer">
+        本 HTML 文档对应当前实现与产物：<code>scripts/build_baselite_restore_template_preview.py</code>、
+        <code>data/baselite_smiles_v1/training_template_preview.jsonl</code>、
+        <code>data/baselite_smiles_v1/training_template_stats.json</code> 和
+        <code>data/baselite_smiles_v1/training_template_report.md</code>。
+      </p>
+    </section>
+  </main>
+</body>
+</html>
