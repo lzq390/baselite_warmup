@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stage B Restore Smoke 结果分析</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --muted: #5f6b7a;
+      --line: #d8dee6;
+      --accent: #0f766e;
+      --accent-2: #2563eb;
+      --warn: #b45309;
+      --bad: #b91c1c;
+      --good: #15803d;
+      --code: #f1f5f9;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    header { background: #102a43; color: #fff; padding: 28px 32px; }
+    header h1 { margin: 0 0 8px; font-size: 28px; font-weight: 750; letter-spacing: 0; }
+    header p { margin: 0; color: #d9e2ec; max-width: 980px; }
+    main { max-width: 1220px; margin: 0 auto; padding: 24px; }
+    section { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 20px; margin: 0 0 18px; }
+    h2 { margin: 0 0 14px; font-size: 19px; }
+    h3 { margin: 18px 0 10px; font-size: 15px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .metric { border: 1px solid var(--line); border-radius: 8px; padding: 14px; min-height: 98px; background: #fbfcfd; }
+    .metric .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+    .metric .value { font-size: 25px; font-weight: 760; margin-top: 6px; }
+    .metric .note { color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .pass { color: var(--good); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .bar-row { margin: 12px 0; }
+    .bar-head { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 5px; }
+    .bar-head span { color: var(--muted); }
+    .bar-track { height: 10px; border-radius: 999px; background: #e5e7eb; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--accent); }
+    .bar-row.badbar .bar-fill { background: var(--bad); }
+    .bar-row.warnbar .bar-fill { background: var(--warn); }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 8px 9px; vertical-align: top; text-align: left; }
+    th { color: #334155; background: #f8fafc; font-weight: 650; }
+    table.kv th { width: 260px; }
+    .wide td { max-width: 420px; overflow-wrap: anywhere; }
+    .mono td, code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+    code { background: var(--code); padding: 1px 4px; border-radius: 4px; }
+    ul { margin: 8px 0 0 20px; padding: 0; }
+    li { margin: 6px 0; }
+    .callout { border-left: 4px solid var(--accent-2); padding: 10px 12px; background: #eff6ff; border-radius: 6px; }
+    .callout.warn { border-left-color: var(--warn); background: #fffbeb; color: var(--ink); }
+    .small { color: var(--muted); font-size: 12px; }
+    @media (max-width: 900px) { .grid, .two-col { grid-template-columns: 1fr; } main { padding: 14px; } header { padding: 22px 18px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Stage B Restore Smoke 结果分析</h1>
+    <p>分析对象为云端下载结果 <code>dist/stage_b_restore_smoke_outputs_20260522.tar.gz</code>，已解压到 <code>stageB/stage_b_restore_smoke/</code>。生成时间：2026-05-22 14:38:01 中国标准时间。</p>
+  </header>
+  <main>
+    <section>
+      <h2>结论</h2>
+      <div class="callout warn">
+        <strong>Smoke 产物可加载，但解码质量还不能作为正式 BaseLite warmup checkpoint。</strong>
+        <span>Reload smoke 为 <code>passed</code>，训练 loss 明显下降；但 64 条 valid 解码样本中 canonical match 为 4/64，RDKit valid 为 14/64。</span>
+      </div>
+      <ul>
+        <li>这次运行验证了 Stage B restore-only 路径、LoRA adapter、restore head、tokenizer 和 reload smoke 的基本闭环。</li>
+        <li>当前主要失败模式是生成非法 SMILES：50 条，占失败样例 83.3%。</li>
+        <li>评估口径需要分开看：loss/token accuracy 覆盖全部 valid 集 1158 条；exact/RDKit/attachment/canonical 只覆盖前 64 条 greedy decode 样本。</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>核心指标</h2>
+      <div class="grid">
+        <div class="metric"><div class="label">Reload smoke</div><div class="value pass">passed</div><div class="note">record ru_000001, decoded tokens 14</div></div>
+        <div class="metric"><div class="label">Eval loss</div><div class="value">0.6105</div><div class="note">valid samples 1158</div></div>
+        <div class="metric"><div class="label">Token accuracy</div><div class="value">84.65%</div><div class="note">teacher-forced token accuracy</div></div>
+        <div class="metric"><div class="label">Train loss drop</div><div class="value pass">88.6%</div><div class="note">6.4036 -> 0.7295</div></div>
+        <div class="metric"><div class="label">Exact match</div><div class="value bad">4/64</div><div class="note">6.2%</div></div>
+        <div class="metric"><div class="label">Canonical match</div><div class="value bad">4/64</div><div class="note">6.2%</div></div>
+        <div class="metric"><div class="label">RDKit valid</div><div class="value warn">14/64</div><div class="note">21.9%</div></div>
+        <div class="metric"><div class="label">Two attachments</div><div class="value warn">10/64</div><div class="note">15.6%</div></div>
+      </div>
+      <h3>Decode 指标占比</h3>
+      <div class="bar-row badbar"><div class="bar-head"><span>Canonical match</span><strong>4/64</strong></div><div class="bar-track"><div class="bar-fill" style="width:6.25%"></div></div></div>
+      <div class="bar-row badbar"><div class="bar-head"><span>Exact string match</span><strong>4/64</strong></div><div class="bar-track"><div class="bar-fill" style="width:6.25%"></div></div></div>
+      <div class="bar-row warnbar"><div class="bar-head"><span>RDKit validity</span><strong>14/64</strong></div><div class="bar-track"><div class="bar-fill" style="width:21.88%"></div></div></div>
+      <div class="bar-row warnbar"><div class="bar-head"><span>Two-attachment validity</span><strong>10/64</strong></div><div class="bar-track"><div class="bar-fill" style="width:15.62%"></div></div></div>
+    </section>
+
+    <section>
+      <h2>失败分布</h2>
+      <div class="two-col">
+        <div>
+          <h3>失败原因</h3>
+          <table class=""><thead><tr><th>failure_reason</th><th>count</th><th>share_of_failed</th><th>share_of_decoded</th></tr></thead><tbody><tr><td>rdkit_parse_failed</td><td>50</td><td>83.3%</td><td>78.1%</td></tr><tr><td>valid_wrong_canonical</td><td>6</td><td>10.0%</td><td>9.4%</td></tr><tr><td>attachment_count_not_two</td><td>4</td><td>6.7%</td><td>6.2%</td></tr></tbody></table>
+        </div>
+        <div>
+          <h3>结构性诊断</h3>
+          <table class="kv"><tbody><tr><th>failed_cases.jsonl rows</th><td>60</td></tr><tr><th>RDKit-valid rows inside failed cases</th><td>10</td></tr><tr><th>two-attachment rows inside failed cases</th><td>6</td></tr><tr><th>decoded star-count distribution</th><td>{1: 27, 2: 30, 3: 3}</td></tr><tr><th>parenthesis imbalance rows</th><td>40</td></tr><tr><th>decoded length mean</th><td>48.53</td></tr><tr><th>target length mean</th><td>56.80</td></tr><tr><th>length delta mean</th><td>-8.27</td></tr></tbody></table>
+        </div>
+      </div>
+      <p class="small">说明：<code>valid_wrong_canonical</code> 表示 RDKit 可解析且 attachment 数为 2，但 canonical SMILES 与目标不同。</p>
+    </section>
+
+    <section>
+      <h2>成功样例</h2>
+      <p>成功样例由 valid split 前 64 条记录减去 <code>failed_cases.jsonl</code> 推得；评估脚本仅写出 canonical mismatch 的失败记录。</p>
+      <table class="wide mono"><thead><tr><th>record_id</th><th>canonical_smiles</th></tr></thead><tbody><tr><td>ru_000130</td><td>*=CCCC(=*)CCC</td></tr><tr><td>ru_000131</td><td>*=CCCC(=*)CCCCCCC</td></tr><tr><td>ru_000179</td><td>*=NCCCCCCCCCCNC(=*)c1ccccc1</td></tr><tr><td>ru_000387</td><td>*C(=O)NCCNC(=O)c1ccc(N2C(=O)c3ccc(*)cc3C2=O)cc1</td></tr></tbody></table>
+    </section>
+
+    <section>
+      <h2>长度偏差最大的失败样例</h2>
+      <p>这些样例显示模型既有截断，也有重复/过生成；最长偏差为 120 个字符。</p>
+      <table class="wide mono"><thead><tr><th>record_id</th><th>reason</th><th>decoded_len</th><th>target_len</th><th>delta</th><th>rdkit_valid</th><th>two_attach</th><th>decoded_smiles</th><th>target</th></tr></thead><tbody><tr><td>ru_000185</td><td>rdkit_parse_failed</td><td>231</td><td>111</td><td>120</td><td>False</td><td>False</td><td>*=O(=O)c1ccccc1)Oc1ccccc1ccc2ccccc2)c2)c2)c2)c2)c2ccccc2)c2)c2ccccc1ccc2)c2)c2)c2ccccc2)c2ccccc2)c2)c2)c2)c2)c2)c1ccc2)c2)c1ccc2)c2ccccc2)c2)c2)c1ccc2ccccc2)c2ccccc2)c2)c2ccccc1ccc2)c2ccccc2)c2)c2)c2)c2)c2)c2ccccc2ccccc2)c1ccc1)cc1</td><td>*=NP(=NP(=*)(Oc1ccccc1)Oc1ccc([Si](C)(c2ccccc2)c2ccccc2)cc1)(Oc1ccc(Br)cc1)Oc1ccc([Si](C)(c2ccccc2)c2ccccc2)cc1</td></tr><tr><td>ru_000176</td><td>rdkit_parse_failed</td><td>32</td><td>87</td><td>-55</td><td>False</td><td>False</td><td>*=Nc1ccc2c(c1c(c1ccccc1)c2ccccc1</td><td>*=Cc1ccc2c(c1)c1ccccc1n2CCCCCCn1c2ccccc2c2cc(/C=C(\C#N)C(=O)OCCCCCCOC(=O)C(=*)C#N)ccc21</td></tr><tr><td>ru_000248</td><td>rdkit_parse_failed</td><td>22</td><td>65</td><td>-43</td><td>False</td><td>False</td><td>*CC(*)(C)(C)C)C)C)(C)O</td><td>*C#C[Si](C)(C)C#C[Si](C)(C)O[Si](C)(C)C#C[Si](C)(C)C#C[Si](*)(C)C</td></tr><tr><td>ru_000207</td><td>rdkit_parse_failed</td><td>39</td><td>80</td><td>-41</td><td>False</td><td>False</td><td>*=CC(=*)=O)()(=O)(=O)c1ccccc1)Oc1ccccc1</td><td>*=NS(=NP(Cl)(=NP(=*)(Cl)Oc1ccccc1-c1ccccc1)Oc1ccccc1-c1ccccc1)Oc1ccccc1-c1ccccc1</td></tr><tr><td>ru_000409</td><td>rdkit_parse_failed</td><td>59</td><td>92</td><td>-33</td><td>False</td><td>False</td><td>*C(=O)Nc1ccc(-c2ccc(NC(=O)c3cc(*)cc(NC(=O)cc5C(=O)c4)c3)cc1</td><td>*C(=O)Nc1ccc(-c2ccc(NC(=O)c3cc(*)cc(NC(=O)c4ccc(NC(=O)C(C)N5C(=O)c6ccccc6C5=O)cc4)c3)cc2)cc1</td></tr><tr><td>ru_000500</td><td>rdkit_parse_failed</td><td>71</td><td>100</td><td>-29</td><td>False</td><td>False</td><td>*C(=O)Nc1ccc(NC(=O)c2ccc(NC(=O)c4ccc(NC(=O)c3cc(*)cc5=O)ccccc(NC5=O)cc1</td><td>*C(=O)Nc1ccc(S(=O)(=O)c2ccc(NC(=O)c3cc(*)cc(NC(=O)c4ccc(NC(=O)C(C)N5C(=O)c6ccccc6C5=O)cc4)c3)cc2)cc1</td></tr><tr><td>ru_000010</td><td>rdkit_parse_failed</td><td>34</td><td>61</td><td>-27</td><td>False</td><td>False</td><td>*c1cccC)C(=C)C)C)cc1ccc(C)(C)C)cc1</td><td>*/C(=C(/*)c1ccc([Si](C)(C)C)cc1)c1ccc(-c2ccc(C(C)(C)C)cc2)cc1</td></tr><tr><td>ru_000148</td><td>rdkit_parse_failed</td><td>84</td><td>111</td><td>-27</td><td>False</td><td>False</td><td>*=C=Cc1ccc(NC=Cc3ccccc3)c4ccccc3ccc4ccc4)c5ccc3)c5ccc4ccc4)cc4)cc3)cc2)c5)cc2)cc2)c1</td><td>*=Cc1ccc(/C=C/c2ccc(N(c3ccccc3)c3ccc(N(c4ccccc4)c4ccc(/C=C/c5ccc(/C=C(\C#N)c6cccc(C(=*)C#N)c6)s5)cc4)cc3)cc2)s1</td></tr><tr><td>ru_000151</td><td>rdkit_parse_failed</td><td>105</td><td>132</td><td>-27</td><td>False</td><td>False</td><td>*=C=Cc1ccc(C=Cc2ccc(NC(=O)Nc3ccc(C#Nc4ccc(C#N)c4ccc(C#N)N)N)ccccc(C#Nc6ccccc6)c6ccccc6ccc6ccc6ccc(C#N)cc1</td><td>*=Cc1ccc(C=Cc2ccc(N(c3ccccc3)c3ccc(N(c4ccccc4)c4ccc(C=Cc5ccc(C=C(C#N)C(=O)Nc6cc(-c7ccc(O)c(NC(=O)C(=*)C#N)c7)ccc6O)s5)cc4)cc3)cc2)s1</td></tr><tr><td>ru_000247</td><td>rdkit_parse_failed</td><td>64</td><td>91</td><td>-27</td><td>False</td><td>False</td><td>*CC(*)(C)(C)C)C)(C)C)(C)C)C)C)C)(C)(C)C)(C)C)(C)C)C)C)C)C)(C)C)C</td><td>*C#C[Si](C)(C)C#C[Si](C)(C)C#C[Si](C)(C)O[Si](C)(C)C#C[Si](C)(C)C#C[Si](C)(C)C#C[Si](*)(C)C</td></tr></tbody></table>
+    </section>
+
+    <section>
+      <h2>前 16 条失败样例</h2>
+      <table class="wide mono"><thead><tr><th>record_id</th><th>reason</th><th>star_count</th><th>paren_balance</th><th>decoded_smiles</th><th>target</th></tr></thead><tbody><tr><td>ru_000001</td><td>rdkit_parse_failed</td><td>2</td><td>-1</td><td>*CC[Si](*)(C#N)C)c1</td><td>*#C[SiH2]C#Cc1cccc(C#*)c1</td></tr><tr><td>ru_000010</td><td>rdkit_parse_failed</td><td>1</td><td>-4</td><td>*c1cccC)C(=C)C)C)cc1ccc(C)(C)C)cc1</td><td>*/C(=C(/*)c1ccc([Si](C)(C)C)cc1)c1ccc(-c2ccc(C(C)(C)C)cc2)cc1</td></tr><tr><td>ru_000019</td><td>rdkit_parse_failed</td><td>1</td><td>0</td><td>*c1ccc2c(c1ccc2c(c1)C(C)(C)C)c1ccc(C)(C)cc1</td><td>*/C(=C(/*)c1ccc2c(c1)C(C)(C)CC2(C)C)c1ccc(Br)cc1</td></tr><tr><td>ru_000021</td><td>rdkit_parse_failed</td><td>1</td><td>-2</td><td>*c1cccC)C(=C)C(C)(C)C(C)(C)C)c1ccc1</td><td>*/C(=C(/*)c1ccc2c(c1)C(C)(C)CC2(C)C)c1ccc(Cl)cc1</td></tr><tr><td>ru_000033</td><td>rdkit_parse_failed</td><td>1</td><td>-3</td><td>*c1ccccC)C(=C)c2ccc(C)(C)C)C)c1ccccc1</td><td>*/C(=C(/*)c1cccc(-c2ccc(C(C)(C)C)cc2)c1)c1ccccc1</td></tr><tr><td>ru_000037</td><td>rdkit_parse_failed</td><td>2</td><td>-5</td><td>*c1cc(C#N)c(C#N)c2ccc3c(CCCCC)c2ccc2cc(CCCCC)c2cc(*)ccc2)c2ccccc2)c2)c2ccccc2)c2)c1</td><td>*/C(C#N)=C/c1cc(C=C(C#N)c2ccc3c(c2)C(CCCCCCCC)(CCCCCCCC)c2cc(*)ccc2-3)cc(N(c2ccccc2)c2ccccc2)c1</td></tr><tr><td>ru_000042</td><td>rdkit_parse_failed</td><td>1</td><td>-1</td><td>*/C(C)=C)CCCCCCC</td><td>*/C(C)=C(/*)CCCCCCC</td></tr><tr><td>ru_000046</td><td>rdkit_parse_failed</td><td>1</td><td>-1</td><td>*/C(C)(C)C)C</td><td>*/C(C)=C(/*)[Si](C)(C)C</td></tr><tr><td>ru_000052</td><td>rdkit_parse_failed</td><td>1</td><td>-2</td><td>*/C(C)(C)C)C)CCCCCC</td><td>*/C(C)=C(/*)[Si](C)(C)CCCCCC</td></tr><tr><td>ru_000056</td><td>rdkit_parse_failed</td><td>1</td><td>-3</td><td>*c1cccC)(C)c1ccc2)(C)C)cc1</td><td>*/C(C)=C(/*)c1ccc([Si](C)(C)C)cc1</td></tr><tr><td>ru_000087</td><td>rdkit_parse_failed</td><td>1</td><td>0</td><td>*c1C=C</td><td>*/C=C/*</td></tr><tr><td>ru_000092</td><td>rdkit_parse_failed</td><td>2</td><td>2</td><td>*=C(C#N)N)N1C(=O)c3ccc(-c4ccc4)N(C(=O)N(C#N(C(=O)N(*)C(=O)cc2=O</td><td>*=C(C#N)N1C(=O)c2ccc(C(=O)c3ccc(-c4ccc5c(c4)C(=O)N(C(=*)C#N)C5=O)cc3)cc2C1=O</td></tr><tr><td>ru_000100</td><td>rdkit_parse_failed</td><td>1</td><td>0</td><td>*=C(F)(F)C(=O)C(=O)F</td><td>*=C(Cl)CC(F)(F)C(=*)F</td></tr><tr><td>ru_000103</td><td>rdkit_parse_failed</td><td>3</td><td>1</td><td>*=C(=*)c1ccc(C(=*)OC</td><td>*=C(OC)c1ccc(C(=*)OC)s1</td></tr><tr><td>ru_000112</td><td>rdkit_parse_failed</td><td>2</td><td>0</td><td>*=CC1CC(C=*)C(=O)N(c3ccccc3)C(=O)C(=O)C12</td><td>*=CC1CC(C=*)C2C(=O)N(c3ccccc3)C(=O)C12</td></tr><tr><td>ru_000132</td><td>valid_wrong_canonical</td><td>2</td><td>0</td><td>*=CCCC(=*)CCCC</td><td>*=CCCC(=*)CCCCCCCCCC</td></tr></tbody></table>
+    </section>
+
+    <section>
+      <h2>训练与模型配置</h2>
+      <div class="two-col">
+        <div>
+          <h3>训练配置</h3>
+          <table class="kv"><tbody><tr><th>precision</th><td>bf16</td></tr><tr><th>max_epochs</th><td>1</td></tr><tr><th>per_device_train_batch_size</th><td>1</td></tr><tr><th>gradient_accumulation_steps</th><td>16</td></tr><tr><th>learning_rate_lora</th><td>0.0001</td></tr><tr><th>learning_rate_restore_head</th><td>5e-05</td></tr><tr><th>max_seq_len_restore_label</th><td>512</td></tr><tr><th>preview_path</th><td>data/baselite_smiles_v1/training_template_preview.jsonl</td></tr><tr><th>output_dir on server</th><td>/root/autodl-tmp/outputs/stage_b_restore_smoke</td></tr></tbody></table>
+        </div>
+        <div>
+          <h3>Adapter / Restore Head</h3>
+          <table class="kv"><tbody><tr><th>base_model_name_or_path</th><td>/root/autodl-tmp/models/Qwen2.5-7B-modelscope</td></tr><tr><th>peft_type</th><td>LORA</td></tr><tr><th>peft_version</th><td>0.19.1</td></tr><tr><th>LoRA rank r</th><td>8</td></tr><tr><th>LoRA alpha</th><td>16</td></tr><tr><th>LoRA dropout</th><td>0.05</td></tr><tr><th>target_modules</th><td>k_proj, v_proj, q_proj, o_proj</td></tr><tr><th>restore_hidden_size</th><td>512</td></tr><tr><th>restore_num_layers</th><td>2</td></tr><tr><th>restore_num_attention_heads</th><td>8</td></tr></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>数据与产物溯源</h2>
+      <table class="kv"><tbody><tr><th>source archive</th><td>dist/stage_b_restore_smoke_outputs_20260522.tar.gz</td></tr><tr><th>archive size</th><td>605.38 MiB</td></tr><tr><th>archive sha256</th><td>e0adb59b0c1b132ebde2c840c553bd0a3ac1070770fb40db3907fa744839f965</td></tr><tr><th>extracted result dir</th><td>stageB/stage_b_restore_smoke</td></tr><tr><th>dataset total records</th><td>11580</td></tr><tr><th>dataset split counts</th><td>{&#x27;test&#x27;: 1158, &#x27;train&#x27;: 9264, &#x27;valid&#x27;: 1158}</td></tr><tr><th>valid restore label length mean/p95/max</th><td>37.5881 / 81 / 152</td></tr><tr><th>template task</th><td>restore_only</td></tr><tr><th>uses graph tensor</th><td>False</td></tr><tr><th>uses fragment vocab</th><td>False</td></tr></tbody></table>
+      <h3>解压产物清单</h3>
+      <table class="mono"><thead><tr><th>path</th><th>size</th></tr></thead><tbody><tr><td>stageB/stage_b_restore_smoke/eval_metrics.json</td><td>383 B</td></tr><tr><td>stageB/stage_b_restore_smoke/eval_report.md</td><td>676 B</td></tr><tr><td>stageB/stage_b_restore_smoke/failed_cases.jsonl</td><td>18975 B</td></tr><tr><td>stageB/stage_b_restore_smoke/lora_adapter/adapter_config.json</td><td>1074 B</td></tr><tr><td>stageB/stage_b_restore_smoke/lora_adapter/adapter_model.safetensors</td><td>19.28 MiB</td></tr><tr><td>stageB/stage_b_restore_smoke/lora_adapter/README.md</td><td>5244 B</td></tr><tr><td>stageB/stage_b_restore_smoke/reload_smoke.json</td><td>82 B</td></tr><tr><td>stageB/stage_b_restore_smoke/restore_head/restore_head.pt</td><td>632.54 MiB</td></tr><tr><td>stageB/stage_b_restore_smoke/restore_head/restore_head_config.json</td><td>860 B</td></tr><tr><td>stageB/stage_b_restore_smoke/stage_b_restore_smoke_bf16.yaml</td><td>808 B</td></tr><tr><td>stageB/stage_b_restore_smoke/tokenizer/chat_template.jinja</td><td>2427 B</td></tr><tr><td>stageB/stage_b_restore_smoke/tokenizer/tokenizer.json</td><td>10.89 MiB</td></tr><tr><td>stageB/stage_b_restore_smoke/tokenizer/tokenizer_config.json</td><td>696 B</td></tr><tr><td>stageB/stage_b_restore_smoke/training_config.json</td><td>860 B</td></tr></tbody></table>
+    </section>
+
+    <section>
+      <h2>建议</h2>
+      <ul>
+        <li>把当前结果定位为 restore-only smoke/baseline 产物：通过 reload 与训练闭环，但不建议发布为正式 warmup checkpoint。</li>
+        <li>下一轮训练应增加训练步数或 epoch，并保存完整 decode 明细，而不只保存失败样例；否则难以复盘成功/失败的精确解码文本。</li>
+        <li>评估应扩大 greedy decode 样本数，并按 target 长度、attachment 类型、芳香环/硅/氰基等结构特征分层统计。</li>
+        <li>短期可加入 SMILES 语法约束或后验过滤，至少约束括号闭合、ring digit 配对和 attachment count；长期仍需要提升 restore decoder 本身的序列建模质量。</li>
+        <li>如果 Stage B 后续要进入 <code>L_restore + L_align</code>，建议先把 restore-only canonical match 和 RDKit validity 拉到可接受基线，再叠加 graph/fragment alignment。</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,9 @@
+stageB/**/*.json text eol=lf
+stageB/**/*.jsonl text eol=lf
+stageB/**/*.md text eol=lf
+stageB/**/*.yaml text eol=lf
+stageB/**/*.jinja text eol=lf
+stageB/**/*.html text eol=lf
+stageB/**/*.pt filter=lfs diff=lfs merge=lfs -text
+stageB/**/*.safetensors filter=lfs diff=lfs merge=lfs -text
+stageB/**/tokenizer.json filter=lfs diff=lfs merge=lfs -text
