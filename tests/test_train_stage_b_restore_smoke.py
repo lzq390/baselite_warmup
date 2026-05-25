@@ -228,6 +228,49 @@ def test_restore_head_projects_encoder_hidden_size_when_needed() -> None:
     assert logits.shape == (1, 2, 16)
 
 
+def test_restore_head_accepts_bf16_encoder_hidden_with_fp32_weights() -> None:
+    head = RestoreCrossAttentionHead(
+        vocab_size=16,
+        hidden_size=4,
+        encoder_hidden_size=10,
+        num_layers=1,
+        num_attention_heads=2,
+        dropout=0.0,
+        pad_token_id=0,
+        decoder_start_token_id=15,
+    )
+
+    logits = head(
+        decoder_input_ids=torch.tensor([[15, 1]]),
+        encoder_hidden_states=torch.randn(1, 3, 10, dtype=torch.bfloat16),
+        encoder_attention_mask=torch.ones(1, 3, dtype=torch.long),
+    )
+
+    assert logits.dtype == torch.float32
+    assert logits.shape == (1, 2, 16)
+
+
+def test_restore_head_does_not_mask_eos_start_as_padding() -> None:
+    head = RestoreCrossAttentionHead(
+        vocab_size=16,
+        hidden_size=4,
+        num_layers=1,
+        num_attention_heads=2,
+        dropout=0.0,
+        pad_token_id=15,
+        decoder_start_token_id=15,
+    )
+
+    logits = head(
+        decoder_input_ids=torch.tensor([[15, 1, 2]]),
+        encoder_hidden_states=torch.randn(1, 3, 4),
+        encoder_attention_mask=torch.ones(1, 3, dtype=torch.long),
+    )
+
+    assert torch.isfinite(logits).all()
+    assert logits.shape == (1, 3, 16)
+
+
 def test_get_model_backbone_unwraps_peft_style_nested_causal_lm() -> None:
     class Backbone(torch.nn.Module):
         pass
@@ -356,3 +399,57 @@ def test_evaluate_restore_limits_greedy_decode_to_configured_samples(monkeypatch
     assert calls["count"] == 2
     assert sum(calls["batch_sizes"]) == 2
     assert failed == []
+
+
+def test_evaluate_restore_casts_bf16_logits_for_loss(monkeypatch) -> None:
+    class FakeTokenizer:
+        eos_token_id = 9
+        pad_token_id = 0
+
+        def decode(self, token_ids, skip_special_tokens=True):
+            return "*CC*"
+
+    class FakeModel(torch.nn.Module):
+        pass
+
+    class Bf16Head(torch.nn.Module):
+        def forward(self, decoder_input_ids, encoder_hidden_states, encoder_attention_mask=None):
+            logits = torch.zeros(decoder_input_ids.shape[0], decoder_input_ids.shape[1], 10, dtype=torch.bfloat16)
+            logits[..., 9] = 1.0
+            return logits
+
+    def fake_forward_encoder_hidden(model, batch):
+        return torch.zeros(batch.input_ids_view1.shape[0], 2, 4, dtype=torch.bfloat16)
+
+    monkeypatch.setattr("scripts.train_stage_b_restore_smoke.forward_encoder_hidden", fake_forward_encoder_hidden)
+    monkeypatch.setattr(
+        "scripts.train_stage_b_restore_smoke.greedy_decode_restore",
+        lambda **kwargs: torch.tensor([[9]] * kwargs["encoder_hidden_states"].shape[0]),
+    )
+
+    rows = [
+        {
+            "record_id": "r0",
+            "canonical_smiles": "*CC*",
+            "input_ids_view1": [1, 2],
+            "attention_mask_view1": [1, 1],
+            "restore_labels": [3, 9],
+            "restore_label_mask": [True, True],
+        }
+    ]
+    loader = torch.utils.data.DataLoader(
+        rows,
+        batch_size=1,
+        collate_fn=lambda batch_rows: collate_restore_records(batch_rows, pad_token_id=0, label_pad_token_id=0),
+    )
+
+    metrics, _ = evaluate_restore(
+        model=FakeModel(),
+        restore_head=Bf16Head(),
+        dataloader=loader,
+        tokenizer=FakeTokenizer(),
+        config=StageBConfig(eval_decode_samples=1),
+        device=torch.device("cpu"),
+    )
+
+    assert torch.isfinite(torch.tensor(metrics["loss"]))

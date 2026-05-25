@@ -241,7 +241,8 @@ class RestoreCrossAttentionHead(nn.Module):
         memory_key_padding_mask = None
         if encoder_attention_mask is not None:
             memory_key_padding_mask = encoder_attention_mask == 0
-        target_key_padding_mask = decoder_input_ids == self.pad_token_id
+        target_key_padding_mask = None
+        encoder_hidden_states = encoder_hidden_states.to(dtype=self.token_embedding.weight.dtype)
         projected_encoder_hidden_states = self.encoder_projection(encoder_hidden_states)
         decoded = self.decoder(
             tgt=hidden,
@@ -461,7 +462,7 @@ def evaluate_restore(
                 pad_token_id=tokenizer.pad_token_id,
             )
             logits = restore_head(decoder_input, hidden, batch.attention_mask_view1)
-            losses.append(float(masked_cross_entropy(logits, batch.restore_labels, batch.restore_label_mask).item()))
+            losses.append(float(masked_cross_entropy(logits.float(), batch.restore_labels, batch.restore_label_mask).item()))
             accuracies.append(token_accuracy(logits, batch.restore_labels, batch.restore_label_mask))
 
             total += len(batch.record_ids)
@@ -589,7 +590,7 @@ def run_reload_smoke(
         decoder_start_token_id=tokenizer.eos_token_id,
         max_target_positions=config.max_seq_len_restore_label,
         encoder_hidden_size=model_hidden_size,
-    ).to(device=device, dtype=torch.bfloat16)
+    ).to(device=device)
     reloaded_head.load_state_dict(torch.load(output_dir / "restore_head" / "restore_head.pt", map_location=device))
     reloaded_head.eval()
 
@@ -676,7 +677,7 @@ def main() -> None:
         decoder_start_token_id=tokenizer.eos_token_id,
         max_target_positions=config.max_seq_len_restore_label,
         encoder_hidden_size=hidden_size,
-    ).to(device=device, dtype=torch.bfloat16)
+    ).to(device=device)
 
     preview_path = Path(config.preview_path)
     train_dataset = StageAPreviewDataset(preview_path, split="train")
