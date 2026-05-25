@@ -1,0 +1,74 @@
+{
+  "edge": {
+    "bool_fields": [
+      "aromatic",
+      "is_periodic_edge",
+      "is_repeat_connection"
+    ],
+    "categorical_fields": {
+      "bond_type": [
+        "AROMATIC",
+        "DOUBLE",
+        "SINGLE",
+        "TRIPLE"
+      ]
+    },
+    "directed_edge_policy": "bidirectional_expand_each_json_edge",
+    "feature_dim": 7
+  },
+  "node": {
+    "bool_fields": [
+      "aromatic",
+      "is_attachment",
+      "ring_membership"
+    ],
+    "categorical_fields": {
+      "attachment_role": [
+        "__null__",
+        "attachment_1",
+        "attachment_2"
+      ],
+      "element": [
+        "*",
+        "B",
+        "Br",
+        "C",
+        "Ca",
+        "Cd",
+        "Cl",
+        "F",
+        "Ge",
+        "H",
+        "I",
+        "K",
+        "Li",
+        "N",
+        "Na",
+        "O",
+        "P",
+        "Pb",
+        "S",
+        "Se",
+        "Si",
+        "Sn",
+        "Te",
+        "Zn"
+      ],
+      "hybridization": [
+        "S",
+        "SP",
+        "SP2",
+        "SP3",
+        "UNSPECIFIED"
+      ]
+    },
+    "feature_dim": 38,
+    "numeric_fields": [
+      "atomic_num",
+      "degree",
+      "formal_charge"
+    ]
+  },
+  "null_category": "__null__",
+  "schema_version": "stage_c_graph_features_v1"
+}

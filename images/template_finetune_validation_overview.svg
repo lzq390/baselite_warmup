@@ -1,0 +1,207 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1080" viewBox="0 0 1700 1080" role="img" aria-labelledby="title desc">
+  <title id="title">BaseLite 模板构建与微调流程验证简图</title>
+  <desc id="desc">从 SMILES 数据集、Stage A restore-only 模板预览，到 Stage B text-only restore 烟测和 Stage C non-vocab text-graph 微调验证的流程图。</desc>
+  <defs>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#059669"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b45309"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626"/>
+    </marker>
+    <style>
+      .page { fill: #f7f8fb; }
+      .title { font: 700 34px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #111827; }
+      .subtitle { font: 400 17px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #4b5563; }
+      .lane { fill: #ffffff; stroke: #d1d5db; stroke-width: 1.2; rx: 8; }
+      .lane-title { font: 700 20px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #111827; }
+      .lane-note { font: 400 14px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #6b7280; }
+      .box { fill: #ffffff; stroke-width: 1.5; rx: 8; }
+      .box-blue { stroke: #2563eb; }
+      .box-green { stroke: #059669; }
+      .box-amber { stroke: #b45309; }
+      .box-red { stroke: #dc2626; }
+      .box-gray { stroke: #6b7280; }
+      .fill-blue { fill: #eff6ff; stroke: #2563eb; }
+      .fill-green { fill: #ecfdf5; stroke: #059669; }
+      .fill-amber { fill: #fffbeb; stroke: #b45309; }
+      .fill-red { fill: #fef2f2; stroke: #dc2626; }
+      .fill-gray { fill: #f9fafb; stroke: #6b7280; }
+      .box-title { font: 700 16px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #111827; }
+      .box-small { font: 400 13px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #374151; }
+      .code { font: 600 13px "Consolas", "SFMono-Regular", monospace; fill: #111827; }
+      .metric { font: 700 18px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #111827; }
+      .chip { fill: #f3f4f6; stroke: #cbd5e1; stroke-width: 1; rx: 7; }
+      .chip-off { fill: #fef2f2; stroke: #fca5a5; stroke-width: 1; rx: 7; }
+      .chip-text { font: 600 13px "Noto Sans CJK SC", "Microsoft YaHei", Arial, sans-serif; fill: #374151; }
+      .arrow-blue { stroke: #2563eb; stroke-width: 2.5; fill: none; marker-end: url(#arrow-blue); }
+      .arrow-green { stroke: #059669; stroke-width: 2.5; fill: none; marker-end: url(#arrow-green); }
+      .arrow-amber { stroke: #b45309; stroke-width: 2.5; fill: none; marker-end: url(#arrow-amber); }
+      .arrow-red { stroke: #dc2626; stroke-width: 2.5; fill: none; marker-end: url(#arrow-red); }
+      .muted-line { stroke: #9ca3af; stroke-width: 1.4; fill: none; stroke-dasharray: 5 5; }
+    </style>
+  </defs>
+
+  <rect class="page" x="0" y="0" width="1700" height="1080"/>
+  <text class="title" x="50" y="58">BaseLite 模板构建与微调流程验证简图</text>
+  <text class="subtitle" x="50" y="88">目标：先锁定无泄漏、可 round-trip 的 restore 模板，再用 Stage B/C 烟测验证训练、评估、导出和 reload 闭环。</text>
+
+  <rect class="lane" x="40" y="120" width="1620" height="225"/>
+  <text class="lane-title" x="65" y="154">1. 数据集与 Stage A 模板构建</text>
+  <text class="lane-note" x="65" y="178">Stage A 只生成 restore-only template preview，不训练模型；target 单独 tokenize，避免 text branch 在输入侧看到答案。</text>
+
+  <rect class="box fill-blue" x="65" y="215" width="195" height="80"/>
+  <text class="box-title" x="88" y="244">canonical RU 数据集</text>
+  <text class="box-small" x="88" y="268">11,580 records</text>
+  <text class="box-small" x="88" y="286">graph_hash split</text>
+
+  <rect class="box box-blue" x="310" y="215" width="190" height="80"/>
+  <text class="box-title" x="333" y="244">稳定划分</text>
+  <text class="box-small" x="333" y="268">train 9,264</text>
+  <text class="box-small" x="333" y="286">valid/test 1,158/1,158</text>
+
+  <rect class="box box-blue" x="550" y="215" width="220" height="80"/>
+  <text class="box-title" x="573" y="244">泄漏检查</text>
+  <text class="box-small" x="573" y="268">canonical_hash leak: 0</text>
+  <text class="box-small" x="573" y="286">graph_hash leak: 0</text>
+
+  <rect class="box fill-blue" x="820" y="205" width="310" height="100"/>
+  <text class="box-title" x="843" y="234">Stage A 输入模板</text>
+  <text class="code" x="843" y="259">&lt;polymer_view_smiles&gt;</text>
+  <text class="code" x="843" y="279">{text_view_1}</text>
+  <text class="code" x="843" y="299">&lt;/polymer_view_smiles&gt;</text>
+
+  <rect class="box box-blue" x="1180" y="205" width="210" height="100"/>
+  <text class="box-title" x="1203" y="234">restore labels</text>
+  <text class="box-small" x="1203" y="258">canonical target + eos</text>
+  <text class="box-small" x="1203" y="278">单独 tokenize</text>
+  <text class="box-small" x="1203" y="296">不拼入 input_text</text>
+
+  <rect class="box fill-green" x="1435" y="205" width="180" height="100"/>
+  <text class="box-title" x="1458" y="234">模板质量门</text>
+  <text class="box-small" x="1458" y="258">round-trip fail: 0</text>
+  <text class="box-small" x="1458" y="278">overflow: 0</text>
+  <text class="box-small" x="1458" y="296">mask failure: 0</text>
+
+  <path class="arrow-blue" d="M 260 255 H 300"/>
+  <path class="arrow-blue" d="M 500 255 H 540"/>
+  <path class="arrow-blue" d="M 770 255 H 810"/>
+  <path class="arrow-blue" d="M 1130 255 H 1170"/>
+  <path class="arrow-green" d="M 1390 255 H 1425"/>
+
+  <rect class="lane" x="40" y="370" width="1620" height="245"/>
+  <text class="lane-title" x="65" y="404">2. Stage B：text-only restore 烟测 / baseline</text>
+  <text class="lane-note" x="65" y="428">目的不是正式 warmup，而是验证 tokenizer、LoRA、restore head、decode/eval、checkpoint 保存和 reload 是否能跑通。</text>
+
+  <rect class="box fill-amber" x="65" y="465" width="210" height="80"/>
+  <text class="box-title" x="88" y="494">template preview</text>
+  <text class="box-small" x="88" y="518">input_ids_view1</text>
+  <text class="box-small" x="88" y="536">restore_labels</text>
+
+  <rect class="box box-amber" x="325" y="465" width="235" height="80"/>
+  <text class="box-title" x="348" y="494">Qwen2.5-7B Base + LoRA</text>
+  <text class="box-small" x="348" y="518">LoRA r=8, q/k/v/o</text>
+  <text class="box-small" x="348" y="536">bf16, 1 epoch</text>
+
+  <rect class="box box-amber" x="610" y="465" width="220" height="80"/>
+  <text class="box-title" x="633" y="494">restore head</text>
+  <text class="box-small" x="633" y="518">cross-attention decoder</text>
+  <text class="box-small" x="633" y="536">L_restore only</text>
+
+  <rect class="box fill-green" x="880" y="445" width="340" height="120"/>
+  <text class="box-title" x="903" y="474">Stage B 验证结果</text>
+  <text class="box-small" x="903" y="498">loss 0.6105, token acc 0.8465</text>
+  <text class="box-small" x="903" y="518">exact/canonical match 0.0625</text>
+  <text class="box-small" x="903" y="538">RDKit validity 0.2188</text>
+  <text class="box-small" x="903" y="558">train loss decreased: True</text>
+
+  <rect class="box fill-green" x="1270" y="445" width="180" height="120"/>
+  <text class="box-title" x="1293" y="474">reload smoke</text>
+  <text class="metric" x="1293" y="505">passed</text>
+  <text class="box-small" x="1293" y="532">adapter + head</text>
+  <text class="box-small" x="1293" y="552">可重新加载推理</text>
+
+  <rect class="box fill-red" x="1490" y="445" width="125" height="120"/>
+  <text class="box-title" x="1510" y="474">关闭项</text>
+  <text class="box-small" x="1510" y="498">no graph</text>
+  <text class="box-small" x="1510" y="518">no align</text>
+  <text class="box-small" x="1510" y="538">no fragment</text>
+
+  <path class="arrow-amber" d="M 275 505 H 315"/>
+  <path class="arrow-amber" d="M 560 505 H 600"/>
+  <path class="arrow-green" d="M 830 505 H 870"/>
+  <path class="arrow-green" d="M 1220 505 H 1260"/>
+  <path class="muted-line" d="M 1450 505 H 1480"/>
+
+  <rect class="lane" x="40" y="640" width="1620" height="335"/>
+  <text class="lane-title" x="65" y="674">3. Stage C：non-vocab text-graph 微调验证</text>
+  <text class="lane-note" x="65" y="698">在 Stage B 路径上接入 repeat_unit_graph，打开 L_restore + L_align；fragment vocab 和 fragment labels 仍关闭。</text>
+
+  <rect class="box fill-blue" x="65" y="735" width="235" height="90"/>
+  <text class="box-title" x="88" y="764">Stage C 数据审计</text>
+  <text class="box-small" x="88" y="788">dataset rows = graph rows = 11,580</text>
+  <text class="box-small" x="88" y="806">missing/mismatch/extra: 0</text>
+
+  <rect class="box box-blue" x="350" y="735" width="215" height="90"/>
+  <text class="box-title" x="373" y="764">graph feature schema</text>
+  <text class="box-small" x="373" y="788">node dim 38, edge dim 7</text>
+  <text class="box-small" x="373" y="806">element / hybridization / bond</text>
+
+  <rect class="box box-amber" x="615" y="735" width="210" height="90"/>
+  <text class="box-title" x="638" y="764">text + graph forward</text>
+  <text class="box-small" x="638" y="788">text projector + graph encoder</text>
+  <text class="box-small" x="638" y="806">graph memory -> restore head</text>
+
+  <rect class="box box-amber" x="875" y="735" width="205" height="90"/>
+  <text class="box-title" x="898" y="764">loss 组合</text>
+  <text class="box-small" x="898" y="788">L_restore + 0.1 L_align</text>
+  <text class="box-small" x="898" y="806">symmetric InfoNCE</text>
+
+  <rect class="box fill-green" x="1130" y="715" width="300" height="130"/>
+  <text class="box-title" x="1153" y="744">Stage C smoke 验证结果</text>
+  <text class="box-small" x="1153" y="768">train 512 / valid 128, 1 epoch</text>
+  <text class="box-small" x="1153" y="788">loss 7.4148, token acc 0.3133</text>
+  <text class="box-small" x="1153" y="808">T->G top5 0.1484, G->T top5 0.1719</text>
+  <text class="box-small" x="1153" y="828">pos sim 0.4684 > neg sim 0.3111</text>
+
+  <rect class="box fill-green" x="1480" y="715" width="135" height="130"/>
+  <text class="box-title" x="1503" y="744">工程门</text>
+  <text class="metric" x="1503" y="775">passed</text>
+  <text class="box-small" x="1503" y="800">finite loss</text>
+  <text class="box-small" x="1503" y="820">metrics/export</text>
+  <text class="box-small" x="1503" y="840">reload smoke</text>
+
+  <path class="arrow-blue" d="M 300 780 H 340"/>
+  <path class="arrow-amber" d="M 565 780 H 605"/>
+  <path class="arrow-amber" d="M 825 780 H 865"/>
+  <path class="arrow-green" d="M 1080 780 H 1120"/>
+  <path class="arrow-green" d="M 1430 780 H 1470"/>
+
+  <rect class="box fill-gray" x="65" y="865" width="360" height="82"/>
+  <text class="box-title" x="88" y="895">Stage C full-data 后续</text>
+  <text class="box-small" x="88" y="919">1 epoch: 9,264 train rows, about 579 steps</text>
+  <text class="box-small" x="88" y="939">3 epoch: about 1,737 steps</text>
+
+  <rect class="box fill-red" x="475" y="865" width="405" height="82"/>
+  <text class="box-title" x="498" y="895">仍不进入当前训练的内容</text>
+  <text class="box-small" x="498" y="919">chat template / new special tokens / property labels</text>
+  <text class="box-small" x="498" y="939">fragment vocab / matcher / presence / consistency</text>
+
+  <rect class="box fill-amber" x="930" y="865" width="330" height="82"/>
+  <text class="box-title" x="953" y="895">验收口径</text>
+  <text class="box-small" x="953" y="919">烟测只要求训练闭环健康</text>
+  <text class="box-small" x="953" y="939">不把 canonical match 当正式质量门槛</text>
+
+  <rect class="box fill-red" x="1310" y="865" width="305" height="82"/>
+  <text class="box-title" x="1333" y="895">Stage D 阻塞条件</text>
+  <text class="box-small" x="1333" y="919">fragment-aware warmup</text>
+  <text class="box-small" x="1333" y="939">等待 fragment matcher 输出稳定</text>
+
+  <rect class="lane" x="40" y="1000" width="1620" height="45"/>
+  <text class="lane-note" x="65" y="1028">核心理解：Stage A 验证“模板数据是否正确”，Stage B 验证“restore 训练链路是否可用”，Stage C 验证“text-graph 联合路径是否能完整训练、评估、导出和 reload”。</text>
+</svg>
