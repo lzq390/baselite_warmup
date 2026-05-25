@@ -7,3 +7,4 @@ stageB/**/*.html text eol=lf
 stageB/**/*.pt filter=lfs diff=lfs merge=lfs -text
 stageB/**/*.safetensors filter=lfs diff=lfs merge=lfs -text
 stageB/**/tokenizer.json filter=lfs diff=lfs merge=lfs -text
+data/processed/repeat_unit_graphs.jsonl filter=lfs diff=lfs merge=lfs -text
