@@ -9,7 +9,7 @@
 
 ## 功能说明
 
-本流程按 `periods_construct.py -> dataset_filter.py` 的功能处理 `unique_standardized_smiles.csv`：
+本流程按已移除旧脚本 `periods_construct.py -> dataset_filter.py` 的功能处理 `unique_standardized_smiles.csv`：
 
 1. 对每个两连接点标准化 SMILES 构造三聚体。
 2. 沿两个 `*` 之间的 shortest backbone path 滑动切分，生成 period candidates。

@@ -219,3 +219,23 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local Codex / agent dependency cache
+.codex_py_deps/
+
+# Local model/cache artifacts
+models/.hf_cache/
+outputs/
+
+# Packaged run artifacts
+dist/
+*.tar.gz
+*.tar.gz.sha256
+
+# Local training/run outputs
+stageC/
+stageB/**/logs/
+*.pid
+
+# Derived ad-hoc reports
+docs/git_worktree_cleanup_report_*.html

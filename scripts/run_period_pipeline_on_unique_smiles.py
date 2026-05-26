@@ -70,8 +70,8 @@ def connect_repeat_units(left_mol: Chem.Mol, right_mol: Chem.Mol) -> Chem.Mol:
     if len(stars_left) != 2 or len(stars_right) != 2:
         raise ValueError("each repeat unit must contain exactly two attachment atoms")
 
-    # Historical periods_construct.py uses max index from left and min index from right.
-    # This preserves that functional behavior for comparability.
+    # The removed legacy period-construction script used max index from left and
+    # min index from right; preserve that behavior for comparability.
     star_left = max(stars_left, key=lambda atom: atom.GetIdx())
     star_right = min(stars_right, key=lambda atom: atom.GetIdx())
     neighbor_left = get_single_neighbor(star_left)
@@ -196,7 +196,7 @@ def build_report(stats: dict[str, Any], generation_failures: list[dict[str, Any]
         "",
         "## 功能说明",
         "",
-        "本流程按 `periods_construct.py -> dataset_filter.py` 的功能处理 `unique_standardized_smiles.csv`：",
+        "本流程按已移除旧脚本 `periods_construct.py -> dataset_filter.py` 的功能处理 `unique_standardized_smiles.csv`：",
         "",
         "1. 对每个两连接点标准化 SMILES 构造三聚体。",
         "2. 沿两个 `*` 之间的 shortest backbone path 滑动切分，生成 period candidates。",

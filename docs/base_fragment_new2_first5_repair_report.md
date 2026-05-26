@@ -1,6 +1,7 @@
 # base_fragment_new2 前 5 个核心片段修复报告
 
 - 核心词表：`fragments_1/base_fragment_new2.json`
+- 定位：修复前五项后的过渡基准词表，用于保留和审计当前 `fragments_1` 工作；最终 fragment v1 主线以 `fragments/vocab/fragment_vocab_v1.0.*` 为准。
 - 匹配数据：`data/processed/periods2_from_unique_standardized_smiles.csv`
 - period 总数：55060
 - 唯一 source 总数：10444

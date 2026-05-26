@@ -2,6 +2,7 @@
 
 - 生成日期：2026-05-09
 - 核心词表：`fragments_1/base_fragment_new2.json`
+- 定位：修复前五项后的过渡基准词表分析，不代表最终 fragment v1 生产词表；最终主线以 `fragments/vocab/fragment_vocab_v1.0.*` 为准。
 - 匹配数据：`data/processed/periods2_from_unique_standardized_smiles.csv`
 - 核心规则数：36
 - period 行数：55060
