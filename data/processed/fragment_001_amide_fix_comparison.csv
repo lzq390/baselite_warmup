@@ -1,0 +1,4 @@
+mode,period_hits,period_coverage,source_hits,source_coverage,match_total,max_per_period
+raw_current_smarts,27559,50.0527,3934,37.6676,124626,18
+old_molecule_level_not_smarts,15411,27.9895,1888,18.0774,29806,9
+fixed_instance_overlap_filter,16579,30.1108,2392,22.9031,31319,8
