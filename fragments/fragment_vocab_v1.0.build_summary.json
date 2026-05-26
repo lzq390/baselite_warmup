@@ -1,0 +1,45 @@
+{
+  "audit": {
+    "level_1_raw_two_attachment_main_after_text_exclusions": 23791,
+    "level_1_raw_unique": 23956,
+    "level_2_attachment_normalized_main_unique": 12184,
+    "level_3_canonical_repeat_unit_unique": 11580,
+    "level_4_repeat_unit_graph_hash_unique": 11439,
+    "level_5_primitive_periodic_graph_hash_unique": null,
+    "parser_failed_count": 0,
+    "record_type_counts_raw_unique": {
+      "copolymer_candidate": 47,
+      "incomplete_attachment": 6,
+      "ionomer_or_multicomponent_candidate": 5,
+      "main_repeat_unit": 23791,
+      "monomer_or_descriptor_record": 105,
+      "unresolved_R_group": 2
+    }
+  },
+  "core_rule_count": 60,
+  "coverage": {
+    "avg_fragment_types_per_polymer": 9.298963730569948,
+    "denominator_count": 11580,
+    "denominator_level": "level_3_canonical_repeat_unit_unique",
+    "median_fragment_types_per_polymer": 8.0,
+    "polymer_with_at_least_one_fragment": 11577,
+    "polymer_with_at_least_one_fragment_ratio": 0.9997409326424871,
+    "rules_with_any_match": 60
+  },
+  "csv_rows": 64071,
+  "invalid_seed_rule_count": 0,
+  "mined_candidate_count": 300,
+  "outputs": {
+    "core_vocab_json": "/home/lzq390/gith/baselite_warmup/fragments/vocab/fragment_vocab_v1.0.json",
+    "core_vocab_jsonl": "/home/lzq390/gith/baselite_warmup/fragments/vocab/fragment_vocab_v1.0.jsonl",
+    "examples": "/home/lzq390/gith/baselite_warmup/fragments/vocab/fragment_vocab_v1.0.examples.jsonl",
+    "failed_cases": "/home/lzq390/gith/baselite_warmup/fragments/validation/fragment_vocab_v1.0.failed_cases.jsonl",
+    "stats": "/home/lzq390/gith/baselite_warmup/fragments/vocab/fragment_vocab_v1.0.stats.json",
+    "validation_report": "/home/lzq390/gith/baselite_warmup/fragments/validation/fragment_vocab_v1.0.validation_report.md"
+  },
+  "rdkit_version": "2026.03.1",
+  "seed_rule_count": 71,
+  "source_data": "/home/lzq390/gith/baselite_warmup/data/all_polymers_experiment_final.csv",
+  "source_sha256": "f597f846ff06a8fd43fa48480009c195c22105583a55e6d01a4611cef6235a57",
+  "valid_seed_rule_count": 71
+}

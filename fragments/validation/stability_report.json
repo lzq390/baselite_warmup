@@ -1,0 +1,7 @@
+{
+  "cut_shift_stability": null,
+  "instance_key_jaccard": null,
+  "presence_label_consistency": null,
+  "reason": "当前仓库尚未实现 periodic repeat-unit graph cut-shift scanner。",
+  "status": "not_evaluated"
+}

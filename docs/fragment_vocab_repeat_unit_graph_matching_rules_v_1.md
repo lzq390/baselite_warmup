@@ -111,14 +111,19 @@ unit_offset = -1, 0, +1
 {
   "fragment_id": "FG_AMIDE",
   "fragment_name": "amide",
+  "version": "v1.0",
+  "category": "functional_group",
+  "parent_fragment_id": null,
+  "semantic_tags": ["polar", "hydrogen_bonding", "backbone_possible"],
   "match_rule": {
     "type": "smarts",
-    "pattern": "[NX3][CX3](=O)"
+    "pattern": "[NX3:1][CX3:2](=[OX1:3])",
+    "constraints": {}
   },
   "atom_roles": {
-    "N": "amide_nitrogen",
-    "C": "carbonyl_carbon",
-    "O": "carbonyl_oxygen"
+    "1": "amide_nitrogen",
+    "2": "carbonyl_carbon",
+    "3": "carbonyl_oxygen"
   },
   "anchor_rule": {
     "anchor_type": "atom",
@@ -132,11 +137,25 @@ unit_offset = -1, 0, +1
   "dedup_key_fields": [
     "fragment_id",
     "anchor_type",
+    "anchor_role",
     "anchor_canonical_id_in_RU0",
     "atom_role_pattern",
     "boundary_pattern"
-  ]
+  ],
+  "overlap_policy": {
+    "exclusive_group": "carbonyl_family",
+    "priority": 80,
+    "allow_child_fragments": true
+  }
 }
+```
+
+约定：
+
+```text
+SMARTS 规则必须使用 atom map number。
+atom_roles 的 key 必须是 map id 字符串，不能使用元素符号。
+anchor_rule.anchor_role 必须能在 atom_roles 的 value 中解析到唯一角色。
 ```
 
 ---
@@ -318,6 +337,16 @@ RU[+1]:atom_7
 ```
 
 本方案保留这个思想，但它只能作为候选发现器。
+
+与 centered periodic expansion 的关系：
+
+```text
+centered expansion 是主匹配路径，负责在固定 RU0 坐标系中发现跨边界候选。
+cut-shift sliding scan 是稳定性和召回补充路径，负责模拟不同 repeat-unit 切分起点下的候选发现。
+sliding scan 不拥有独立添加权，所有结果必须映射回原始 periodic coordinate。
+```
+
+如果 centered expansion 已完整发现某个 RU0-owned instance，sliding scan 只能产生相同 canonical_instance_key 的重复候选，并被去重丢弃。
 
 它不能执行：
 
@@ -968,4 +997,3 @@ else:
 邻居周期片段误加
 后续 fragment attribution 稳定性
 ```
-

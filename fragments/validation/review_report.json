@@ -1,0 +1,97 @@
+{
+  "core_rule_count": 60,
+  "generated_at_utc": "2026-05-26T01:03:13.461161+00:00",
+  "manual_review_reason": "化学语义正确性和 cut-shift 稳定性仍需要领域审核，并依赖 periodic graph matcher 做最终验证。",
+  "manual_review_required": true,
+  "rejected_low_frequency_rules": [
+    {
+      "coverage_count": 10,
+      "coverage_ratio": 0.0008635578583765112,
+      "fragment_id": "FG_ALDEHYDE",
+      "fragment_name": "aldehyde",
+      "status": "rejected_low_frequency",
+      "threshold_count": 50
+    },
+    {
+      "coverage_count": 2,
+      "coverage_ratio": 0.00017271157167530224,
+      "fragment_id": "FG_CARBOXYLATE",
+      "fragment_name": "carboxylate",
+      "status": "rejected_low_frequency",
+      "threshold_count": 50
+    },
+    {
+      "coverage_count": 4,
+      "coverage_ratio": 0.0003454231433506045,
+      "fragment_id": "FG_SULFOXIDE",
+      "fragment_name": "sulfoxide",
+      "status": "rejected_low_frequency",
+      "threshold_count": 50
+    },
+    {
+      "coverage_count": 2,
+      "coverage_ratio": 0.00017271157167530224,
+      "fragment_id": "FG_SULFONATE",
+      "fragment_name": "sulfonate",
+      "status": "rejected_low_frequency",
+      "threshold_count": 50
+    },
+    {
+      "coverage_count": 37,
+      "coverage_ratio": 0.0031951640759930915,
+      "fragment_id": "FG_PRIMARY_AMINE",
+      "fragment_name": "primary_amine",
+      "status": "rejected_low_frequency",
+      "threshold_count": 50
+    },
+    {
+      "coverage_count": 13,
+      "coverage_ratio": 0.0011226252158894647,
+      "fragment_id": "FG_QUATERNARY_AMMONIUM",
+      "fragment_name": "quaternary_ammonium",
+      "status": "rejected_low_frequency",
+      "threshold_count": 50
+    },
+    {
+      "coverage_count": 4,
+      "coverage_ratio": 0.0003454231433506045,
+      "fragment_id": "FG_ISOCYANATE",
+      "fragment_name": "isocyanate",
+      "status": "rejected_low_frequency",
+      "threshold_count": 50
+    },
+    {
+      "coverage_count": 9,
+      "coverage_ratio": 0.0007772020725388601,
+      "fragment_id": "FG_EPOXY",
+      "fragment_name": "epoxy",
+      "status": "rejected_low_frequency",
+      "threshold_count": 50
+    },
+    {
+      "coverage_count": 15,
+      "coverage_ratio": 0.0012953367875647669,
+      "fragment_id": "FG_ACETAL",
+      "fragment_name": "acetal",
+      "status": "rejected_low_frequency",
+      "threshold_count": 50
+    },
+    {
+      "coverage_count": 20,
+      "coverage_ratio": 0.0017271157167530224,
+      "fragment_id": "FG_PHOSPHATE",
+      "fragment_name": "phosphate",
+      "status": "rejected_low_frequency",
+      "threshold_count": 50
+    },
+    {
+      "coverage_count": 18,
+      "coverage_ratio": 0.0015544041450777201,
+      "fragment_id": "COMP_RIGID_ETHYNYL_AROMATIC",
+      "fragment_name": "rigid_ethynyl_aromatic_segment",
+      "status": "rejected_low_frequency",
+      "threshold_count": 50
+    }
+  ],
+  "review_status": "automated_draft"
+}

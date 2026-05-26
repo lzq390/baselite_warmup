@@ -165,8 +165,8 @@ def main() -> None:
             "- `canonical_id`: 当前导出中的稳定行 ID。",
             "- `standardized_smiles`: RDKit canonical 后的唯一标准化 repeat-unit SMILES。",
             "- `canonical_hash`: `standardized_smiles` 的 SHA256。",
-            "- `graph_hash`: 当前脚本生成的粗略 graph signature hash，只作参考，不等同于生产级 canonical graph hash。",
-            "- `source_level2_count`: 合并到该 canonical SMILES 的 attachment-normalized unique 数量。",
+            "- `graph_hash`: 当前脚本生成的单 repeat-unit graph signature hash，只作 split 防泄漏参考，不等同于严格 graph isomorphism hash。",
+            "- `source_level2_count`: 合并到该 canonical SMILES 的 attachment-normalized unique 数量，仅用于追踪去重来源；不写入当前 BaseLite train/valid/test JSONL。",
             "- `attachment_normalized_smiles_examples`: 该 canonical SMILES 对应的 level 2 示例。",
             "- `raw_smiles_examples`: 该 canonical SMILES 对应的原始 SMILES 示例。",
         ]

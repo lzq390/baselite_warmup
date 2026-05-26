@@ -2,7 +2,7 @@
 
 - 生成时间 UTC: `2026-05-06T07:22:20.476486+00:00`
 - 输入文件: `\\wsl.localhost\Ubuntu\home\lzq390\gith\baselite_warmup\data\processed\unique_standardized_smiles.csv`
-- period 候选输出: `\\wsl.localhost\Ubuntu\home\lzq390\gith\baselite_warmup\data\processed\periods_from_unique_standardized_smiles.csv`
+- period 候选中间文件: 已清理，仅保留去重后的 `periods2_from_unique_standardized_smiles.csv`
 - 过滤去重输出: `\\wsl.localhost\Ubuntu\home\lzq390\gith\baselite_warmup\data\processed\periods2_from_unique_standardized_smiles.csv`
 - failed cases: `\\wsl.localhost\Ubuntu\home\lzq390\gith\baselite_warmup\data\processed\period_pipeline_failed_cases.jsonl`
 - RDKit 版本: `2026.03.1`
@@ -17,10 +17,10 @@
 
 ## 关键风险
 
-- attachment 左右角色仍沿用历史脚本的 RDKit atom index 规则，不等于生产级 canonical orientation。
+- attachment 左右角色仍沿用历史脚本的 RDKit atom index 规则，不等同于严格 canonical orientation。
 - 三聚体连接仍按 single bond 构造，未推断真实 periodic bond order。
 - backbone 使用两个 `*` 之间 shortest path，复杂环/支化结构可能不稳定。
-- 本流程适合作为 sliding period candidate 生成，不等同于最终 periodic graph matcher。
+- 本流程只适合作为词表构建阶段的 sliding period candidate 生成，不作为当前 BaseLite 训练样本构建流程，也不等同于严格 periodic graph matcher。
 
 ## 统计
 

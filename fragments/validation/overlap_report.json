@@ -1,0 +1,1663 @@
+{
+  "exclusive_group_conflicts": [
+    {
+      "containment_a": 1.0,
+      "containment_b": 1.0,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "oxygen_linkage_family",
+      "fragment_id_a": "COMP_AROMATIC_ETHER",
+      "fragment_id_b": "FG_AROMATIC_ETHER",
+      "jaccard": 1.0
+    },
+    {
+      "containment_a": 0.9855725879170424,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "RING_LACTAM",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.9855725879170424
+    },
+    {
+      "containment_a": 0.9846846846846847,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_IMIDE",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.9846846846846847
+    },
+    {
+      "containment_a": 0.9846846846846847,
+      "containment_b": 0.9855725879170424,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_IMIDE",
+      "fragment_id_b": "RING_LACTAM",
+      "jaccard": 0.9706927175843695
+    },
+    {
+      "containment_a": 0.9962904080551139,
+      "containment_b": 0.8600182982616651,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.8572731418148655
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.85,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "FG_IMIDE",
+      "jaccard": 0.85
+    },
+    {
+      "containment_a": 0.9962904080551139,
+      "containment_b": 0.8476104598737602,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "RING_LACTAM",
+      "jaccard": 0.8449438202247191
+    },
+    {
+      "containment_a": 0.8301886792452831,
+      "containment_b": 1.0,
+      "exclusive_group_a": "sulfur_family",
+      "exclusive_group_b": "sulfur_family",
+      "fragment_id_a": "FG_SULFONE",
+      "fragment_id_b": "LINK_AROMATIC_SULFONE",
+      "jaccard": 0.8301886792452831
+    },
+    {
+      "containment_a": 0.8598829243990534,
+      "containment_b": 0.9221316949378924,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "mainchain_linker_family",
+      "fragment_id_a": "LINK_ALKYL",
+      "fragment_id_b": "LINK_METHYLENE",
+      "jaccard": 0.8016720854621459
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.7533260100085439,
+      "exclusive_group_a": "ring_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "LINK_PHENYLENE_PARA",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.7533260100085439
+    },
+    {
+      "containment_a": 0.7419786096256684,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_KETONE",
+      "fragment_id_b": "LINK_AROMATIC_CARBONYL",
+      "jaccard": 0.7419786096256684
+    },
+    {
+      "containment_a": 0.7400681044267877,
+      "containment_b": 1.0,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "SUB_HALOGEN",
+      "fragment_id_b": "SUB_FLUORO",
+      "jaccard": 0.7400681044267877
+    },
+    {
+      "containment_a": 0.723159509202454,
+      "containment_b": 1.0,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "SUB_FLUORO",
+      "fragment_id_b": "SUB_TRIFLUOROMETHYL",
+      "jaccard": 0.723159509202454
+    },
+    {
+      "containment_a": 0.729749364329822,
+      "containment_b": 0.9049549549549549,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_C",
+      "fragment_id_b": "FG_IMIDE",
+      "jaccard": 0.6778002699055331
+    },
+    {
+      "containment_a": 0.7224845622956775,
+      "containment_b": 0.9098810612991766,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_C",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.6742372881355932
+    },
+    {
+      "containment_a": 0.6703374777975133,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_N",
+      "fragment_id_b": "COMP_AROMATIC_IMIDE",
+      "jaccard": 0.6703374777975133
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.6447549244159414,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_N",
+      "fragment_id_b": "FG_AMIDE",
+      "jaccard": 0.6447549244159414
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.630554283096656,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_C",
+      "fragment_id_b": "FG_AMIDE",
+      "jaccard": 0.630554283096656
+    },
+    {
+      "containment_a": 0.6382128586996004,
+      "containment_b": 0.9311075781664017,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_C",
+      "fragment_id_b": "COMP_AROMATIC_IMIDE",
+      "jaccard": 0.6094346167186958
+    },
+    {
+      "containment_a": 0.5946459918080749,
+      "containment_b": 0.9291428571428572,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "oxygen_linkage_family",
+      "fragment_id_a": "FG_ETHER",
+      "fragment_id_b": "SUB_ALKOXY",
+      "jaccard": 0.5688497061293031
+    },
+    {
+      "containment_a": 0.545681789776278,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_AMIDE",
+      "jaccard": 0.545681789776278
+    },
+    {
+      "containment_a": 0.5351872871736663,
+      "containment_b": 1.0,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "SUB_HALOGEN",
+      "fragment_id_b": "SUB_TRIFLUOROMETHYL",
+      "jaccard": 0.5351872871736663
+    },
+    {
+      "containment_a": 0.5084745762711864,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_AMIDE",
+      "fragment_id_b": "FG_IMIDE",
+      "jaccard": 0.5084745762711864
+    },
+    {
+      "containment_a": 0.5080164910673385,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_AMIDE",
+      "fragment_id_b": "RING_LACTAM",
+      "jaccard": 0.5080164910673385
+    },
+    {
+      "containment_a": 0.5006871278057718,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_AMIDE",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.5006871278057718
+    },
+    {
+      "containment_a": 0.4904386951631046,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_ESTER",
+      "jaccard": 0.4904386951631046
+    },
+    {
+      "containment_a": 0.48467966573816157,
+      "containment_b": 1.0,
+      "exclusive_group_a": "sulfur_family",
+      "exclusive_group_b": "sulfur_family",
+      "fragment_id_a": "FG_THIOETHER",
+      "fragment_id_b": "LINK_AROMATIC_SULFIDE",
+      "jaccard": 0.48467966573816157
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.4322033898305085,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "FG_AMIDE",
+      "jaccard": 0.4322033898305085
+    },
+    {
+      "containment_a": 0.42511900402782865,
+      "containment_b": 0.9850113122171946,
+      "exclusive_group_a": "ring_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "RING_AROMATIC_6",
+      "fragment_id_b": "RING_FUSED_AROMATIC_ATOM",
+      "jaccard": 0.4223866116905166
+    },
+    {
+      "containment_a": 0.37362637362637363,
+      "containment_b": 0.9902912621359223,
+      "exclusive_group_a": "silicon_family",
+      "exclusive_group_b": "silicon_family",
+      "fragment_id_a": "COMP_POLYSILOXANE_SIDE",
+      "fragment_id_b": "FG_SILOXANE",
+      "jaccard": 0.3722627737226277
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.3518310211223597,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_N",
+      "fragment_id_b": "FG_CARBONYL",
+      "jaccard": 0.3518310211223597
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.34408198975128107,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_C",
+      "fragment_id_b": "FG_CARBONYL",
+      "jaccard": 0.34408198975128107
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.31963136337039205,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "oxygen_linkage_family",
+      "fragment_id_a": "COMP_AROMATIC_ETHER",
+      "fragment_id_b": "FG_ETHER",
+      "jaccard": 0.31963136337039205
+    },
+    {
+      "containment_a": 0.31963136337039205,
+      "containment_b": 1.0,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "oxygen_linkage_family",
+      "fragment_id_a": "FG_ETHER",
+      "fragment_id_b": "FG_AROMATIC_ETHER",
+      "jaccard": 0.31963136337039205
+    },
+    {
+      "containment_a": 0.28460038986354774,
+      "containment_b": 1.0,
+      "exclusive_group_a": "alkyl_side_group_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "SUB_METHYL",
+      "fragment_id_b": "SUB_ETHYL",
+      "jaccard": 0.28460038986354774
+    },
+    {
+      "containment_a": 0.27746531683539555,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_IMIDE",
+      "jaccard": 0.27746531683539555
+    },
+    {
+      "containment_a": 0.2772153480814898,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "RING_LACTAM",
+      "jaccard": 0.2772153480814898
+    },
+    {
+      "containment_a": 0.2732158480189976,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.2732158480189976
+    },
+    {
+      "containment_a": 0.9519056261343013,
+      "containment_b": 0.2560722568045893,
+      "exclusive_group_a": "ring_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "COMP_CONJUGATED_AROMATIC_PAIR",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.25280154235450053
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.23584551931008624,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "FG_CARBONYL",
+      "jaccard": 0.23584551931008624
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.20552147239263804,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "COMP_PERFLUOROALKYL",
+      "fragment_id_b": "SUB_FLUORO",
+      "jaccard": 0.20552147239263804
+    },
+    {
+      "containment_a": 0.18331441543700341,
+      "containment_b": 1.0,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "SUB_HALOGEN",
+      "fragment_id_b": "SUB_CHLORO",
+      "jaccard": 0.18331441543700341
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.15209988649262202,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "COMP_PERFLUOROALKYL",
+      "fragment_id_b": "SUB_HALOGEN",
+      "jaccard": 0.15209988649262202
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.12883435582822086,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "COMP_FLUORINATED_AROMATIC",
+      "fragment_id_b": "SUB_FLUORO",
+      "jaccard": 0.12883435582822086
+    },
+    {
+      "containment_a": 0.09734964322120285,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ESTER",
+      "fragment_id_b": "FG_URETHANE",
+      "jaccard": 0.09734964322120285
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.09534619750283768,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "COMP_FLUORINATED_AROMATIC",
+      "fragment_id_b": "SUB_HALOGEN",
+      "jaccard": 0.09534619750283768
+    },
+    {
+      "containment_a": 0.09534619750283768,
+      "containment_b": 1.0,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "SUB_HALOGEN",
+      "fragment_id_b": "SUB_BROMO",
+      "jaccard": 0.09534619750283768
+    },
+    {
+      "containment_a": 0.09348831396075491,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_KETONE",
+      "jaccard": 0.09348831396075491
+    },
+    {
+      "containment_a": 0.0874942739349519,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_AMIDE",
+      "fragment_id_b": "FG_URETHANE",
+      "jaccard": 0.0874942739349519
+    },
+    {
+      "containment_a": 0.06936632920884889,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "LINK_AROMATIC_CARBONYL",
+      "jaccard": 0.06936632920884889
+    },
+    {
+      "containment_a": 0.06855249745158003,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ESTER",
+      "fragment_id_b": "FG_CARBONATE",
+      "jaccard": 0.06855249745158003
+    },
+    {
+      "containment_a": 0.056286549707602336,
+      "containment_b": 1.0,
+      "exclusive_group_a": "alkyl_side_group_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "SUB_METHYL",
+      "fragment_id_b": "SUB_TERT_BUTYL",
+      "jaccard": 0.056286549707602336
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.05165692007797271,
+      "exclusive_group_a": "alkyl_side_group_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "COMP_BISPHENOL_A_BRIDGE",
+      "fragment_id_b": "SUB_METHYL",
+      "jaccard": 0.05165692007797271
+    },
+    {
+      "containment_a": 0.0477440319960005,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_URETHANE",
+      "jaccard": 0.0477440319960005
+    },
+    {
+      "containment_a": 0.03654970760233918,
+      "containment_b": 1.0,
+      "exclusive_group_a": "alkyl_side_group_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "SUB_METHYL",
+      "fragment_id_b": "SUB_ISOPROPYL",
+      "jaccard": 0.03654970760233918
+    },
+    {
+      "containment_a": 0.03362079740032496,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_CARBONATE",
+      "jaccard": 0.03362079740032496
+    },
+    {
+      "containment_a": 0.031149793861658268,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_AMIDE",
+      "fragment_id_b": "FG_UREA",
+      "jaccard": 0.031149793861658268
+    },
+    {
+      "containment_a": 0.023190621814475027,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ESTER",
+      "fragment_id_b": "RING_LACTONE",
+      "jaccard": 0.023190621814475027
+    },
+    {
+      "containment_a": 0.017329255861365953,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ESTER",
+      "fragment_id_b": "FG_CARBOXYLIC_ACID",
+      "jaccard": 0.017329255861365953
+    },
+    {
+      "containment_a": 0.0169978752655918,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_UREA",
+      "jaccard": 0.0169978752655918
+    },
+    {
+      "containment_a": 0.016564729867482163,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ESTER",
+      "fragment_id_b": "FG_ANHYDRIDE",
+      "jaccard": 0.016564729867482163
+    },
+    {
+      "containment_a": 0.011373578302712161,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "RING_LACTONE",
+      "jaccard": 0.011373578302712161
+    },
+    {
+      "containment_a": 0.0084989376327959,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_CARBOXYLIC_ACID",
+      "jaccard": 0.0084989376327959
+    },
+    {
+      "containment_a": 0.008123984501937258,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_ANHYDRIDE",
+      "jaccard": 0.008123984501937258
+    }
+  ],
+  "high_overlap_pair_count": 120,
+  "high_overlap_pairs": [
+    {
+      "containment_a": 1.0,
+      "containment_b": 1.0,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "oxygen_linkage_family",
+      "fragment_id_a": "COMP_AROMATIC_ETHER",
+      "fragment_id_b": "FG_AROMATIC_ETHER",
+      "jaccard": 1.0
+    },
+    {
+      "containment_a": 0.9855725879170424,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "RING_LACTAM",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.9855725879170424
+    },
+    {
+      "containment_a": 0.9846846846846847,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_IMIDE",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.9846846846846847
+    },
+    {
+      "containment_a": 0.9846846846846847,
+      "containment_b": 0.9855725879170424,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_IMIDE",
+      "fragment_id_b": "RING_LACTAM",
+      "jaccard": 0.9706927175843695
+    },
+    {
+      "containment_a": 0.9962904080551139,
+      "containment_b": 0.8600182982616651,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.8572731418148655
+    },
+    {
+      "containment_a": 0.8595461658841941,
+      "containment_b": 0.9905320108205591,
+      "exclusive_group_a": "nitrogen_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_TERTIARY_AMINE",
+      "fragment_id_b": "RING_LACTAM",
+      "jaccard": 0.8525417151726814
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.85,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "FG_IMIDE",
+      "jaccard": 0.85
+    },
+    {
+      "containment_a": 0.8497652582159625,
+      "containment_b": 0.9935956084172004,
+      "exclusive_group_a": "nitrogen_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_TERTIARY_AMINE",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.845136186770428
+    },
+    {
+      "containment_a": 0.9962904080551139,
+      "containment_b": 0.8476104598737602,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "RING_LACTAM",
+      "jaccard": 0.8449438202247191
+    },
+    {
+      "containment_a": 0.8525039123630673,
+      "containment_b": 0.9815315315315315,
+      "exclusive_group_a": "nitrogen_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_TERTIARY_AMINE",
+      "fragment_id_b": "FG_IMIDE",
+      "jaccard": 0.8390450519830573
+    },
+    {
+      "containment_a": 0.8301886792452831,
+      "containment_b": 1.0,
+      "exclusive_group_a": "sulfur_family",
+      "exclusive_group_b": "sulfur_family",
+      "fragment_id_a": "FG_SULFONE",
+      "fragment_id_b": "LINK_AROMATIC_SULFONE",
+      "jaccard": 0.8301886792452831
+    },
+    {
+      "containment_a": 0.8598829243990534,
+      "containment_b": 0.9221316949378924,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "mainchain_linker_family",
+      "fragment_id_a": "LINK_ALKYL",
+      "fragment_id_b": "LINK_METHYLENE",
+      "jaccard": 0.8016720854621459
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.7533260100085439,
+      "exclusive_group_a": "ring_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "LINK_PHENYLENE_PARA",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.7533260100085439
+    },
+    {
+      "containment_a": 0.7419786096256684,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_KETONE",
+      "fragment_id_b": "LINK_AROMATIC_CARBONYL",
+      "jaccard": 0.7419786096256684
+    },
+    {
+      "containment_a": 0.7400681044267877,
+      "containment_b": 1.0,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "SUB_HALOGEN",
+      "fragment_id_b": "SUB_FLUORO",
+      "jaccard": 0.7400681044267877
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.7382629107981221,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "nitrogen_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "FG_TERTIARY_AMINE",
+      "jaccard": 0.7382629107981221
+    },
+    {
+      "containment_a": 0.723159509202454,
+      "containment_b": 1.0,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "SUB_FLUORO",
+      "fragment_id_b": "SUB_TRIFLUOROMETHYL",
+      "jaccard": 0.723159509202454
+    },
+    {
+      "containment_a": 0.729749364329822,
+      "containment_b": 0.9049549549549549,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_C",
+      "fragment_id_b": "FG_IMIDE",
+      "jaccard": 0.6778002699055331
+    },
+    {
+      "containment_a": 0.7224845622956775,
+      "containment_b": 0.9098810612991766,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_C",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.6742372881355932
+    },
+    {
+      "containment_a": 0.6703374777975133,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_N",
+      "fragment_id_b": "COMP_AROMATIC_IMIDE",
+      "jaccard": 0.6703374777975133
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.6447549244159414,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_N",
+      "fragment_id_b": "FG_AMIDE",
+      "jaccard": 0.6447549244159414
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.630554283096656,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_C",
+      "fragment_id_b": "FG_AMIDE",
+      "jaccard": 0.630554283096656
+    },
+    {
+      "containment_a": 0.6382128586996004,
+      "containment_b": 0.9311075781664017,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_C",
+      "fragment_id_b": "COMP_AROMATIC_IMIDE",
+      "jaccard": 0.6094346167186958
+    },
+    {
+      "containment_a": 0.5946459918080749,
+      "containment_b": 0.9291428571428572,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "oxygen_linkage_family",
+      "fragment_id_a": "FG_ETHER",
+      "fragment_id_b": "SUB_ALKOXY",
+      "jaccard": 0.5688497061293031
+    },
+    {
+      "containment_a": 0.545681789776278,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_AMIDE",
+      "jaccard": 0.545681789776278
+    },
+    {
+      "containment_a": 0.5555880631948508,
+      "containment_b": 0.9678899082568807,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ETHER",
+      "fragment_id_b": "FG_ESTER",
+      "jaccard": 0.5455328928468831
+    },
+    {
+      "containment_a": 0.5351872871736663,
+      "containment_b": 1.0,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "SUB_HALOGEN",
+      "fragment_id_b": "SUB_TRIFLUOROMETHYL",
+      "jaccard": 0.5351872871736663
+    },
+    {
+      "containment_a": 0.5667420814479638,
+      "containment_b": 0.9035166816952209,
+      "exclusive_group_a": "ring_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "RING_FUSED_AROMATIC_ATOM",
+      "fragment_id_b": "RING_LACTAM",
+      "jaccard": 0.5344
+    },
+    {
+      "containment_a": 0.5630656108597285,
+      "containment_b": 0.9107959743824336,
+      "exclusive_group_a": "ring_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "RING_FUSED_AROMATIC_ATOM",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.5336370946127044
+    },
+    {
+      "containment_a": 0.5480165620408708,
+      "containment_b": 0.9378285714285715,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "oxygen_linkage_family",
+      "fragment_id_a": "LINK_METHYLENE",
+      "fragment_id_b": "SUB_ALKOXY",
+      "jaccard": 0.5288052584095889
+    },
+    {
+      "containment_a": 0.5316078790655062,
+      "containment_b": 0.9358870967741936,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "nitrogen_family",
+      "fragment_id_a": "FG_AMIDE",
+      "fragment_id_b": "FG_SECONDARY_AMINE",
+      "jaccard": 0.5129281767955801
+    },
+    {
+      "containment_a": 0.5373339441136051,
+      "containment_b": 0.9178403755868545,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "nitrogen_family",
+      "fragment_id_a": "FG_AMIDE",
+      "fragment_id_b": "FG_TERTIARY_AMINE",
+      "jaccard": 0.5126748251748252
+    },
+    {
+      "containment_a": 0.5084745762711864,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_AMIDE",
+      "fragment_id_b": "FG_IMIDE",
+      "jaccard": 0.5084745762711864
+    },
+    {
+      "containment_a": 0.5080164910673385,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_AMIDE",
+      "fragment_id_b": "RING_LACTAM",
+      "jaccard": 0.5080164910673385
+    },
+    {
+      "containment_a": 0.5158799352347739,
+      "containment_b": 0.9467428571428571,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "oxygen_linkage_family",
+      "fragment_id_a": "LINK_ALKYL",
+      "fragment_id_b": "SUB_ALKOXY",
+      "jaccard": 0.5013313967562334
+    },
+    {
+      "containment_a": 0.5006871278057718,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_AMIDE",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.5006871278057718
+    },
+    {
+      "containment_a": 0.4904386951631046,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_ESTER",
+      "jaccard": 0.4904386951631046
+    },
+    {
+      "containment_a": 0.48467966573816157,
+      "containment_b": 1.0,
+      "exclusive_group_a": "sulfur_family",
+      "exclusive_group_b": "sulfur_family",
+      "fragment_id_a": "FG_THIOETHER",
+      "fragment_id_b": "LINK_AROMATIC_SULFIDE",
+      "jaccard": 0.48467966573816157
+    },
+    {
+      "containment_a": 0.9284578696343402,
+      "containment_b": 0.49547511312217196,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "RING_FUSED_AROMATIC_ATOM",
+      "jaccard": 0.477254154181422
+    },
+    {
+      "containment_a": 0.4645659484369162,
+      "containment_b": 0.9088693957115009,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "LINK_ALKYL",
+      "fragment_id_b": "SUB_METHYL",
+      "jaccard": 0.44388908723075093
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.4322033898305085,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "FG_AMIDE",
+      "jaccard": 0.4322033898305085
+    },
+    {
+      "containment_a": 0.42511900402782865,
+      "containment_b": 0.9850113122171946,
+      "exclusive_group_a": "ring_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "RING_AROMATIC_6",
+      "fragment_id_b": "RING_FUSED_AROMATIC_ATOM",
+      "jaccard": 0.4223866116905166
+    },
+    {
+      "containment_a": 0.37362637362637363,
+      "containment_b": 0.9902912621359223,
+      "exclusive_group_a": "silicon_family",
+      "exclusive_group_b": "silicon_family",
+      "fragment_id_a": "COMP_POLYSILOXANE_SIDE",
+      "fragment_id_b": "FG_SILOXANE",
+      "jaccard": 0.3722627737226277
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.3518310211223597,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_N",
+      "fragment_id_b": "FG_CARBONYL",
+      "jaccard": 0.3518310211223597
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.34408198975128107,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_C",
+      "fragment_id_b": "FG_CARBONYL",
+      "jaccard": 0.34408198975128107
+    },
+    {
+      "containment_a": 0.9960923623445825,
+      "containment_b": 0.3422433784938362,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_N",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.3417844953681131
+    },
+    {
+      "containment_a": 0.9894660370504904,
+      "containment_b": 0.3324789454412303,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "COMP_AROMATIC_AMIDE_C",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.33130625152031135
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.31963136337039205,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "oxygen_linkage_family",
+      "fragment_id_a": "COMP_AROMATIC_ETHER",
+      "fragment_id_b": "FG_ETHER",
+      "jaccard": 0.31963136337039205
+    },
+    {
+      "containment_a": 0.31963136337039205,
+      "containment_b": 1.0,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "oxygen_linkage_family",
+      "fragment_id_a": "FG_ETHER",
+      "fragment_id_b": "FG_AROMATIC_ETHER",
+      "jaccard": 0.31963136337039205
+    },
+    {
+      "containment_a": 0.9212814645308924,
+      "containment_b": 0.326150356448477,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "COMP_AROMATIC_ETHER",
+      "fragment_id_b": "LINK_PHENYLENE_PARA",
+      "jaccard": 0.3173076923076923
+    },
+    {
+      "containment_a": 0.9212814645308924,
+      "containment_b": 0.326150356448477,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "FG_AROMATIC_ETHER",
+      "fragment_id_b": "LINK_PHENYLENE_PARA",
+      "jaccard": 0.3173076923076923
+    },
+    {
+      "containment_a": 0.30621172353455817,
+      "containment_b": 0.9585289514866979,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "nitrogen_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_TERTIARY_AMINE",
+      "jaccard": 0.30220796842235104
+    },
+    {
+      "containment_a": 0.9495305164319249,
+      "containment_b": 0.29622848773343097,
+      "exclusive_group_a": "nitrogen_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "FG_TERTIARY_AMINE",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.2916366258111031
+    },
+    {
+      "containment_a": 0.29446319210098737,
+      "containment_b": 0.95,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "nitrogen_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_SECONDARY_AMINE",
+      "jaccard": 0.28996923076923076
+    },
+    {
+      "containment_a": 0.28460038986354774,
+      "containment_b": 1.0,
+      "exclusive_group_a": "alkyl_side_group_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "SUB_METHYL",
+      "fragment_id_b": "SUB_ETHYL",
+      "jaccard": 0.28460038986354774
+    },
+    {
+      "containment_a": 0.27746531683539555,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_IMIDE",
+      "jaccard": 0.27746531683539555
+    },
+    {
+      "containment_a": 0.2772153480814898,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "RING_LACTAM",
+      "jaccard": 0.2772153480814898
+    },
+    {
+      "containment_a": 0.2732158480189976,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.2732158480189976
+    },
+    {
+      "containment_a": 0.9981693363844394,
+      "containment_b": 0.2662028560966679,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "COMP_AROMATIC_ETHER",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.2660729535195803
+    },
+    {
+      "containment_a": 0.9981693363844394,
+      "containment_b": 0.2662028560966679,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "FG_AROMATIC_ETHER",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.2660729535195803
+    },
+    {
+      "containment_a": 0.9738738738738739,
+      "containment_b": 0.263883803246674,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "FG_IMIDE",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.2620288449884862
+    },
+    {
+      "containment_a": 0.26363969242035884,
+      "containment_b": 0.9738503155996393,
+      "exclusive_group_a": "ring_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "RING_AROMATIC_6",
+      "fragment_id_b": "RING_LACTAM",
+      "jaccard": 0.2617864501272573
+    },
+    {
+      "containment_a": 0.26083241791773465,
+      "containment_b": 0.9775846294602013,
+      "exclusive_group_a": "ring_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "RING_AROMATIC_6",
+      "fragment_id_b": "RING_IMIDE",
+      "jaccard": 0.2592817277359864
+    },
+    {
+      "containment_a": 0.9519056261343013,
+      "containment_b": 0.2560722568045893,
+      "exclusive_group_a": "ring_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "COMP_CONJUGATED_AROMATIC_PAIR",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.25280154235450053
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.23584551931008624,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "FG_CARBONYL",
+      "jaccard": 0.23584551931008624
+    },
+    {
+      "containment_a": 0.9994700582935877,
+      "containment_b": 0.2301965092151837,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "COMP_AROMATIC_IMIDE",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.23016841591408346
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.20552147239263804,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "COMP_PERFLUOROALKYL",
+      "fragment_id_b": "SUB_FLUORO",
+      "jaccard": 0.20552147239263804
+    },
+    {
+      "containment_a": 0.18331441543700341,
+      "containment_b": 1.0,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "SUB_HALOGEN",
+      "fragment_id_b": "SUB_CHLORO",
+      "jaccard": 0.18331441543700341
+    },
+    {
+      "containment_a": 0.15600373981568053,
+      "containment_b": 1.0,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "LINK_METHYLENE",
+      "fragment_id_b": "SUB_ETHYL",
+      "jaccard": 0.15600373981568053
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.15209988649262202,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "COMP_PERFLUOROALKYL",
+      "fragment_id_b": "SUB_HALOGEN",
+      "jaccard": 0.15209988649262202
+    },
+    {
+      "containment_a": 0.14547266160169386,
+      "containment_b": 1.0,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "LINK_ALKYL",
+      "fragment_id_b": "SUB_ETHYL",
+      "jaccard": 0.14547266160169386
+    },
+    {
+      "containment_a": 0.13709677419354838,
+      "containment_b": 1.0,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_HYDROXYL",
+      "fragment_id_b": "FG_CARBOXYLIC_ACID",
+      "jaccard": 0.13709677419354838
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.12883435582822086,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "COMP_FLUORINATED_AROMATIC",
+      "fragment_id_b": "SUB_FLUORO",
+      "jaccard": 0.12883435582822086
+    },
+    {
+      "containment_a": 0.09734964322120285,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ESTER",
+      "fragment_id_b": "FG_URETHANE",
+      "jaccard": 0.09734964322120285
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.09534619750283768,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "COMP_FLUORINATED_AROMATIC",
+      "fragment_id_b": "SUB_HALOGEN",
+      "jaccard": 0.09534619750283768
+    },
+    {
+      "containment_a": 0.09534619750283768,
+      "containment_b": 1.0,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "halogen_family",
+      "fragment_id_a": "SUB_HALOGEN",
+      "fragment_id_b": "SUB_BROMO",
+      "jaccard": 0.09534619750283768
+    },
+    {
+      "containment_a": 0.09348831396075491,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_KETONE",
+      "jaccard": 0.09348831396075491
+    },
+    {
+      "containment_a": 0.0874942739349519,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_AMIDE",
+      "fragment_id_b": "FG_URETHANE",
+      "jaccard": 0.0874942739349519
+    },
+    {
+      "containment_a": 0.9211229946524064,
+      "containment_b": 0.08409617966556816,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "FG_KETONE",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.08349491032476976
+    },
+    {
+      "containment_a": 0.08147455589688794,
+      "containment_b": 0.9951060358890701,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "LINK_METHYLENE",
+      "fragment_id_b": "RING_CYCLOALIPHATIC_6",
+      "jaccard": 0.0814419225634179
+    },
+    {
+      "containment_a": 0.9109947643979057,
+      "containment_b": 0.07954285714285714,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "oxygen_linkage_family",
+      "fragment_id_a": "FG_URETHANE",
+      "fragment_id_b": "SUB_ALKOXY",
+      "jaccard": 0.07892946246314357
+    },
+    {
+      "containment_a": 0.07634823763856022,
+      "containment_b": 1.0,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "LINK_ALKYL",
+      "fragment_id_b": "RING_CYCLOALIPHATIC_6",
+      "jaccard": 0.07634823763856022
+    },
+    {
+      "containment_a": 0.06936632920884889,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "LINK_AROMATIC_CARBONYL",
+      "jaccard": 0.06936632920884889
+    },
+    {
+      "containment_a": 0.06855249745158003,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ESTER",
+      "fragment_id_b": "FG_CARBONATE",
+      "jaccard": 0.06855249745158003
+    },
+    {
+      "containment_a": 0.9873873873873874,
+      "containment_b": 0.0668863664103503,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "LINK_AROMATIC_CARBONYL",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.06682926829268293
+    },
+    {
+      "containment_a": 0.056286549707602336,
+      "containment_b": 1.0,
+      "exclusive_group_a": "alkyl_side_group_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "SUB_METHYL",
+      "fragment_id_b": "SUB_TERT_BUTYL",
+      "jaccard": 0.056286549707602336
+    },
+    {
+      "containment_a": 0.054564072557050904,
+      "containment_b": 0.9764397905759162,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ETHER",
+      "fragment_id_b": "FG_URETHANE",
+      "jaccard": 0.054492330168005844
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.05165692007797271,
+      "exclusive_group_a": "alkyl_side_group_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "COMP_BISPHENOL_A_BRIDGE",
+      "fragment_id_b": "SUB_METHYL",
+      "jaccard": 0.05165692007797271
+    },
+    {
+      "containment_a": 0.9659685863874345,
+      "containment_b": 0.049285428075330574,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "mainchain_linker_family",
+      "fragment_id_a": "FG_URETHANE",
+      "fragment_id_b": "LINK_METHYLENE",
+      "jaccard": 0.0492
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.048333943610399124,
+      "exclusive_group_a": "sulfur_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "LINK_AROMATIC_SULFONE",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.048333943610399124
+    },
+    {
+      "containment_a": 0.0477440319960005,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_URETHANE",
+      "jaccard": 0.0477440319960005
+    },
+    {
+      "containment_a": 0.9450261780104712,
+      "containment_b": 0.04496201270394819,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "mainchain_linker_family",
+      "fragment_id_a": "FG_URETHANE",
+      "fragment_id_b": "LINK_ALKYL",
+      "jaccard": 0.04484472049689441
+    },
+    {
+      "containment_a": 0.9681978798586572,
+      "containment_b": 0.04439403758911212,
+      "exclusive_group_a": "nitrogen_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "FG_AZO",
+      "fragment_id_b": "LINK_PHENYLENE_PARA",
+      "jaccard": 0.04432939653777706
+    },
+    {
+      "containment_a": 0.03920421299005266,
+      "containment_b": 0.9962825278810409,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ETHER",
+      "fragment_id_b": "FG_CARBONATE",
+      "jaccard": 0.03919847886499927
+    },
+    {
+      "containment_a": 0.03654970760233918,
+      "containment_b": 1.0,
+      "exclusive_group_a": "alkyl_side_group_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "SUB_METHYL",
+      "fragment_id_b": "SUB_ISOPROPYL",
+      "jaccard": 0.03654970760233918
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.03454168192359331,
+      "exclusive_group_a": "nitrogen_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "FG_AZO",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.03454168192359331
+    },
+    {
+      "containment_a": 0.901060070671378,
+      "containment_b": 0.034059035661813813,
+      "exclusive_group_a": "nitrogen_family",
+      "exclusive_group_b": "mainchain_linker_family",
+      "fragment_id_a": "FG_AZO",
+      "fragment_id_b": "LINK_METHYLENE",
+      "jaccard": 0.033932135728542916
+    },
+    {
+      "containment_a": 0.03362079740032496,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_CARBONATE",
+      "jaccard": 0.03362079740032496
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.033379001120936606,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "mainchain_linker_family",
+      "fragment_id_a": "COMP_PERFLUOROALKYL",
+      "fragment_id_b": "LINK_ALKYL",
+      "jaccard": 0.033379001120936606
+    },
+    {
+      "containment_a": 0.031149793861658268,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_AMIDE",
+      "fragment_id_b": "FG_UREA",
+      "jaccard": 0.031149793861658268
+    },
+    {
+      "containment_a": 0.03071991451849873,
+      "containment_b": 0.9956709956709957,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "LINK_METHYLENE",
+      "fragment_id_b": "RING_CYCLOALIPHATIC_5",
+      "jaccard": 0.030715811965811964
+    },
+    {
+      "containment_a": 0.9070631970260223,
+      "containment_b": 0.030389836841449743,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "mainchain_linker_family",
+      "fragment_id_a": "FG_CARBONATE",
+      "fragment_id_b": "LINK_ALKYL",
+      "jaccard": 0.030295505338962008
+    },
+    {
+      "containment_a": 0.02877070619006103,
+      "containment_b": 1.0,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "LINK_ALKYL",
+      "fragment_id_b": "RING_CYCLOALIPHATIC_5",
+      "jaccard": 0.02877070619006103
+    },
+    {
+      "containment_a": 0.02877070619006103,
+      "containment_b": 1.0,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "LINK_ALKYL",
+      "fragment_id_b": "SUB_TERT_BUTYL",
+      "jaccard": 0.02877070619006103
+    },
+    {
+      "containment_a": 1.0,
+      "containment_b": 0.0264042844688006,
+      "exclusive_group_a": "alkyl_side_group_family",
+      "exclusive_group_b": "mainchain_linker_family",
+      "fragment_id_a": "COMP_BISPHENOL_A_BRIDGE",
+      "fragment_id_b": "LINK_ALKYL",
+      "jaccard": 0.0264042844688006
+    },
+    {
+      "containment_a": 0.9905660377358491,
+      "containment_b": 0.025631636763090444,
+      "exclusive_group_a": "alkyl_side_group_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "COMP_BISPHENOL_A_BRIDGE",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.025625381330079317
+    },
+    {
+      "containment_a": 0.02550958134993287,
+      "containment_b": 0.9047619047619048,
+      "exclusive_group_a": "ring_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "RING_AROMATIC_6",
+      "fragment_id_b": "SUB_TERT_BUTYL",
+      "jaccard": 0.025441265976871578
+    },
+    {
+      "containment_a": 0.023190621814475027,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ESTER",
+      "fragment_id_b": "RING_LACTONE",
+      "jaccard": 0.023190621814475027
+    },
+    {
+      "containment_a": 0.9642857142857143,
+      "containment_b": 0.023068473086781397,
+      "exclusive_group_a": "nitrogen_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "FG_NITRO",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.023048780487804878
+    },
+    {
+      "containment_a": 0.9655172413793104,
+      "containment_b": 0.020505309410472353,
+      "exclusive_group_a": "sulfur_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "LINK_AROMATIC_SULFIDE",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.020490303695572632
+    },
+    {
+      "containment_a": 0.9880952380952381,
+      "containment_b": 0.020261198584157206,
+      "exclusive_group_a": "halogen_family",
+      "exclusive_group_b": "ring_family",
+      "fragment_id_a": "COMP_FLUORINATED_AROMATIC",
+      "fragment_id_b": "RING_AROMATIC_6",
+      "jaccard": 0.020256253813300793
+    },
+    {
+      "containment_a": 0.018682276746792875,
+      "containment_b": 1.0,
+      "exclusive_group_a": "mainchain_linker_family",
+      "exclusive_group_b": "alkyl_side_group_family",
+      "fragment_id_a": "LINK_ALKYL",
+      "fragment_id_b": "SUB_ISOPROPYL",
+      "jaccard": 0.018682276746792875
+    },
+    {
+      "containment_a": 0.017329255861365953,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ESTER",
+      "fragment_id_b": "FG_CARBOXYLIC_ACID",
+      "jaccard": 0.017329255861365953
+    },
+    {
+      "containment_a": 0.0169978752655918,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_UREA",
+      "jaccard": 0.0169978752655918
+    },
+    {
+      "containment_a": 0.016564729867482163,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ESTER",
+      "fragment_id_b": "FG_ANHYDRIDE",
+      "jaccard": 0.016564729867482163
+    },
+    {
+      "containment_a": 0.01331187829139848,
+      "containment_b": 1.0,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ETHER",
+      "fragment_id_b": "RING_LACTONE",
+      "jaccard": 0.01331187829139848
+    },
+    {
+      "containment_a": 0.011373578302712161,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "RING_LACTONE",
+      "jaccard": 0.011373578302712161
+    },
+    {
+      "containment_a": 0.009508484493856056,
+      "containment_b": 1.0,
+      "exclusive_group_a": "oxygen_linkage_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_ETHER",
+      "fragment_id_b": "FG_ANHYDRIDE",
+      "jaccard": 0.009508484493856056
+    },
+    {
+      "containment_a": 0.0084989376327959,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_CARBOXYLIC_ACID",
+      "jaccard": 0.0084989376327959
+    },
+    {
+      "containment_a": 0.008123984501937258,
+      "containment_b": 1.0,
+      "exclusive_group_a": "carbonyl_family",
+      "exclusive_group_b": "carbonyl_family",
+      "fragment_id_a": "FG_CARBONYL",
+      "fragment_id_b": "FG_ANHYDRIDE",
+      "jaccard": 0.008123984501937258
+    }
+  ]
+}

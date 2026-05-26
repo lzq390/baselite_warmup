@@ -1,0 +1,422 @@
+{
+  "COMP_AROMATIC_AMIDE_C": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 9063,
+    "polymer_coverage_count": 2753,
+    "polymer_coverage_ratio": 0.23773747841105355
+  },
+  "COMP_AROMATIC_AMIDE_N": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 8702,
+    "polymer_coverage_count": 2815,
+    "polymer_coverage_ratio": 0.24309153713298792
+  },
+  "COMP_AROMATIC_ETHER": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 4033,
+    "polymer_coverage_count": 2185,
+    "polymer_coverage_ratio": 0.18868739205526772
+  },
+  "COMP_AROMATIC_IMIDE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 3324,
+    "polymer_coverage_count": 1887,
+    "polymer_coverage_ratio": 0.16295336787564768
+  },
+  "COMP_BISPHENOL_A_BRIDGE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 227,
+    "polymer_coverage_count": 212,
+    "polymer_coverage_ratio": 0.018307426597582038
+  },
+  "COMP_CONJUGATED_AROMATIC_PAIR": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 4371,
+    "polymer_coverage_count": 2204,
+    "polymer_coverage_ratio": 0.19032815198618308
+  },
+  "COMP_FLUORINATED_AROMATIC": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 642,
+    "polymer_coverage_count": 168,
+    "polymer_coverage_ratio": 0.014507772020725389
+  },
+  "COMP_PERFLUOROALKYL": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 1263,
+    "polymer_coverage_count": 268,
+    "polymer_coverage_ratio": 0.0231433506044905
+  },
+  "COMP_POLYSILOXANE_SIDE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 962,
+    "polymer_coverage_count": 273,
+    "polymer_coverage_ratio": 0.023575129533678758
+  },
+  "FG_AMIDE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 12808,
+    "polymer_coverage_count": 4366,
+    "polymer_coverage_ratio": 0.3770293609671848
+  },
+  "FG_ANHYDRIDE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 67,
+    "polymer_coverage_count": 65,
+    "polymer_coverage_ratio": 0.005613126079447323
+  },
+  "FG_AROMATIC_ETHER": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 4033,
+    "polymer_coverage_count": 2185,
+    "polymer_coverage_ratio": 0.18868739205526772
+  },
+  "FG_AZO": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 327,
+    "polymer_coverage_count": 283,
+    "polymer_coverage_ratio": 0.024438687392055267
+  },
+  "FG_CARBONATE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 320,
+    "polymer_coverage_count": 269,
+    "polymer_coverage_ratio": 0.02322970639032815
+  },
+  "FG_CARBONYL": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 21388,
+    "polymer_coverage_count": 8001,
+    "polymer_coverage_ratio": 0.6909326424870467
+  },
+  "FG_CARBOXYLIC_ACID": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 94,
+    "polymer_coverage_count": 68,
+    "polymer_coverage_ratio": 0.0058721934369602765
+  },
+  "FG_ESTER": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 6637,
+    "polymer_coverage_count": 3924,
+    "polymer_coverage_ratio": 0.338860103626943
+  },
+  "FG_ETHER": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 14113,
+    "polymer_coverage_count": 6836,
+    "polymer_coverage_ratio": 0.590328151986183
+  },
+  "FG_HYDROXYL": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 829,
+    "polymer_coverage_count": 496,
+    "polymer_coverage_ratio": 0.04283246977547496
+  },
+  "FG_IMIDE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 4159,
+    "polymer_coverage_count": 2220,
+    "polymer_coverage_ratio": 0.19170984455958548
+  },
+  "FG_KETONE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 944,
+    "polymer_coverage_count": 748,
+    "polymer_coverage_ratio": 0.06459412780656304
+  },
+  "FG_NITRILE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 646,
+    "polymer_coverage_count": 391,
+    "polymer_coverage_ratio": 0.03376511226252159
+  },
+  "FG_NITRO": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 226,
+    "polymer_coverage_count": 196,
+    "polymer_coverage_ratio": 0.01692573402417962
+  },
+  "FG_PHOSPHAZENE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 161,
+    "polymer_coverage_count": 131,
+    "polymer_coverage_ratio": 0.011312607944732296
+  },
+  "FG_SECONDARY_AMINE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 3923,
+    "polymer_coverage_count": 2480,
+    "polymer_coverage_ratio": 0.2141623488773748
+  },
+  "FG_SILANE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 925,
+    "polymer_coverage_count": 340,
+    "polymer_coverage_ratio": 0.02936096718480138
+  },
+  "FG_SILOXANE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 207,
+    "polymer_coverage_count": 103,
+    "polymer_coverage_ratio": 0.008894645941278066
+  },
+  "FG_SULFONE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 541,
+    "polymer_coverage_count": 477,
+    "polymer_coverage_ratio": 0.04119170984455959
+  },
+  "FG_TERTIARY_AMINE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 4357,
+    "polymer_coverage_count": 2556,
+    "polymer_coverage_ratio": 0.22072538860103627
+  },
+  "FG_THIOCARBONYL": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 235,
+    "polymer_coverage_count": 201,
+    "polymer_coverage_ratio": 0.017357512953367876
+  },
+  "FG_THIOETHER": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 511,
+    "polymer_coverage_count": 359,
+    "polymer_coverage_ratio": 0.031001727115716752
+  },
+  "FG_UREA": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 178,
+    "polymer_coverage_count": 136,
+    "polymer_coverage_ratio": 0.011744386873920553
+  },
+  "FG_URETHANE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 629,
+    "polymer_coverage_count": 382,
+    "polymer_coverage_ratio": 0.032987910189982726
+  },
+  "LINK_ALKYL": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 52937,
+    "polymer_coverage_count": 8029,
+    "polymer_coverage_ratio": 0.6933506044905009
+  },
+  "LINK_AROMATIC_CARBONYL": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 698,
+    "polymer_coverage_count": 555,
+    "polymer_coverage_ratio": 0.04792746113989637
+  },
+  "LINK_AROMATIC_SULFIDE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 236,
+    "polymer_coverage_count": 174,
+    "polymer_coverage_ratio": 0.015025906735751295
+  },
+  "LINK_AROMATIC_SULFONE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 430,
+    "polymer_coverage_count": 396,
+    "polymer_coverage_ratio": 0.03419689119170984
+  },
+  "LINK_ETHYNYLENE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 164,
+    "polymer_coverage_count": 101,
+    "polymer_coverage_ratio": 0.008721934369602764
+  },
+  "LINK_METHYLENE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 49178,
+    "polymer_coverage_count": 7487,
+    "polymer_coverage_ratio": 0.6465457685664939
+  },
+  "LINK_PHENYLENE_PARA": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 15746,
+    "polymer_coverage_count": 6172,
+    "polymer_coverage_ratio": 0.5329879101899827
+  },
+  "LINK_VINYLENE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 1455,
+    "polymer_coverage_count": 1020,
+    "polymer_coverage_ratio": 0.08808290155440414
+  },
+  "RING_AROMATIC_6": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 28558,
+    "polymer_coverage_count": 8193,
+    "polymer_coverage_ratio": 0.7075129533678757
+  },
+  "RING_CYCLOALIPHATIC_5": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 427,
+    "polymer_coverage_count": 231,
+    "polymer_coverage_ratio": 0.01994818652849741
+  },
+  "RING_CYCLOALIPHATIC_6": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 932,
+    "polymer_coverage_count": 613,
+    "polymer_coverage_ratio": 0.05293609671848014
+  },
+  "RING_FUSED_AROMATIC_ATOM": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 21375,
+    "polymer_coverage_count": 3536,
+    "polymer_coverage_ratio": 0.3053540587219344
+  },
+  "RING_HETEROAROMATIC_5": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 2463,
+    "polymer_coverage_count": 1521,
+    "polymer_coverage_ratio": 0.13134715025906735
+  },
+  "RING_HETEROAROMATIC_6": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 955,
+    "polymer_coverage_count": 653,
+    "polymer_coverage_ratio": 0.056390328151986184
+  },
+  "RING_IMIDE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 4105,
+    "polymer_coverage_count": 2186,
+    "polymer_coverage_ratio": 0.18877374784110534
+  },
+  "RING_LACTAM": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 8308,
+    "polymer_coverage_count": 2218,
+    "polymer_coverage_ratio": 0.1915371329879102
+  },
+  "RING_LACTONE": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 135,
+    "polymer_coverage_count": 91,
+    "polymer_coverage_ratio": 0.007858376511226253
+  },
+  "SUB_ALKOXY": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 11525,
+    "polymer_coverage_count": 4375,
+    "polymer_coverage_ratio": 0.37780656303972365
+  },
+  "SUB_BROMO": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 345,
+    "polymer_coverage_count": 168,
+    "polymer_coverage_ratio": 0.014507772020725389
+  },
+  "SUB_CHLORO": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 599,
+    "polymer_coverage_count": 323,
+    "polymer_coverage_ratio": 0.027892918825561313
+  },
+  "SUB_ETHYL": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 1693,
+    "polymer_coverage_count": 1168,
+    "polymer_coverage_ratio": 0.10086355785837652
+  },
+  "SUB_FLUORO": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 9192,
+    "polymer_coverage_count": 1304,
+    "polymer_coverage_ratio": 0.11260794473229706
+  },
+  "SUB_HALOGEN": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 10162,
+    "polymer_coverage_count": 1762,
+    "polymer_coverage_ratio": 0.1521588946459413
+  },
+  "SUB_ISOPROPYL": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 216,
+    "polymer_coverage_count": 150,
+    "polymer_coverage_ratio": 0.012953367875647668
+  },
+  "SUB_METHYL": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 9122,
+    "polymer_coverage_count": 4104,
+    "polymer_coverage_ratio": 0.3544041450777202
+  },
+  "SUB_TERT_BUTYL": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 304,
+    "polymer_coverage_count": 231,
+    "polymer_coverage_ratio": 0.01994818652849741
+  },
+  "SUB_TRIFLUOROMETHYL": {
+    "anchor_success_ratio": 1.0,
+    "cut_shift_stability": null,
+    "match_count": 1872,
+    "polymer_coverage_count": 943,
+    "polymer_coverage_ratio": 0.08143350604490501
+  }
+}
