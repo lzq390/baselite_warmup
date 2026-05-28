@@ -1,5 +1,6 @@
 # Local agent files
 .codex
+.codex-env.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
