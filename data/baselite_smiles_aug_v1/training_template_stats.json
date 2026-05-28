@@ -1,0 +1,1774 @@
+{
+  "augmentation_failures": {
+    "count": 0,
+    "examples": []
+  },
+  "dataset_dir": "/home/hongchang/lzq/gith/baselite_warmup-test/data/baselite_smiles_v1",
+  "generated_at_utc": "2026-05-28T00:51:52.205308+00:00",
+  "input_files": {
+    "test": "/home/hongchang/lzq/gith/baselite_warmup-test/data/baselite_smiles_v1/test.jsonl",
+    "train": "/home/hongchang/lzq/gith/baselite_warmup-test/data/baselite_smiles_v1/train.jsonl",
+    "valid": "/home/hongchang/lzq/gith/baselite_warmup-test/data/baselite_smiles_v1/valid.jsonl"
+  },
+  "limits": {
+    "max_seq_len_restore_label": 512,
+    "max_seq_len_view": 512
+  },
+  "output_dir": "data/baselite_smiles_aug_v1",
+  "outputs": {
+    "augmentation_failures_jsonl": "data/baselite_smiles_aug_v1/augmentation_failures.jsonl",
+    "report_md": "data/baselite_smiles_aug_v1/training_template_report.md",
+    "robustness_eval_preview_jsonl": "data/baselite_smiles_aug_v1/robustness_eval_preview.jsonl",
+    "stage_c_training_preview_jsonl": "data/baselite_smiles_aug_v1/stage_c_training_template_preview.jsonl",
+    "stats_json": "data/baselite_smiles_aug_v1/training_template_stats.json",
+    "training_preview_jsonl": "data/baselite_smiles_aug_v1/training_template_preview.jsonl"
+  },
+  "previews": {
+    "robustness_eval": {
+      "augmentation_strategy_counts": {
+        "light_denoise": 2316,
+        "rdkit_random_smiles": 2316
+      },
+      "augmentation_validity_counts": {
+        "rdkit_valid": {
+          "false": 0,
+          "true": 2316,
+          "unknown": 2316
+        },
+        "two_attachment_valid": {
+          "false": 0,
+          "true": 4632,
+          "unknown": 0
+        }
+      },
+      "augmentation_validity_counts_by_split": {
+        "test": {
+          "rdkit_valid": {
+            "false": 0,
+            "true": 1158,
+            "unknown": 1158
+          },
+          "two_attachment_valid": {
+            "false": 0,
+            "true": 2316,
+            "unknown": 0
+          }
+        },
+        "train": {
+          "rdkit_valid": {
+            "false": 0,
+            "true": 0,
+            "unknown": 0
+          },
+          "two_attachment_valid": {
+            "false": 0,
+            "true": 0,
+            "unknown": 0
+          }
+        },
+        "valid": {
+          "rdkit_valid": {
+            "false": 0,
+            "true": 1158,
+            "unknown": 1158
+          },
+          "two_attachment_valid": {
+            "false": 0,
+            "true": 2316,
+            "unknown": 0
+          }
+        }
+      },
+      "counts": {
+        "test": 2316,
+        "total": 4632,
+        "train": 0,
+        "valid": 2316
+      },
+      "quality_checks": {
+        "mask_failure_count": 0,
+        "mask_failure_examples": [],
+        "restore_label_length_overflow_count": 0,
+        "restore_label_length_overflow_examples": [],
+        "restore_roundtrip_failure_count": 0,
+        "restore_roundtrip_failure_examples": [],
+        "view_length_overflow_count": 0,
+        "view_length_overflow_examples": [],
+        "view_roundtrip_failure_count": 0,
+        "view_roundtrip_failure_examples": []
+      },
+      "record_id_uniqueness_by_split": {
+        "test": {
+          "duplicate_record_id_count": 1158,
+          "duplicate_record_id_examples": [
+            "ru_000011",
+            "ru_000023",
+            "ru_000053",
+            "ru_000057",
+            "ru_000065",
+            "ru_000123",
+            "ru_000126",
+            "ru_000154",
+            "ru_000155",
+            "ru_000183",
+            "ru_000186",
+            "ru_000196",
+            "ru_000199",
+            "ru_000223",
+            "ru_000235",
+            "ru_000239",
+            "ru_000241",
+            "ru_000244",
+            "ru_000259",
+            "ru_000268"
+          ],
+          "row_count": 2316,
+          "unique_record_id_count": 1158
+        },
+        "train": {
+          "duplicate_record_id_count": 0,
+          "duplicate_record_id_examples": [],
+          "row_count": 0,
+          "unique_record_id_count": 0
+        },
+        "valid": {
+          "duplicate_record_id_count": 1158,
+          "duplicate_record_id_examples": [
+            "ru_000001",
+            "ru_000010",
+            "ru_000019",
+            "ru_000021",
+            "ru_000033",
+            "ru_000037",
+            "ru_000042",
+            "ru_000046",
+            "ru_000052",
+            "ru_000056",
+            "ru_000087",
+            "ru_000092",
+            "ru_000100",
+            "ru_000103",
+            "ru_000112",
+            "ru_000130",
+            "ru_000131",
+            "ru_000132",
+            "ru_000140",
+            "ru_000148"
+          ],
+          "row_count": 2316,
+          "unique_record_id_count": 1158
+        }
+      },
+      "splits": {
+        "test": {
+          "count": 2316,
+          "longest_restore_label_examples": [
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)C(c1ccc(-c3ccc(C4C(=O)c5ccc(-c6ccc(C7C(=O)c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc%12c(c%11)C(=O)C(c%11ccc(-c%13ccc%14c(c%13)C(=O)C(c%13ccc(-c%15ccc%16c(c%15)C(=O)C(c%15ccc(-c%17ccc(C%18C(=O)c%19ccc(-c%20ccc%21c(c%20)C(=O)C(c%20ccc(-c%22ccc(*)cc%22C(=O)c%22ccccc%22)cc%20C(F)(F)F)C%21=O)cc%19C%18=O)c(C(F)(F)F)c%17)cc%15C(F)(F)F)C%16=O)cc%13C(F)(F)F)C%14=O)cc%11C(F)(F)F)C%12=O)cc9C(F)(F)F)C%10=O)cc8C7=O)c(C(F)(F)F)c6)cc5C4=O)c(C(F)(F)F)c3)cc1C(F)(F)F)C2=O",
+              "record_id": "ru_010959",
+              "restore_label_length": 367,
+              "split": "test",
+              "view1_token_length": 315
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)C(c1ccc(-c3ccc(C4C(=O)c5ccc(-c6ccc(C7C(=O)c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc%12c(c%11)C(=O)C(c%11ccc(-c%13ccc%14c(c%13)C(=O)C(c%13ccc(-c%15ccc%16c(c%15)C(=O)C(c%15ccc(-c%17ccc(C%18C(=O)c%19ccc(-c%20ccc%21c(c%20)C(=O)C(c%20ccc(-c%22ccc(*)cc%22C(=O)c%22ccccc%22)cc%20C(F)(F)F)C%21=O)cc%19C%18=O)c(C(F)(F)F)c%17)cc%15C(F)(F)F)C%16=O)cc%13C(F)(F)F)C%14=O)cc%11C(F)(F)F)C%12=O)cc9C(F)(F)F)C%10=O)cc8C7=O)c(C(F)(F)F)c6)cc5C4=O)c(C(F)(F)F)c3)cc1C(F)(F)F)C2=O",
+              "record_id": "ru_010959",
+              "restore_label_length": 367,
+              "split": "test",
+              "view1_token_length": 378
+            },
+            {
+              "canonical_smiles": "*OCCN(CCOC(=O)c1cc(OC2CCN(c3ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc3)CC2)cc(C(*)=O)c1)c1ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc1",
+              "record_id": "ru_007599",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 149
+            },
+            {
+              "canonical_smiles": "*OCCN(CCOC(=O)c1cc(OC2CCN(c3ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc3)CC2)cc(C(*)=O)c1)c1ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc1",
+              "record_id": "ru_007599",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 180
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3cccc(N4C(=O)c5ccc(-c6c(-c7ccccc7)c(-c7ccccc7)c(-c7ccc(Oc8ccc(-c9c(-c%10ccccc%10)c(-c%10ccccc%10)c(*)c(-c%10ccccc%10)c9-c9ccccc9)cc8)cc7)c(-c7ccccc7)c6-c6ccccc6)cc5C4=O)c3)cc1)C2=O",
+              "record_id": "ru_011155",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 144
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3cccc(N4C(=O)c5ccc(-c6c(-c7ccccc7)c(-c7ccccc7)c(-c7ccc(Oc8ccc(-c9c(-c%10ccccc%10)c(-c%10ccccc%10)c(*)c(-c%10ccccc%10)c9-c9ccccc9)cc8)cc7)c(-c7ccccc7)c6-c6ccccc6)cc5C4=O)c3)cc1)C2=O",
+              "record_id": "ru_011155",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 183
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2c(-c3ccc(-c4ccccc4)cc3)cc(-c3ccc(OCCCCCCCCCCOc4ccc(-c5cc(-c6ccc(-c7ccccc7)cc6)c(-c6ccc(-n7c(=O)c8cc9c(=O)n(*)c(=O)c9cc8c7=O)cc6)c(-c6ccc(-c7ccccc7)cc6)c5)cc4)cc3)cc2-c2ccc(-c3ccccc3)cc2)cc1",
+              "record_id": "ru_009532",
+              "restore_label_length": 128,
+              "split": "test",
+              "view1_token_length": 141
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2c(-c3ccc(-c4ccccc4)cc3)cc(-c3ccc(OCCCCCCCCCCOc4ccc(-c5cc(-c6ccc(-c7ccccc7)cc6)c(-c6ccc(-n7c(=O)c8cc9c(=O)n(*)c(=O)c9cc8c7=O)cc6)c(-c6ccc(-c7ccccc7)cc6)c5)cc4)cc3)cc2-c2ccc(-c3ccccc3)cc2)cc1",
+              "record_id": "ru_009532",
+              "restore_label_length": 128,
+              "split": "test",
+              "view1_token_length": 140
+            },
+            {
+              "canonical_smiles": "*CN1C(=O)c2ccc(C(c3ccc4c(c3)C(=O)N(CC(=O)Nc3ccc(Oc5ccc6nc(-c7ccccc7)c(-c7ccc(-c8nc9cc(Oc%10ccc(NC(*)=O)cc%10)ccc9nc8-c8ccccc8)cc7)nc6c5)cc3)C4=O)(C(F)(F)F)C(F)(F)F)cc2C1=O",
+              "record_id": "ru_004903",
+              "restore_label_length": 121,
+              "split": "test",
+              "view1_token_length": 140
+            },
+            {
+              "canonical_smiles": "*CN1C(=O)c2ccc(C(c3ccc4c(c3)C(=O)N(CC(=O)Nc3ccc(Oc5ccc6nc(-c7ccccc7)c(-c7ccc(-c8nc9cc(Oc%10ccc(NC(*)=O)cc%10)ccc9nc8-c8ccccc8)cc7)nc6c5)cc3)C4=O)(C(F)(F)F)C(F)(F)F)cc2C1=O",
+              "record_id": "ru_004903",
+              "restore_label_length": 121,
+              "split": "test",
+              "view1_token_length": 133
+            }
+          ],
+          "longest_view1_examples": [
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)C(c1ccc(-c3ccc(C4C(=O)c5ccc(-c6ccc(C7C(=O)c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc%12c(c%11)C(=O)C(c%11ccc(-c%13ccc%14c(c%13)C(=O)C(c%13ccc(-c%15ccc%16c(c%15)C(=O)C(c%15ccc(-c%17ccc(C%18C(=O)c%19ccc(-c%20ccc%21c(c%20)C(=O)C(c%20ccc(-c%22ccc(*)cc%22C(=O)c%22ccccc%22)cc%20C(F)(F)F)C%21=O)cc%19C%18=O)c(C(F)(F)F)c%17)cc%15C(F)(F)F)C%16=O)cc%13C(F)(F)F)C%14=O)cc%11C(F)(F)F)C%12=O)cc9C(F)(F)F)C%10=O)cc8C7=O)c(C(F)(F)F)c6)cc5C4=O)c(C(F)(F)F)c3)cc1C(F)(F)F)C2=O",
+              "record_id": "ru_010959",
+              "restore_label_length": 367,
+              "split": "test",
+              "view1_token_length": 378
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)C(c1ccc(-c3ccc(C4C(=O)c5ccc(-c6ccc(C7C(=O)c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc%12c(c%11)C(=O)C(c%11ccc(-c%13ccc%14c(c%13)C(=O)C(c%13ccc(-c%15ccc%16c(c%15)C(=O)C(c%15ccc(-c%17ccc(C%18C(=O)c%19ccc(-c%20ccc%21c(c%20)C(=O)C(c%20ccc(-c%22ccc(*)cc%22C(=O)c%22ccccc%22)cc%20C(F)(F)F)C%21=O)cc%19C%18=O)c(C(F)(F)F)c%17)cc%15C(F)(F)F)C%16=O)cc%13C(F)(F)F)C%14=O)cc%11C(F)(F)F)C%12=O)cc9C(F)(F)F)C%10=O)cc8C7=O)c(C(F)(F)F)c6)cc5C4=O)c(C(F)(F)F)c3)cc1C(F)(F)F)C2=O",
+              "record_id": "ru_010959",
+              "restore_label_length": 367,
+              "split": "test",
+              "view1_token_length": 315
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3cccc(N4C(=O)c5ccc(-c6c(-c7ccccc7)c(-c7ccccc7)c(-c7ccc(Oc8ccc(-c9c(-c%10ccccc%10)c(-c%10ccccc%10)c(*)c(-c%10ccccc%10)c9-c9ccccc9)cc8)cc7)c(-c7ccccc7)c6-c6ccccc6)cc5C4=O)c3)cc1)C2=O",
+              "record_id": "ru_011155",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 183
+            },
+            {
+              "canonical_smiles": "*OCCN(CCOC(=O)c1cc(OC2CCN(c3ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc3)CC2)cc(C(*)=O)c1)c1ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc1",
+              "record_id": "ru_007599",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 180
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5ccc6c(c5)C(=O)N(c5ccc(Oc7cccc8c(Oc9ccc(N%10C(=O)c%11ccc(C(*)=O)cc%11C%10=O)cc9)cccc78)cc5)C6=O)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006527",
+              "restore_label_length": 118,
+              "split": "test",
+              "view1_token_length": 153
+            },
+            {
+              "canonical_smiles": "*c1ccc(Oc2ccc(-c3ccc(N4C(=O)c5ccc(C(c6ccc7c(c6)C(=O)N(c6ccc(-c8ccc(Oc9ccc%10c(c9)C(*)(C)CC%10(C)C)c(C(F)(F)F)c8)cc6)C7=O)(C(F)(F)F)C(F)(F)F)cc5C4=O)cc3)cc2C(F)(F)F)cc1",
+              "record_id": "ru_010486",
+              "restore_label_length": 118,
+              "split": "test",
+              "view1_token_length": 153
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3ccc4nc(-c5ccc(Oc6ccc(-c7nc8ccc(Oc9ccc(N%10C(=O)c%11ccc(C(*)(C(F)(F)F)C(F)(F)F)cc%11C%10=O)cc9)cc8nc7-c7ccccc7)cc6)cc5)c(-c5ccccc5)nc4c3)cc1)C2=O",
+              "record_id": "ru_011152",
+              "restore_label_length": 120,
+              "split": "test",
+              "view1_token_length": 151
+            },
+            {
+              "canonical_smiles": "*OCCN(CCOC(=O)c1cc(OC2CCN(c3ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc3)CC2)cc(C(*)=O)c1)c1ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc1",
+              "record_id": "ru_007599",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 149
+            },
+            {
+              "canonical_smiles": "*c1ccc(N2C(=O)c3ccc(C(c4ccc5c(c4)C(=O)N(c4ccc(*)cc4OCCN(CC)c4ccc(C(C#N)=C(C#N)C#N)cc4)C5=O)(C(F)(F)F)C(F)(F)F)cc3C2=O)c(OCCN(CC)c2ccc(C(C#N)=C(C#N)C#N)cc2)c1",
+              "record_id": "ru_010103",
+              "restore_label_length": 109,
+              "split": "test",
+              "view1_token_length": 144
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3cccc(N4C(=O)c5ccc(-c6c(-c7ccccc7)c(-c7ccccc7)c(-c7ccc(Oc8ccc(-c9c(-c%10ccccc%10)c(-c%10ccccc%10)c(*)c(-c%10ccccc%10)c9-c9ccccc9)cc8)cc7)c(-c7ccccc7)c6-c6ccccc6)cc5C4=O)c3)cc1)C2=O",
+              "record_id": "ru_011155",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 144
+            }
+          ],
+          "restore_label_length": {
+            "count": 2316,
+            "max": 367,
+            "mean": 38.9136,
+            "min": 4,
+            "p50": 34,
+            "p90": 72,
+            "p95": 84,
+            "p99": 109
+          },
+          "view1_token_length": {
+            "count": 2316,
+            "max": 378,
+            "mean": 54.8174,
+            "min": 17,
+            "p50": 50,
+            "p90": 89,
+            "p95": 101,
+            "p99": 128
+          }
+        },
+        "train": {
+          "count": 0,
+          "longest_restore_label_examples": [],
+          "longest_view1_examples": [],
+          "restore_label_length": {
+            "count": 0,
+            "max": 0,
+            "mean": 0.0,
+            "min": 0,
+            "p50": 0,
+            "p90": 0,
+            "p95": 0,
+            "p99": 0
+          },
+          "view1_token_length": {
+            "count": 0,
+            "max": 0,
+            "mean": 0.0,
+            "min": 0,
+            "p50": 0,
+            "p90": 0,
+            "p95": 0,
+            "p99": 0
+          }
+        },
+        "valid": {
+          "count": 2316,
+          "longest_restore_label_examples": [
+            {
+              "canonical_smiles": "*c1ccc(OCCN(c2ccccc2)c2ccc(/C=C/C3=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010421",
+              "restore_label_length": 152,
+              "split": "valid",
+              "view1_token_length": 170
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(c2ccccc2)c2ccc(/C=C/C3=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010421",
+              "restore_label_length": 152,
+              "split": "valid",
+              "view1_token_length": 164
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(-c2ccc(N3C(=O)c4ccc(Oc5ccc(C(c6ccc(Oc7ccc8c(c7)C(=O)N(c7ccc(-c9ccc(Oc%10ccc%11c(c%10)C(C)(C)CC%11%10CC(C)(C)c%11cc(*)ccc%11%10)c(C(F)(F)F)c9)cc7)C8=O)cc6)(C(F)(F)F)C(F)(F)F)cc5)cc4C3=O)cc2)cc1C(F)(F)F",
+              "record_id": "ru_008011",
+              "restore_label_length": 149,
+              "split": "valid",
+              "view1_token_length": 146
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(-c2ccc(N3C(=O)c4ccc(Oc5ccc(C(c6ccc(Oc7ccc8c(c7)C(=O)N(c7ccc(-c9ccc(Oc%10ccc%11c(c%10)C(C)(C)CC%11%10CC(C)(C)c%11cc(*)ccc%11%10)c(C(F)(F)F)c9)cc7)C8=O)cc6)(C(F)(F)F)C(F)(F)F)cc5)cc4C3=O)cc2)cc1C(F)(F)F",
+              "record_id": "ru_008011",
+              "restore_label_length": 149,
+              "split": "valid",
+              "view1_token_length": 184
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5ccc6c(c5)C(=O)N(c5ccc(Oc7ccc(C8(c9ccc(Oc%10ccc(N%11C(=O)c%12ccc(C(*)=O)cc%12C%11=O)cc%10)cc9)CC9CC8C8CCCC98)cc7)cc5)C6=O)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006525",
+              "restore_label_length": 137,
+              "split": "valid",
+              "view1_token_length": 145
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5ccc6c(c5)C(=O)N(c5ccc(Oc7ccc(C8(c9ccc(Oc%10ccc(N%11C(=O)c%12ccc(C(*)=O)cc%12C%11=O)cc%10)cc9)CC9CC8C8CCCC98)cc7)cc5)C6=O)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006525",
+              "restore_label_length": 137,
+              "split": "valid",
+              "view1_token_length": 150
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(CC)c2ccc(/N=N/c3ccc([N+](=O)[O-])cc3)cc2)c(N2C(=O)c3ccc(C(c4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(CC)c4ccc(/N=N/c6ccc([N+](=O)[O-])cc6)cc4)C5=O)(C(F)(F)F)C(F)(F)F)cc3C2=O)c1",
+              "record_id": "ru_010419",
+              "restore_label_length": 134,
+              "split": "valid",
+              "view1_token_length": 146
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(CC)c2ccc(/N=N/c3ccc([N+](=O)[O-])cc3)cc2)c(N2C(=O)c3ccc(C(c4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(CC)c4ccc(/N=N/c6ccc([N+](=O)[O-])cc6)cc4)C5=O)(C(F)(F)F)C(F)(F)F)cc3C2=O)c1",
+              "record_id": "ru_010419",
+              "restore_label_length": 134,
+              "split": "valid",
+              "view1_token_length": 147
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(NC(=O)c2ccc3c(c2)C(=O)N(c2ccc(Oc4ccc(C5(c6ccc(Oc7ccc(N8C(=O)c9ccc(C(=O)Nc%10ccc(Oc%11cc(C(C)(C)C)c(*)cc%11C(C)(C)C)cc%10)cc9C8=O)cc7)cc6)CC6CC5C5CCCC65)cc4)cc2)C3=O)cc1",
+              "record_id": "ru_008396",
+              "restore_label_length": 127,
+              "split": "valid",
+              "view1_token_length": 130
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(NC(=O)c2ccc3c(c2)C(=O)N(c2ccc(Oc4ccc(C5(c6ccc(Oc7ccc(N8C(=O)c9ccc(C(=O)Nc%10ccc(Oc%11cc(C(C)(C)C)c(*)cc%11C(C)(C)C)cc%10)cc9C8=O)cc7)cc6)CC6CC5C5CCCC65)cc4)cc2)C3=O)cc1",
+              "record_id": "ru_008396",
+              "restore_label_length": 127,
+              "split": "valid",
+              "view1_token_length": 162
+            }
+          ],
+          "longest_view1_examples": [
+            {
+              "canonical_smiles": "*Oc1ccc(-c2ccc(N3C(=O)c4ccc(Oc5ccc(C(c6ccc(Oc7ccc8c(c7)C(=O)N(c7ccc(-c9ccc(Oc%10ccc%11c(c%10)C(C)(C)CC%11%10CC(C)(C)c%11cc(*)ccc%11%10)c(C(F)(F)F)c9)cc7)C8=O)cc6)(C(F)(F)F)C(F)(F)F)cc5)cc4C3=O)cc2)cc1C(F)(F)F",
+              "record_id": "ru_008011",
+              "restore_label_length": 149,
+              "split": "valid",
+              "view1_token_length": 184
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(c2ccccc2)c2ccc(/C=C/C3=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010421",
+              "restore_label_length": 152,
+              "split": "valid",
+              "view1_token_length": 170
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(c2ccccc2)c2ccc(/C=C/C3=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010421",
+              "restore_label_length": 152,
+              "split": "valid",
+              "view1_token_length": 164
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(NC(=O)c2ccc3c(c2)C(=O)N(c2ccc(Oc4ccc(C5(c6ccc(Oc7ccc(N8C(=O)c9ccc(C(=O)Nc%10ccc(Oc%11cc(C(C)(C)C)c(*)cc%11C(C)(C)C)cc%10)cc9C8=O)cc7)cc6)CC6CC5C5CCCC65)cc4)cc2)C3=O)cc1",
+              "record_id": "ru_008396",
+              "restore_label_length": 127,
+              "split": "valid",
+              "view1_token_length": 162
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(-c3ccc(Oc4ccc(C5(c6ccc(Oc7ccc(-c8ccc(N9C(=O)c%10ccc(C(*)(C(F)(F)F)C(F)(F)F)cc%10C9=O)cc8)cc7C(F)(F)F)cc6)C(=O)N(c6ccccc6)c6ccccc65)cc4)c(C(F)(F)F)c3)cc1)C2=O",
+              "record_id": "ru_011030",
+              "restore_label_length": 127,
+              "split": "valid",
+              "view1_token_length": 157
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5ccc6c(c5)C(=O)N(c5ccc(Oc7ccc(C8(c9ccc(Oc%10ccc(N%11C(=O)c%12ccc(C(*)=O)cc%12C%11=O)cc%10)cc9)CC9CC8C8CCCC98)cc7)cc5)C6=O)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006525",
+              "restore_label_length": 137,
+              "split": "valid",
+              "view1_token_length": 150
+            },
+            {
+              "canonical_smiles": "*Oc1cccc(Oc2cccc(Oc3cccc(NC(=O)c4ccc5c(c4)C(=O)N(c4cccc(Oc6cccc(Oc7cccc(N8C(=O)c9ccc(C(=O)Nc%10cccc(Oc%11cccc(*)c%11C#N)c%10)cc9C8=O)c7)c6C#N)c4)C5=O)c3)c2C#N)c1",
+              "record_id": "ru_008920",
+              "restore_label_length": 112,
+              "split": "valid",
+              "view1_token_length": 148
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5cccc(N6C(=O)c7ccc(C(c8ccc9c(c8)C(=O)N(c8cccc(C(*)=O)c8)C9=O)(C(F)(F)F)C(F)(F)F)cc7C6=O)c5)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006529",
+              "restore_label_length": 112,
+              "split": "valid",
+              "view1_token_length": 147
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(CC)c2ccc(/N=N/c3ccc([N+](=O)[O-])cc3)cc2)c(N2C(=O)c3ccc(C(c4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(CC)c4ccc(/N=N/c6ccc([N+](=O)[O-])cc6)cc4)C5=O)(C(F)(F)F)C(F)(F)F)cc3C2=O)c1",
+              "record_id": "ru_010419",
+              "restore_label_length": 134,
+              "split": "valid",
+              "view1_token_length": 147
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(-c2ccc(N3C(=O)c4ccc(Oc5ccc(C(c6ccc(Oc7ccc8c(c7)C(=O)N(c7ccc(-c9ccc(Oc%10ccc%11c(c%10)C(C)(C)CC%11%10CC(C)(C)c%11cc(*)ccc%11%10)c(C(F)(F)F)c9)cc7)C8=O)cc6)(C(F)(F)F)C(F)(F)F)cc5)cc4C3=O)cc2)cc1C(F)(F)F",
+              "record_id": "ru_008011",
+              "restore_label_length": 149,
+              "split": "valid",
+              "view1_token_length": 146
+            }
+          ],
+          "restore_label_length": {
+            "count": 2316,
+            "max": 152,
+            "mean": 37.5881,
+            "min": 4,
+            "p50": 32,
+            "p90": 70,
+            "p95": 81,
+            "p99": 112
+          },
+          "view1_token_length": {
+            "count": 2316,
+            "max": 184,
+            "mean": 53.4253,
+            "min": 16,
+            "p50": 47,
+            "p90": 87,
+            "p95": 99,
+            "p99": 126
+          }
+        }
+      }
+    },
+    "stage_c_training": {
+      "augmentation_strategy_counts": {
+        "attachment_rooted_smiles": 1824,
+        "identity": 5123,
+        "light_denoise": 1804,
+        "rdkit_random_smiles": 2829
+      },
+      "augmentation_validity_counts": {
+        "rdkit_valid": {
+          "false": 0,
+          "true": 9776,
+          "unknown": 1804
+        },
+        "two_attachment_valid": {
+          "false": 0,
+          "true": 11580,
+          "unknown": 0
+        }
+      },
+      "augmentation_validity_counts_by_split": {
+        "test": {
+          "rdkit_valid": {
+            "false": 0,
+            "true": 1158,
+            "unknown": 0
+          },
+          "two_attachment_valid": {
+            "false": 0,
+            "true": 1158,
+            "unknown": 0
+          }
+        },
+        "train": {
+          "rdkit_valid": {
+            "false": 0,
+            "true": 7460,
+            "unknown": 1804
+          },
+          "two_attachment_valid": {
+            "false": 0,
+            "true": 9264,
+            "unknown": 0
+          }
+        },
+        "valid": {
+          "rdkit_valid": {
+            "false": 0,
+            "true": 1158,
+            "unknown": 0
+          },
+          "two_attachment_valid": {
+            "false": 0,
+            "true": 1158,
+            "unknown": 0
+          }
+        }
+      },
+      "counts": {
+        "test": 1158,
+        "total": 11580,
+        "train": 9264,
+        "valid": 1158
+      },
+      "quality_checks": {
+        "mask_failure_count": 0,
+        "mask_failure_examples": [],
+        "restore_label_length_overflow_count": 0,
+        "restore_label_length_overflow_examples": [],
+        "restore_roundtrip_failure_count": 0,
+        "restore_roundtrip_failure_examples": [],
+        "view_length_overflow_count": 0,
+        "view_length_overflow_examples": [],
+        "view_roundtrip_failure_count": 0,
+        "view_roundtrip_failure_examples": []
+      },
+      "record_id_uniqueness_by_split": {
+        "test": {
+          "duplicate_record_id_count": 0,
+          "duplicate_record_id_examples": [],
+          "row_count": 1158,
+          "unique_record_id_count": 1158
+        },
+        "train": {
+          "duplicate_record_id_count": 0,
+          "duplicate_record_id_examples": [],
+          "row_count": 9264,
+          "unique_record_id_count": 9264
+        },
+        "valid": {
+          "duplicate_record_id_count": 0,
+          "duplicate_record_id_examples": [],
+          "row_count": 1158,
+          "unique_record_id_count": 1158
+        }
+      },
+      "splits": {
+        "test": {
+          "count": 1158,
+          "longest_restore_label_examples": [
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)C(c1ccc(-c3ccc(C4C(=O)c5ccc(-c6ccc(C7C(=O)c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc%12c(c%11)C(=O)C(c%11ccc(-c%13ccc%14c(c%13)C(=O)C(c%13ccc(-c%15ccc%16c(c%15)C(=O)C(c%15ccc(-c%17ccc(C%18C(=O)c%19ccc(-c%20ccc%21c(c%20)C(=O)C(c%20ccc(-c%22ccc(*)cc%22C(=O)c%22ccccc%22)cc%20C(F)(F)F)C%21=O)cc%19C%18=O)c(C(F)(F)F)c%17)cc%15C(F)(F)F)C%16=O)cc%13C(F)(F)F)C%14=O)cc%11C(F)(F)F)C%12=O)cc9C(F)(F)F)C%10=O)cc8C7=O)c(C(F)(F)F)c6)cc5C4=O)c(C(F)(F)F)c3)cc1C(F)(F)F)C2=O",
+              "record_id": "ru_010959",
+              "restore_label_length": 367,
+              "split": "test",
+              "view1_token_length": 381
+            },
+            {
+              "canonical_smiles": "*OCCN(CCOC(=O)c1cc(OC2CCN(c3ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc3)CC2)cc(C(*)=O)c1)c1ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc1",
+              "record_id": "ru_007599",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 153
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3cccc(N4C(=O)c5ccc(-c6c(-c7ccccc7)c(-c7ccccc7)c(-c7ccc(Oc8ccc(-c9c(-c%10ccccc%10)c(-c%10ccccc%10)c(*)c(-c%10ccccc%10)c9-c9ccccc9)cc8)cc7)c(-c7ccccc7)c6-c6ccccc6)cc5C4=O)c3)cc1)C2=O",
+              "record_id": "ru_011155",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 153
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2c(-c3ccc(-c4ccccc4)cc3)cc(-c3ccc(OCCCCCCCCCCOc4ccc(-c5cc(-c6ccc(-c7ccccc7)cc6)c(-c6ccc(-n7c(=O)c8cc9c(=O)n(*)c(=O)c9cc8c7=O)cc6)c(-c6ccc(-c7ccccc7)cc6)c5)cc4)cc3)cc2-c2ccc(-c3ccccc3)cc2)cc1",
+              "record_id": "ru_009532",
+              "restore_label_length": 128,
+              "split": "test",
+              "view1_token_length": 142
+            },
+            {
+              "canonical_smiles": "*CN1C(=O)c2ccc(C(c3ccc4c(c3)C(=O)N(CC(=O)Nc3ccc(Oc5ccc6nc(-c7ccccc7)c(-c7ccc(-c8nc9cc(Oc%10ccc(NC(*)=O)cc%10)ccc9nc8-c8ccccc8)cc7)nc6c5)cc3)C4=O)(C(F)(F)F)C(F)(F)F)cc2C1=O",
+              "record_id": "ru_004903",
+              "restore_label_length": 121,
+              "split": "test",
+              "view1_token_length": 135
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(N3C(=O)c4ccc(-c5c(-c6ccccc6)c(-c6ccccc6)c(-c6ccc(Sc7ccc(-c8c(-c9ccccc9)c(-c9ccccc9)c(*)c(-c9ccccc9)c8-c8ccccc8)cc7)cc6)c(-c6ccccc6)c5-c5ccccc5)cc4C3=O)cc1)C2=O",
+              "record_id": "ru_011065",
+              "restore_label_length": 121,
+              "split": "test",
+              "view1_token_length": 135
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3ccc4nc(-c5ccc(Oc6ccc(-c7nc8ccc(Oc9ccc(N%10C(=O)c%11ccc(C(*)(C(F)(F)F)C(F)(F)F)cc%11C%10=O)cc9)cc8nc7-c7ccccc7)cc6)cc5)c(-c5ccccc5)nc4c3)cc1)C2=O",
+              "record_id": "ru_011152",
+              "restore_label_length": 120,
+              "split": "test",
+              "view1_token_length": 134
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5ccc6c(c5)C(=O)N(c5ccc(Oc7cccc8c(Oc9ccc(N%10C(=O)c%11ccc(C(*)=O)cc%11C%10=O)cc9)cccc78)cc5)C6=O)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006527",
+              "restore_label_length": 118,
+              "split": "test",
+              "view1_token_length": 132
+            },
+            {
+              "canonical_smiles": "*c1ccc(Oc2ccc(-c3ccc(N4C(=O)c5ccc(C(c6ccc7c(c6)C(=O)N(c6ccc(-c8ccc(Oc9ccc%10c(c9)C(*)(C)CC%10(C)C)c(C(F)(F)F)c8)cc6)C7=O)(C(F)(F)F)C(F)(F)F)cc5C4=O)cc3)cc2C(F)(F)F)cc1",
+              "record_id": "ru_010486",
+              "restore_label_length": 118,
+              "split": "test",
+              "view1_token_length": 132
+            },
+            {
+              "canonical_smiles": "*COC(=O)CCCCCCCCC(=O)Oc1ccc(S(=O)(=O)c2ccc(Oc3ccc(/C=C4\\CCC/C(=C\\c5ccc(Oc6ccc(S(=O)(=O)c7ccc(OC(=O)CCCCCCCCC(=O)OC[Si](C)(C)O[Si](*)(C)C)cc7)cc6)cc5)C4=O)cc3)cc2)cc1",
+              "record_id": "ru_004995",
+              "restore_label_length": 112,
+              "split": "test",
+              "view1_token_length": 126
+            }
+          ],
+          "longest_view1_examples": [
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)C(c1ccc(-c3ccc(C4C(=O)c5ccc(-c6ccc(C7C(=O)c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc%12c(c%11)C(=O)C(c%11ccc(-c%13ccc%14c(c%13)C(=O)C(c%13ccc(-c%15ccc%16c(c%15)C(=O)C(c%15ccc(-c%17ccc(C%18C(=O)c%19ccc(-c%20ccc%21c(c%20)C(=O)C(c%20ccc(-c%22ccc(*)cc%22C(=O)c%22ccccc%22)cc%20C(F)(F)F)C%21=O)cc%19C%18=O)c(C(F)(F)F)c%17)cc%15C(F)(F)F)C%16=O)cc%13C(F)(F)F)C%14=O)cc%11C(F)(F)F)C%12=O)cc9C(F)(F)F)C%10=O)cc8C7=O)c(C(F)(F)F)c6)cc5C4=O)c(C(F)(F)F)c3)cc1C(F)(F)F)C2=O",
+              "record_id": "ru_010959",
+              "restore_label_length": 367,
+              "split": "test",
+              "view1_token_length": 381
+            },
+            {
+              "canonical_smiles": "*OCCN(CCOC(=O)c1cc(OC2CCN(c3ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc3)CC2)cc(C(*)=O)c1)c1ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc1",
+              "record_id": "ru_007599",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 153
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3cccc(N4C(=O)c5ccc(-c6c(-c7ccccc7)c(-c7ccccc7)c(-c7ccc(Oc8ccc(-c9c(-c%10ccccc%10)c(-c%10ccccc%10)c(*)c(-c%10ccccc%10)c9-c9ccccc9)cc8)cc7)c(-c7ccccc7)c6-c6ccccc6)cc5C4=O)c3)cc1)C2=O",
+              "record_id": "ru_011155",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 153
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2c(-c3ccc(-c4ccccc4)cc3)cc(-c3ccc(OCCCCCCCCCCOc4ccc(-c5cc(-c6ccc(-c7ccccc7)cc6)c(-c6ccc(-n7c(=O)c8cc9c(=O)n(*)c(=O)c9cc8c7=O)cc6)c(-c6ccc(-c7ccccc7)cc6)c5)cc4)cc3)cc2-c2ccc(-c3ccccc3)cc2)cc1",
+              "record_id": "ru_009532",
+              "restore_label_length": 128,
+              "split": "test",
+              "view1_token_length": 142
+            },
+            {
+              "canonical_smiles": "*CN1C(=O)c2ccc(C(c3ccc4c(c3)C(=O)N(CC(=O)Nc3ccc(Oc5ccc6nc(-c7ccccc7)c(-c7ccc(-c8nc9cc(Oc%10ccc(NC(*)=O)cc%10)ccc9nc8-c8ccccc8)cc7)nc6c5)cc3)C4=O)(C(F)(F)F)C(F)(F)F)cc2C1=O",
+              "record_id": "ru_004903",
+              "restore_label_length": 121,
+              "split": "test",
+              "view1_token_length": 135
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(N3C(=O)c4ccc(-c5c(-c6ccccc6)c(-c6ccccc6)c(-c6ccc(Sc7ccc(-c8c(-c9ccccc9)c(-c9ccccc9)c(*)c(-c9ccccc9)c8-c8ccccc8)cc7)cc6)c(-c6ccccc6)c5-c5ccccc5)cc4C3=O)cc1)C2=O",
+              "record_id": "ru_011065",
+              "restore_label_length": 121,
+              "split": "test",
+              "view1_token_length": 135
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3ccc4nc(-c5ccc(Oc6ccc(-c7nc8ccc(Oc9ccc(N%10C(=O)c%11ccc(C(*)(C(F)(F)F)C(F)(F)F)cc%11C%10=O)cc9)cc8nc7-c7ccccc7)cc6)cc5)c(-c5ccccc5)nc4c3)cc1)C2=O",
+              "record_id": "ru_011152",
+              "restore_label_length": 120,
+              "split": "test",
+              "view1_token_length": 134
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5ccc6c(c5)C(=O)N(c5ccc(Oc7cccc8c(Oc9ccc(N%10C(=O)c%11ccc(C(*)=O)cc%11C%10=O)cc9)cccc78)cc5)C6=O)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006527",
+              "restore_label_length": 118,
+              "split": "test",
+              "view1_token_length": 132
+            },
+            {
+              "canonical_smiles": "*c1ccc(Oc2ccc(-c3ccc(N4C(=O)c5ccc(C(c6ccc7c(c6)C(=O)N(c6ccc(-c8ccc(Oc9ccc%10c(c9)C(*)(C)CC%10(C)C)c(C(F)(F)F)c8)cc6)C7=O)(C(F)(F)F)C(F)(F)F)cc5C4=O)cc3)cc2C(F)(F)F)cc1",
+              "record_id": "ru_010486",
+              "restore_label_length": 118,
+              "split": "test",
+              "view1_token_length": 132
+            },
+            {
+              "canonical_smiles": "*COC(=O)CCCCCCCCC(=O)Oc1ccc(S(=O)(=O)c2ccc(Oc3ccc(/C=C4\\CCC/C(=C\\c5ccc(Oc6ccc(S(=O)(=O)c7ccc(OC(=O)CCCCCCCCC(=O)OC[Si](C)(C)O[Si](*)(C)C)cc7)cc6)cc5)C4=O)cc3)cc2)cc1",
+              "record_id": "ru_004995",
+              "restore_label_length": 112,
+              "split": "test",
+              "view1_token_length": 126
+            }
+          ],
+          "restore_label_length": {
+            "count": 1158,
+            "max": 367,
+            "mean": 38.9136,
+            "min": 4,
+            "p50": 34,
+            "p90": 71,
+            "p95": 84,
+            "p99": 106
+          },
+          "view1_token_length": {
+            "count": 1158,
+            "max": 381,
+            "mean": 52.8351,
+            "min": 18,
+            "p50": 48,
+            "p90": 85,
+            "p95": 98,
+            "p99": 120
+          }
+        },
+        "train": {
+          "count": 9264,
+          "longest_restore_label_examples": [
+            {
+              "canonical_smiles": "*c1ccc(OCc2cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)c2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCc4cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)c4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010431",
+              "restore_label_length": 221,
+              "split": "train",
+              "view1_token_length": 277
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2ccc(-c3ccc(-c4ccc(-c5ccc(-c6ccc(-c7ccc(-c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc(*)cc%11C(=O)c%11ccccc%11)cc9C(F)(F)F)C%10=O)cc8C(=O)c8ccccc8)c(C(=O)c8ccccc8)c7)c(C(=O)c7ccccc7)c6)cc5C(=O)c5ccccc5)c(C(=O)c5ccccc5)c4)c(C(=O)c4ccccc4)c3)c(C(=O)c3ccccc3)c2)c(C(=O)c2ccccc2)c1",
+              "record_id": "ru_009596",
+              "restore_label_length": 188,
+              "split": "train",
+              "view1_token_length": 202
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(C)c2ccc(/C=C/C3=CC(=C(/C#N)C(=O)OCc4ccc(Oc5c(F)c(F)c(F)c(F)c5F)cc4)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)C(=O)OCc7ccc(Oc8c(F)c(F)c(F)c(F)c8F)cc7)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010413",
+              "restore_label_length": 186,
+              "split": "train",
+              "view1_token_length": 200
+            },
+            {
+              "canonical_smiles": "*CN1C(=O)c2ccc(C(c3ccc4c(c3)C(=O)N(CC(=O)Nc3ccc(Oc5ccc6nc(-c7ccccc7)c(-c7ccc(N8C(=O)c9ccc%10c%11c(ccc(c9%11)C8=O)C(=O)N(c8ccc(-c9nc%11cc(Oc%12ccc(NC(*)=O)cc%12)ccc%11nc9-c9ccccc9)cc8)C%10=O)cc7)nc6c5)cc3)C4=O)(C(F)(F)F)C(F)(F)F)cc2C1=O",
+              "record_id": "ru_004904",
+              "restore_label_length": 174,
+              "split": "train",
+              "view1_token_length": 173
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc3nc(-c4ccc([N+](=O)[O-])cc4)c(-c4ccc(Oc5ccc(-c6nc7cc(Oc8ccc(NC(=O)c9ccc%10c(c9)C(=O)N(c9ccc(C(c%11ccc(N%12C(=O)c%13ccc(C(*)=O)cc%13C%12=O)cc%11)(C(F)(F)F)C(F)(F)F)cc9)C%10=O)cc8)ccc7nc6-c6ccc([N+](=O)[O-])cc6)cc5)cc4)nc3c2)cc1",
+              "record_id": "ru_006644",
+              "restore_label_length": 170,
+              "split": "train",
+              "view1_token_length": 184
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(C)c2ccc(/C=C/C3=CC(=C(/C#N)C(=O)OCCc4ccccc4)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)C(=O)OCCc7ccccc7)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010412",
+              "restore_label_length": 158,
+              "split": "train",
+              "view1_token_length": 168
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Cc2ccc(NC(=O)Nc3ccc(C(=O)Nc4ccc(Oc5ccc(NC(=O)c6ccc(N7C(=O)c8ccc(C(=O)c9ccc%10c(c9)C(=O)N(c9ccc(C(=O)Nc%11ccc(Oc%12ccc(NC(=O)c%13ccc(NC(*)=O)cc%13)cc%12)cc%11)cc9)C%10=O)cc8C7=O)cc6)cc5)cc4)cc3)cc2)cc1",
+              "record_id": "ru_006360",
+              "restore_label_length": 154,
+              "split": "train",
+              "view1_token_length": 168
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc3nc(-c4ccccc4)c(-c4ccc(-c5ccc(-c6nc7cc(Oc8ccc(NC(=O)c9ccc%10c(c9)C(=O)N(c9ccc(C(c%11ccc(N%12C(=O)c%13ccc(C(*)=O)cc%13C%12=O)cc%11)(C(F)(F)F)C(F)(F)F)cc9)C%10=O)cc8)ccc7nc6-c6ccccc6)cc5)cc4)nc3c2)cc1",
+              "record_id": "ru_006645",
+              "restore_label_length": 150,
+              "split": "train",
+              "view1_token_length": 147
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc3nc(-c4ccccc4)c(-c4ccc(Oc5ccc(-c6nc7cc(Oc8ccc(NC(=O)c9ccc%10c(c9)C(=O)N(c9ccc(C(c%11ccc(N%12C(=O)c%13ccc(C(*)=O)cc%13C%12=O)cc%11)(C(F)(F)F)C(F)(F)F)cc9)C%10=O)cc8)ccc7nc6-c6ccccc6)cc5)cc4)nc3c2)cc1",
+              "record_id": "ru_006652",
+              "restore_label_length": 150,
+              "split": "train",
+              "view1_token_length": 164
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc3nc(-c4ccccc4)c(-c4ccc(N5C(=O)c6ccc7c8c(ccc(c68)C5=O)C(=O)N(c5ccc(-c6nc8cc(Oc9ccc(NC(=O)c%10cc(C(*)=O)cc(N%11C(=O)c%12c(Cl)c(Cl)c(Cl)c(Cl)c%12C%11=O)c%10)cc9)ccc8nc6-c6ccccc6)cc5)C7=O)cc4)nc3c2)cc1",
+              "record_id": "ru_006648",
+              "restore_label_length": 147,
+              "split": "train",
+              "view1_token_length": 150
+            }
+          ],
+          "longest_view1_examples": [
+            {
+              "canonical_smiles": "*c1ccc(OCc2cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)c2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCc4cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)c4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010431",
+              "restore_label_length": 221,
+              "split": "train",
+              "view1_token_length": 277
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2ccc(-c3ccc(-c4ccc(-c5ccc(-c6ccc(-c7ccc(-c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc(*)cc%11C(=O)c%11ccccc%11)cc9C(F)(F)F)C%10=O)cc8C(=O)c8ccccc8)c(C(=O)c8ccccc8)c7)c(C(=O)c7ccccc7)c6)cc5C(=O)c5ccccc5)c(C(=O)c5ccccc5)c4)c(C(=O)c4ccccc4)c3)c(C(=O)c3ccccc3)c2)c(C(=O)c2ccccc2)c1",
+              "record_id": "ru_009596",
+              "restore_label_length": 188,
+              "split": "train",
+              "view1_token_length": 202
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(C)c2ccc(/C=C/C3=CC(=C(/C#N)C(=O)OCc4ccc(Oc5c(F)c(F)c(F)c(F)c5F)cc4)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)C(=O)OCc7ccc(Oc8c(F)c(F)c(F)c(F)c8F)cc7)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010413",
+              "restore_label_length": 186,
+              "split": "train",
+              "view1_token_length": 200
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc3nc(-c4ccc([N+](=O)[O-])cc4)c(-c4ccc(Oc5ccc(-c6nc7cc(Oc8ccc(NC(=O)c9ccc%10c(c9)C(=O)N(c9ccc(C(c%11ccc(N%12C(=O)c%13ccc(C(*)=O)cc%13C%12=O)cc%11)(C(F)(F)F)C(F)(F)F)cc9)C%10=O)cc8)ccc7nc6-c6ccc([N+](=O)[O-])cc6)cc5)cc4)nc3c2)cc1",
+              "record_id": "ru_006644",
+              "restore_label_length": 170,
+              "split": "train",
+              "view1_token_length": 184
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc3nc(-c4ccccc4)c(-c4ccc(N5C(=O)c6ccc7c8c(ccc(c68)C5=O)C(=O)N(c5ccc(-c6nc8cc(Oc9ccc(NC(=O)c%10cc(C(*)=O)cc(N%11C(=O)c%12ccccc%12C%11=O)c%10)cc9)ccc8nc6-c6ccccc6)cc5)C7=O)cc4)nc3c2)cc1",
+              "record_id": "ru_006649",
+              "restore_label_length": 140,
+              "split": "train",
+              "view1_token_length": 175
+            },
+            {
+              "canonical_smiles": "*CN1C(=O)c2ccc(C(c3ccc4c(c3)C(=O)N(CC(=O)Nc3ccc(Oc5ccc6nc(-c7ccccc7)c(-c7ccc(N8C(=O)c9ccc%10c%11c(ccc(c9%11)C8=O)C(=O)N(c8ccc(-c9nc%11cc(Oc%12ccc(NC(*)=O)cc%12)ccc%11nc9-c9ccccc9)cc8)C%10=O)cc7)nc6c5)cc3)C4=O)(C(F)(F)F)C(F)(F)F)cc2C1=O",
+              "record_id": "ru_004904",
+              "restore_label_length": 174,
+              "split": "train",
+              "view1_token_length": 173
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Cc2ccc(NC(=O)Nc3ccc(C(=O)Nc4ccc(Oc5ccc(NC(=O)c6ccc(N7C(=O)c8ccc(C(=O)c9ccc%10c(c9)C(=O)N(c9ccc(C(=O)Nc%11ccc(Oc%12ccc(NC(=O)c%13ccc(NC(*)=O)cc%13)cc%12)cc%11)cc9)C%10=O)cc8C7=O)cc6)cc5)cc4)cc3)cc2)cc1",
+              "record_id": "ru_006360",
+              "restore_label_length": 154,
+              "split": "train",
+              "view1_token_length": 168
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(C)c2ccc(/C=C/C3=CC(=C(/C#N)C(=O)OCCc4ccccc4)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)C(=O)OCCc7ccccc7)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010412",
+              "restore_label_length": 158,
+              "split": "train",
+              "view1_token_length": 168
+            },
+            {
+              "canonical_smiles": "*C(=O)OCCN(CCOC(=O)c1cc(*)cc(OCCN(C)c2ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc2)c1)c1ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc1",
+              "record_id": "ru_000568",
+              "restore_label_length": 135,
+              "split": "train",
+              "view1_token_length": 167
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc3nc(-c4ccccc4)c(-c4ccc(Oc5ccc(-c6nc7cc(Oc8ccc(NC(=O)c9ccc%10c(c9)C(=O)N(c9ccc(C(c%11ccc(N%12C(=O)c%13ccc(C(*)=O)cc%13C%12=O)cc%11)(C(F)(F)F)C(F)(F)F)cc9)C%10=O)cc8)ccc7nc6-c6ccccc6)cc5)cc4)nc3c2)cc1",
+              "record_id": "ru_006652",
+              "restore_label_length": 150,
+              "split": "train",
+              "view1_token_length": 164
+            }
+          ],
+          "restore_label_length": {
+            "count": 9264,
+            "max": 221,
+            "mean": 37.4711,
+            "min": 3,
+            "p50": 32,
+            "p90": 71,
+            "p95": 82,
+            "p99": 104
+          },
+          "view1_token_length": {
+            "count": 9264,
+            "max": 277,
+            "mean": 52.0817,
+            "min": 16,
+            "p50": 46,
+            "p90": 86,
+            "p95": 98,
+            "p99": 121
+          }
+        },
+        "valid": {
+          "count": 1158,
+          "longest_restore_label_examples": [
+            {
+              "canonical_smiles": "*c1ccc(OCCN(c2ccccc2)c2ccc(/C=C/C3=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010421",
+              "restore_label_length": 152,
+              "split": "valid",
+              "view1_token_length": 166
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(-c2ccc(N3C(=O)c4ccc(Oc5ccc(C(c6ccc(Oc7ccc8c(c7)C(=O)N(c7ccc(-c9ccc(Oc%10ccc%11c(c%10)C(C)(C)CC%11%10CC(C)(C)c%11cc(*)ccc%11%10)c(C(F)(F)F)c9)cc7)C8=O)cc6)(C(F)(F)F)C(F)(F)F)cc5)cc4C3=O)cc2)cc1C(F)(F)F",
+              "record_id": "ru_008011",
+              "restore_label_length": 149,
+              "split": "valid",
+              "view1_token_length": 163
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5ccc6c(c5)C(=O)N(c5ccc(Oc7ccc(C8(c9ccc(Oc%10ccc(N%11C(=O)c%12ccc(C(*)=O)cc%12C%11=O)cc%10)cc9)CC9CC8C8CCCC98)cc7)cc5)C6=O)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006525",
+              "restore_label_length": 137,
+              "split": "valid",
+              "view1_token_length": 151
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(CC)c2ccc(/N=N/c3ccc([N+](=O)[O-])cc3)cc2)c(N2C(=O)c3ccc(C(c4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(CC)c4ccc(/N=N/c6ccc([N+](=O)[O-])cc6)cc4)C5=O)(C(F)(F)F)C(F)(F)F)cc3C2=O)c1",
+              "record_id": "ru_010419",
+              "restore_label_length": 134,
+              "split": "valid",
+              "view1_token_length": 148
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(NC(=O)c2ccc3c(c2)C(=O)N(c2ccc(Oc4ccc(C5(c6ccc(Oc7ccc(N8C(=O)c9ccc(C(=O)Nc%10ccc(Oc%11cc(C(C)(C)C)c(*)cc%11C(C)(C)C)cc%10)cc9C8=O)cc7)cc6)CC6CC5C5CCCC65)cc4)cc2)C3=O)cc1",
+              "record_id": "ru_008396",
+              "restore_label_length": 127,
+              "split": "valid",
+              "view1_token_length": 141
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(-c3ccc(Oc4ccc(C5(c6ccc(Oc7ccc(-c8ccc(N9C(=O)c%10ccc(C(*)(C(F)(F)F)C(F)(F)F)cc%10C9=O)cc8)cc7C(F)(F)F)cc6)C(=O)N(c6ccccc6)c6ccccc65)cc4)c(C(F)(F)F)c3)cc1)C2=O",
+              "record_id": "ru_011030",
+              "restore_label_length": 127,
+              "split": "valid",
+              "view1_token_length": 141
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(-c2cc(-c3ccc(-c4ccccc4)cc3)cc(-c3ccc(NC(=O)Nc4ccc5c(c4)C(=O)N(c4ccc(Oc6ccc7ccccc7c6-c6c(Oc7ccc(N8C(=O)c9ccc(NC(*)=O)cc9C8=O)cc7)ccc7ccccc67)cc4)C5=O)cc3)n2)cc1",
+              "record_id": "ru_006197",
+              "restore_label_length": 116,
+              "split": "valid",
+              "view1_token_length": 130
+            },
+            {
+              "canonical_smiles": "*c1ccc(Oc2ccc(NC(=O)c3ccc4c(c3)C(=O)N(c3ccc(-c5sc(-c6ccc(N7C(=O)c8ccc(C(=O)Nc9ccc(Oc%10ccc(C(*)(C)C)cc%10)cc9)cc8C7=O)cc6)c(-c6ccccc6)c5-c5ccccc5)cc3)C4=O)cc2)cc1",
+              "record_id": "ru_010750",
+              "restore_label_length": 113,
+              "split": "valid",
+              "view1_token_length": 127
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5cccc(N6C(=O)c7ccc(C(c8ccc9c(c8)C(=O)N(c8cccc(C(*)=O)c8)C9=O)(C(F)(F)F)C(F)(F)F)cc7C6=O)c5)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006529",
+              "restore_label_length": 112,
+              "split": "valid",
+              "view1_token_length": 126
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2cccc(Oc3ccc(NC(=O)c4ccc5c(c4)C(=O)N(c4ccc(Oc6ccc(C7(c8ccc(Oc9ccc(N%10C(=O)c%11ccc(C(*)=O)cc%11C%10=O)cc9)cc8)NC(=O)c8ccccc87)cc6)cc4)C5=O)cc3)c2)cc1",
+              "record_id": "ru_006662",
+              "restore_label_length": 112,
+              "split": "valid",
+              "view1_token_length": 126
+            }
+          ],
+          "longest_view1_examples": [
+            {
+              "canonical_smiles": "*c1ccc(OCCN(c2ccccc2)c2ccc(/C=C/C3=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010421",
+              "restore_label_length": 152,
+              "split": "valid",
+              "view1_token_length": 166
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(-c2ccc(N3C(=O)c4ccc(Oc5ccc(C(c6ccc(Oc7ccc8c(c7)C(=O)N(c7ccc(-c9ccc(Oc%10ccc%11c(c%10)C(C)(C)CC%11%10CC(C)(C)c%11cc(*)ccc%11%10)c(C(F)(F)F)c9)cc7)C8=O)cc6)(C(F)(F)F)C(F)(F)F)cc5)cc4C3=O)cc2)cc1C(F)(F)F",
+              "record_id": "ru_008011",
+              "restore_label_length": 149,
+              "split": "valid",
+              "view1_token_length": 163
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5ccc6c(c5)C(=O)N(c5ccc(Oc7ccc(C8(c9ccc(Oc%10ccc(N%11C(=O)c%12ccc(C(*)=O)cc%12C%11=O)cc%10)cc9)CC9CC8C8CCCC98)cc7)cc5)C6=O)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006525",
+              "restore_label_length": 137,
+              "split": "valid",
+              "view1_token_length": 151
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(CC)c2ccc(/N=N/c3ccc([N+](=O)[O-])cc3)cc2)c(N2C(=O)c3ccc(C(c4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(CC)c4ccc(/N=N/c6ccc([N+](=O)[O-])cc6)cc4)C5=O)(C(F)(F)F)C(F)(F)F)cc3C2=O)c1",
+              "record_id": "ru_010419",
+              "restore_label_length": 134,
+              "split": "valid",
+              "view1_token_length": 148
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(NC(=O)c2ccc3c(c2)C(=O)N(c2ccc(Oc4ccc(C5(c6ccc(Oc7ccc(N8C(=O)c9ccc(C(=O)Nc%10ccc(Oc%11cc(C(C)(C)C)c(*)cc%11C(C)(C)C)cc%10)cc9C8=O)cc7)cc6)CC6CC5C5CCCC65)cc4)cc2)C3=O)cc1",
+              "record_id": "ru_008396",
+              "restore_label_length": 127,
+              "split": "valid",
+              "view1_token_length": 141
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(-c3ccc(Oc4ccc(C5(c6ccc(Oc7ccc(-c8ccc(N9C(=O)c%10ccc(C(*)(C(F)(F)F)C(F)(F)F)cc%10C9=O)cc8)cc7C(F)(F)F)cc6)C(=O)N(c6ccccc6)c6ccccc65)cc4)c(C(F)(F)F)c3)cc1)C2=O",
+              "record_id": "ru_011030",
+              "restore_label_length": 127,
+              "split": "valid",
+              "view1_token_length": 141
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(-c2cc(-c3ccc(-c4ccccc4)cc3)cc(-c3ccc(NC(=O)Nc4ccc5c(c4)C(=O)N(c4ccc(Oc6ccc7ccccc7c6-c6c(Oc7ccc(N8C(=O)c9ccc(NC(*)=O)cc9C8=O)cc7)ccc7ccccc67)cc4)C5=O)cc3)n2)cc1",
+              "record_id": "ru_006197",
+              "restore_label_length": 116,
+              "split": "valid",
+              "view1_token_length": 130
+            },
+            {
+              "canonical_smiles": "*c1ccc(Oc2ccc(NC(=O)c3ccc4c(c3)C(=O)N(c3ccc(-c5sc(-c6ccc(N7C(=O)c8ccc(C(=O)Nc9ccc(Oc%10ccc(C(*)(C)C)cc%10)cc9)cc8C7=O)cc6)c(-c6ccccc6)c5-c5ccccc5)cc3)C4=O)cc2)cc1",
+              "record_id": "ru_010750",
+              "restore_label_length": 113,
+              "split": "valid",
+              "view1_token_length": 127
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5cccc(N6C(=O)c7ccc(C(c8ccc9c(c8)C(=O)N(c8cccc(C(*)=O)c8)C9=O)(C(F)(F)F)C(F)(F)F)cc7C6=O)c5)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006529",
+              "restore_label_length": 112,
+              "split": "valid",
+              "view1_token_length": 126
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2cccc(Oc3ccc(NC(=O)c4ccc5c(c4)C(=O)N(c4ccc(Oc6ccc(C7(c8ccc(Oc9ccc(N%10C(=O)c%11ccc(C(*)=O)cc%11C%10=O)cc9)cc8)NC(=O)c8ccccc87)cc6)cc4)C5=O)cc3)c2)cc1",
+              "record_id": "ru_006662",
+              "restore_label_length": 112,
+              "split": "valid",
+              "view1_token_length": 126
+            }
+          ],
+          "restore_label_length": {
+            "count": 1158,
+            "max": 152,
+            "mean": 37.5881,
+            "min": 4,
+            "p50": 32,
+            "p90": 70,
+            "p95": 81,
+            "p99": 109
+          },
+          "view1_token_length": {
+            "count": 1158,
+            "max": 166,
+            "mean": 51.4991,
+            "min": 17,
+            "p50": 46,
+            "p90": 84,
+            "p95": 95,
+            "p99": 123
+          }
+        }
+      }
+    },
+    "training": {
+      "augmentation_strategy_counts": {
+        "attachment_rooted_smiles": 9264,
+        "identity": 11580,
+        "light_denoise": 9264,
+        "rdkit_random_smiles": 9264
+      },
+      "augmentation_validity_counts": {
+        "rdkit_valid": {
+          "false": 0,
+          "true": 30108,
+          "unknown": 9264
+        },
+        "two_attachment_valid": {
+          "false": 0,
+          "true": 39372,
+          "unknown": 0
+        }
+      },
+      "augmentation_validity_counts_by_split": {
+        "test": {
+          "rdkit_valid": {
+            "false": 0,
+            "true": 1158,
+            "unknown": 0
+          },
+          "two_attachment_valid": {
+            "false": 0,
+            "true": 1158,
+            "unknown": 0
+          }
+        },
+        "train": {
+          "rdkit_valid": {
+            "false": 0,
+            "true": 27792,
+            "unknown": 9264
+          },
+          "two_attachment_valid": {
+            "false": 0,
+            "true": 37056,
+            "unknown": 0
+          }
+        },
+        "valid": {
+          "rdkit_valid": {
+            "false": 0,
+            "true": 1158,
+            "unknown": 0
+          },
+          "two_attachment_valid": {
+            "false": 0,
+            "true": 1158,
+            "unknown": 0
+          }
+        }
+      },
+      "counts": {
+        "test": 1158,
+        "total": 39372,
+        "train": 37056,
+        "valid": 1158
+      },
+      "quality_checks": {
+        "mask_failure_count": 0,
+        "mask_failure_examples": [],
+        "restore_label_length_overflow_count": 0,
+        "restore_label_length_overflow_examples": [],
+        "restore_roundtrip_failure_count": 0,
+        "restore_roundtrip_failure_examples": [],
+        "view_length_overflow_count": 0,
+        "view_length_overflow_examples": [],
+        "view_roundtrip_failure_count": 0,
+        "view_roundtrip_failure_examples": []
+      },
+      "record_id_uniqueness_by_split": {
+        "test": {
+          "duplicate_record_id_count": 0,
+          "duplicate_record_id_examples": [],
+          "row_count": 1158,
+          "unique_record_id_count": 1158
+        },
+        "train": {
+          "duplicate_record_id_count": 27792,
+          "duplicate_record_id_examples": [
+            "ru_000002",
+            "ru_000002",
+            "ru_000002",
+            "ru_000003",
+            "ru_000003",
+            "ru_000003",
+            "ru_000004",
+            "ru_000004",
+            "ru_000004",
+            "ru_000005",
+            "ru_000005",
+            "ru_000005",
+            "ru_000006",
+            "ru_000006",
+            "ru_000006",
+            "ru_000007",
+            "ru_000007",
+            "ru_000007",
+            "ru_000008",
+            "ru_000008"
+          ],
+          "row_count": 37056,
+          "unique_record_id_count": 9264
+        },
+        "valid": {
+          "duplicate_record_id_count": 0,
+          "duplicate_record_id_examples": [],
+          "row_count": 1158,
+          "unique_record_id_count": 1158
+        }
+      },
+      "splits": {
+        "test": {
+          "count": 1158,
+          "longest_restore_label_examples": [
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)C(c1ccc(-c3ccc(C4C(=O)c5ccc(-c6ccc(C7C(=O)c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc%12c(c%11)C(=O)C(c%11ccc(-c%13ccc%14c(c%13)C(=O)C(c%13ccc(-c%15ccc%16c(c%15)C(=O)C(c%15ccc(-c%17ccc(C%18C(=O)c%19ccc(-c%20ccc%21c(c%20)C(=O)C(c%20ccc(-c%22ccc(*)cc%22C(=O)c%22ccccc%22)cc%20C(F)(F)F)C%21=O)cc%19C%18=O)c(C(F)(F)F)c%17)cc%15C(F)(F)F)C%16=O)cc%13C(F)(F)F)C%14=O)cc%11C(F)(F)F)C%12=O)cc9C(F)(F)F)C%10=O)cc8C7=O)c(C(F)(F)F)c6)cc5C4=O)c(C(F)(F)F)c3)cc1C(F)(F)F)C2=O",
+              "record_id": "ru_010959",
+              "restore_label_length": 367,
+              "split": "test",
+              "view1_token_length": 381
+            },
+            {
+              "canonical_smiles": "*OCCN(CCOC(=O)c1cc(OC2CCN(c3ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc3)CC2)cc(C(*)=O)c1)c1ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc1",
+              "record_id": "ru_007599",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 153
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3cccc(N4C(=O)c5ccc(-c6c(-c7ccccc7)c(-c7ccccc7)c(-c7ccc(Oc8ccc(-c9c(-c%10ccccc%10)c(-c%10ccccc%10)c(*)c(-c%10ccccc%10)c9-c9ccccc9)cc8)cc7)c(-c7ccccc7)c6-c6ccccc6)cc5C4=O)c3)cc1)C2=O",
+              "record_id": "ru_011155",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 153
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2c(-c3ccc(-c4ccccc4)cc3)cc(-c3ccc(OCCCCCCCCCCOc4ccc(-c5cc(-c6ccc(-c7ccccc7)cc6)c(-c6ccc(-n7c(=O)c8cc9c(=O)n(*)c(=O)c9cc8c7=O)cc6)c(-c6ccc(-c7ccccc7)cc6)c5)cc4)cc3)cc2-c2ccc(-c3ccccc3)cc2)cc1",
+              "record_id": "ru_009532",
+              "restore_label_length": 128,
+              "split": "test",
+              "view1_token_length": 142
+            },
+            {
+              "canonical_smiles": "*CN1C(=O)c2ccc(C(c3ccc4c(c3)C(=O)N(CC(=O)Nc3ccc(Oc5ccc6nc(-c7ccccc7)c(-c7ccc(-c8nc9cc(Oc%10ccc(NC(*)=O)cc%10)ccc9nc8-c8ccccc8)cc7)nc6c5)cc3)C4=O)(C(F)(F)F)C(F)(F)F)cc2C1=O",
+              "record_id": "ru_004903",
+              "restore_label_length": 121,
+              "split": "test",
+              "view1_token_length": 135
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(N3C(=O)c4ccc(-c5c(-c6ccccc6)c(-c6ccccc6)c(-c6ccc(Sc7ccc(-c8c(-c9ccccc9)c(-c9ccccc9)c(*)c(-c9ccccc9)c8-c8ccccc8)cc7)cc6)c(-c6ccccc6)c5-c5ccccc5)cc4C3=O)cc1)C2=O",
+              "record_id": "ru_011065",
+              "restore_label_length": 121,
+              "split": "test",
+              "view1_token_length": 135
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3ccc4nc(-c5ccc(Oc6ccc(-c7nc8ccc(Oc9ccc(N%10C(=O)c%11ccc(C(*)(C(F)(F)F)C(F)(F)F)cc%11C%10=O)cc9)cc8nc7-c7ccccc7)cc6)cc5)c(-c5ccccc5)nc4c3)cc1)C2=O",
+              "record_id": "ru_011152",
+              "restore_label_length": 120,
+              "split": "test",
+              "view1_token_length": 134
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5ccc6c(c5)C(=O)N(c5ccc(Oc7cccc8c(Oc9ccc(N%10C(=O)c%11ccc(C(*)=O)cc%11C%10=O)cc9)cccc78)cc5)C6=O)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006527",
+              "restore_label_length": 118,
+              "split": "test",
+              "view1_token_length": 132
+            },
+            {
+              "canonical_smiles": "*c1ccc(Oc2ccc(-c3ccc(N4C(=O)c5ccc(C(c6ccc7c(c6)C(=O)N(c6ccc(-c8ccc(Oc9ccc%10c(c9)C(*)(C)CC%10(C)C)c(C(F)(F)F)c8)cc6)C7=O)(C(F)(F)F)C(F)(F)F)cc5C4=O)cc3)cc2C(F)(F)F)cc1",
+              "record_id": "ru_010486",
+              "restore_label_length": 118,
+              "split": "test",
+              "view1_token_length": 132
+            },
+            {
+              "canonical_smiles": "*COC(=O)CCCCCCCCC(=O)Oc1ccc(S(=O)(=O)c2ccc(Oc3ccc(/C=C4\\CCC/C(=C\\c5ccc(Oc6ccc(S(=O)(=O)c7ccc(OC(=O)CCCCCCCCC(=O)OC[Si](C)(C)O[Si](*)(C)C)cc7)cc6)cc5)C4=O)cc3)cc2)cc1",
+              "record_id": "ru_004995",
+              "restore_label_length": 112,
+              "split": "test",
+              "view1_token_length": 126
+            }
+          ],
+          "longest_view1_examples": [
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)C(c1ccc(-c3ccc(C4C(=O)c5ccc(-c6ccc(C7C(=O)c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc%12c(c%11)C(=O)C(c%11ccc(-c%13ccc%14c(c%13)C(=O)C(c%13ccc(-c%15ccc%16c(c%15)C(=O)C(c%15ccc(-c%17ccc(C%18C(=O)c%19ccc(-c%20ccc%21c(c%20)C(=O)C(c%20ccc(-c%22ccc(*)cc%22C(=O)c%22ccccc%22)cc%20C(F)(F)F)C%21=O)cc%19C%18=O)c(C(F)(F)F)c%17)cc%15C(F)(F)F)C%16=O)cc%13C(F)(F)F)C%14=O)cc%11C(F)(F)F)C%12=O)cc9C(F)(F)F)C%10=O)cc8C7=O)c(C(F)(F)F)c6)cc5C4=O)c(C(F)(F)F)c3)cc1C(F)(F)F)C2=O",
+              "record_id": "ru_010959",
+              "restore_label_length": 367,
+              "split": "test",
+              "view1_token_length": 381
+            },
+            {
+              "canonical_smiles": "*OCCN(CCOC(=O)c1cc(OC2CCN(c3ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc3)CC2)cc(C(*)=O)c1)c1ccc(S(=O)(=O)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)C(F)(F)F)cc1",
+              "record_id": "ru_007599",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 153
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3cccc(N4C(=O)c5ccc(-c6c(-c7ccccc7)c(-c7ccccc7)c(-c7ccc(Oc8ccc(-c9c(-c%10ccccc%10)c(-c%10ccccc%10)c(*)c(-c%10ccccc%10)c9-c9ccccc9)cc8)cc7)c(-c7ccccc7)c6-c6ccccc6)cc5C4=O)c3)cc1)C2=O",
+              "record_id": "ru_011155",
+              "restore_label_length": 139,
+              "split": "test",
+              "view1_token_length": 153
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2c(-c3ccc(-c4ccccc4)cc3)cc(-c3ccc(OCCCCCCCCCCOc4ccc(-c5cc(-c6ccc(-c7ccccc7)cc6)c(-c6ccc(-n7c(=O)c8cc9c(=O)n(*)c(=O)c9cc8c7=O)cc6)c(-c6ccc(-c7ccccc7)cc6)c5)cc4)cc3)cc2-c2ccc(-c3ccccc3)cc2)cc1",
+              "record_id": "ru_009532",
+              "restore_label_length": 128,
+              "split": "test",
+              "view1_token_length": 142
+            },
+            {
+              "canonical_smiles": "*CN1C(=O)c2ccc(C(c3ccc4c(c3)C(=O)N(CC(=O)Nc3ccc(Oc5ccc6nc(-c7ccccc7)c(-c7ccc(-c8nc9cc(Oc%10ccc(NC(*)=O)cc%10)ccc9nc8-c8ccccc8)cc7)nc6c5)cc3)C4=O)(C(F)(F)F)C(F)(F)F)cc2C1=O",
+              "record_id": "ru_004903",
+              "restore_label_length": 121,
+              "split": "test",
+              "view1_token_length": 135
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(N3C(=O)c4ccc(-c5c(-c6ccccc6)c(-c6ccccc6)c(-c6ccc(Sc7ccc(-c8c(-c9ccccc9)c(-c9ccccc9)c(*)c(-c9ccccc9)c8-c8ccccc8)cc7)cc6)c(-c6ccccc6)c5-c5ccccc5)cc4C3=O)cc1)C2=O",
+              "record_id": "ru_011065",
+              "restore_label_length": 121,
+              "split": "test",
+              "view1_token_length": 135
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(Oc3ccc4nc(-c5ccc(Oc6ccc(-c7nc8ccc(Oc9ccc(N%10C(=O)c%11ccc(C(*)(C(F)(F)F)C(F)(F)F)cc%11C%10=O)cc9)cc8nc7-c7ccccc7)cc6)cc5)c(-c5ccccc5)nc4c3)cc1)C2=O",
+              "record_id": "ru_011152",
+              "restore_label_length": 120,
+              "split": "test",
+              "view1_token_length": 134
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5ccc6c(c5)C(=O)N(c5ccc(Oc7cccc8c(Oc9ccc(N%10C(=O)c%11ccc(C(*)=O)cc%11C%10=O)cc9)cccc78)cc5)C6=O)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006527",
+              "restore_label_length": 118,
+              "split": "test",
+              "view1_token_length": 132
+            },
+            {
+              "canonical_smiles": "*c1ccc(Oc2ccc(-c3ccc(N4C(=O)c5ccc(C(c6ccc7c(c6)C(=O)N(c6ccc(-c8ccc(Oc9ccc%10c(c9)C(*)(C)CC%10(C)C)c(C(F)(F)F)c8)cc6)C7=O)(C(F)(F)F)C(F)(F)F)cc5C4=O)cc3)cc2C(F)(F)F)cc1",
+              "record_id": "ru_010486",
+              "restore_label_length": 118,
+              "split": "test",
+              "view1_token_length": 132
+            },
+            {
+              "canonical_smiles": "*COC(=O)CCCCCCCCC(=O)Oc1ccc(S(=O)(=O)c2ccc(Oc3ccc(/C=C4\\CCC/C(=C\\c5ccc(Oc6ccc(S(=O)(=O)c7ccc(OC(=O)CCCCCCCCC(=O)OC[Si](C)(C)O[Si](*)(C)C)cc7)cc6)cc5)C4=O)cc3)cc2)cc1",
+              "record_id": "ru_004995",
+              "restore_label_length": 112,
+              "split": "test",
+              "view1_token_length": 126
+            }
+          ],
+          "restore_label_length": {
+            "count": 1158,
+            "max": 367,
+            "mean": 38.9136,
+            "min": 4,
+            "p50": 34,
+            "p90": 71,
+            "p95": 84,
+            "p99": 106
+          },
+          "view1_token_length": {
+            "count": 1158,
+            "max": 381,
+            "mean": 52.8351,
+            "min": 18,
+            "p50": 48,
+            "p90": 85,
+            "p95": 98,
+            "p99": 120
+          }
+        },
+        "train": {
+          "count": 37056,
+          "longest_restore_label_examples": [
+            {
+              "canonical_smiles": "*c1ccc(OCc2cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)c2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCc4cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)c4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010431",
+              "restore_label_length": 221,
+              "split": "train",
+              "view1_token_length": 235
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCc2cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)c2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCc4cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)c4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010431",
+              "restore_label_length": 221,
+              "split": "train",
+              "view1_token_length": 239
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCc2cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)c2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCc4cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)c4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010431",
+              "restore_label_length": 221,
+              "split": "train",
+              "view1_token_length": 241
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCc2cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)c2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCc4cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)c4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010431",
+              "restore_label_length": 221,
+              "split": "train",
+              "view1_token_length": 274
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2ccc(-c3ccc(-c4ccc(-c5ccc(-c6ccc(-c7ccc(-c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc(*)cc%11C(=O)c%11ccccc%11)cc9C(F)(F)F)C%10=O)cc8C(=O)c8ccccc8)c(C(=O)c8ccccc8)c7)c(C(=O)c7ccccc7)c6)cc5C(=O)c5ccccc5)c(C(=O)c5ccccc5)c4)c(C(=O)c4ccccc4)c3)c(C(=O)c3ccccc3)c2)c(C(=O)c2ccccc2)c1",
+              "record_id": "ru_009596",
+              "restore_label_length": 188,
+              "split": "train",
+              "view1_token_length": 202
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2ccc(-c3ccc(-c4ccc(-c5ccc(-c6ccc(-c7ccc(-c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc(*)cc%11C(=O)c%11ccccc%11)cc9C(F)(F)F)C%10=O)cc8C(=O)c8ccccc8)c(C(=O)c8ccccc8)c7)c(C(=O)c7ccccc7)c6)cc5C(=O)c5ccccc5)c(C(=O)c5ccccc5)c4)c(C(=O)c4ccccc4)c3)c(C(=O)c3ccccc3)c2)c(C(=O)c2ccccc2)c1",
+              "record_id": "ru_009596",
+              "restore_label_length": 188,
+              "split": "train",
+              "view1_token_length": 190
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2ccc(-c3ccc(-c4ccc(-c5ccc(-c6ccc(-c7ccc(-c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc(*)cc%11C(=O)c%11ccccc%11)cc9C(F)(F)F)C%10=O)cc8C(=O)c8ccccc8)c(C(=O)c8ccccc8)c7)c(C(=O)c7ccccc7)c6)cc5C(=O)c5ccccc5)c(C(=O)c5ccccc5)c4)c(C(=O)c4ccccc4)c3)c(C(=O)c3ccccc3)c2)c(C(=O)c2ccccc2)c1",
+              "record_id": "ru_009596",
+              "restore_label_length": 188,
+              "split": "train",
+              "view1_token_length": 213
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2ccc(-c3ccc(-c4ccc(-c5ccc(-c6ccc(-c7ccc(-c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc(*)cc%11C(=O)c%11ccccc%11)cc9C(F)(F)F)C%10=O)cc8C(=O)c8ccccc8)c(C(=O)c8ccccc8)c7)c(C(=O)c7ccccc7)c6)cc5C(=O)c5ccccc5)c(C(=O)c5ccccc5)c4)c(C(=O)c4ccccc4)c3)c(C(=O)c3ccccc3)c2)c(C(=O)c2ccccc2)c1",
+              "record_id": "ru_009596",
+              "restore_label_length": 188,
+              "split": "train",
+              "view1_token_length": 201
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(C)c2ccc(/C=C/C3=CC(=C(/C#N)C(=O)OCc4ccc(Oc5c(F)c(F)c(F)c(F)c5F)cc4)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)C(=O)OCc7ccc(Oc8c(F)c(F)c(F)c(F)c8F)cc7)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010413",
+              "restore_label_length": 186,
+              "split": "train",
+              "view1_token_length": 200
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(C)c2ccc(/C=C/C3=CC(=C(/C#N)C(=O)OCc4ccc(Oc5c(F)c(F)c(F)c(F)c5F)cc4)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)C(=O)OCc7ccc(Oc8c(F)c(F)c(F)c(F)c8F)cc7)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010413",
+              "restore_label_length": 186,
+              "split": "train",
+              "view1_token_length": 204
+            }
+          ],
+          "longest_view1_examples": [
+            {
+              "canonical_smiles": "*c1ccc(OCc2cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)c2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCc4cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)c4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010431",
+              "restore_label_length": 221,
+              "split": "train",
+              "view1_token_length": 274
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCc2cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)c2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCc4cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)c4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010431",
+              "restore_label_length": 221,
+              "split": "train",
+              "view1_token_length": 241
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCc2cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)c2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCc4cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)c4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010431",
+              "restore_label_length": 221,
+              "split": "train",
+              "view1_token_length": 239
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(C)c2ccc(/C=C/C3=CC(=C(/C#N)C(=O)OCc4ccc(Oc5c(F)c(F)c(F)c(F)c5F)cc4)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)C(=O)OCc7ccc(Oc8c(F)c(F)c(F)c(F)c8F)cc7)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010413",
+              "restore_label_length": 186,
+              "split": "train",
+              "view1_token_length": 236
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCc2cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)cc(OCCN(C)c3ccc(/C=C/C4=CC(=C(C#N)C#N)CC(C)(C)C4)cc3)c2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCc4cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)cc(OCCN(C)c6ccc(/C=C/C7=CC(=C(C#N)C#N)CC(C)(C)C7)cc6)c4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010431",
+              "restore_label_length": 221,
+              "split": "train",
+              "view1_token_length": 235
+            },
+            {
+              "canonical_smiles": "*CN1C(=O)c2ccc(C(c3ccc4c(c3)C(=O)N(CC(=O)Nc3ccc(Oc5ccc6nc(-c7ccccc7)c(-c7ccc(N8C(=O)c9ccc%10c%11c(ccc(c9%11)C8=O)C(=O)N(c8ccc(-c9nc%11cc(Oc%12ccc(NC(*)=O)cc%12)ccc%11nc9-c9ccccc9)cc8)C%10=O)cc7)nc6c5)cc3)C4=O)(C(F)(F)F)C(F)(F)F)cc2C1=O",
+              "record_id": "ru_004904",
+              "restore_label_length": 174,
+              "split": "train",
+              "view1_token_length": 213
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2ccc(-c3ccc(-c4ccc(-c5ccc(-c6ccc(-c7ccc(-c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc(*)cc%11C(=O)c%11ccccc%11)cc9C(F)(F)F)C%10=O)cc8C(=O)c8ccccc8)c(C(=O)c8ccccc8)c7)c(C(=O)c7ccccc7)c6)cc5C(=O)c5ccccc5)c(C(=O)c5ccccc5)c4)c(C(=O)c4ccccc4)c3)c(C(=O)c3ccccc3)c2)c(C(=O)c2ccccc2)c1",
+              "record_id": "ru_009596",
+              "restore_label_length": 188,
+              "split": "train",
+              "view1_token_length": 213
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(C)c2ccc(/C=C/C3=CC(=C(/C#N)C(=O)OCc4ccc(Oc5c(F)c(F)c(F)c(F)c5F)cc4)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)C(=O)OCc7ccc(Oc8c(F)c(F)c(F)c(F)c8F)cc7)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010413",
+              "restore_label_length": 186,
+              "split": "train",
+              "view1_token_length": 205
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(C)c2ccc(/C=C/C3=CC(=C(/C#N)C(=O)OCc4ccc(Oc5c(F)c(F)c(F)c(F)c5F)cc4)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)C(=O)OCc7ccc(Oc8c(F)c(F)c(F)c(F)c8F)cc7)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010413",
+              "restore_label_length": 186,
+              "split": "train",
+              "view1_token_length": 204
+            },
+            {
+              "canonical_smiles": "*c1ccc(-c2ccc(-c3ccc(-c4ccc(-c5ccc(-c6ccc(-c7ccc(-c8ccc(-c9ccc%10c(c9)C(=O)C(c9ccc(-c%11ccc(*)cc%11C(=O)c%11ccccc%11)cc9C(F)(F)F)C%10=O)cc8C(=O)c8ccccc8)c(C(=O)c8ccccc8)c7)c(C(=O)c7ccccc7)c6)cc5C(=O)c5ccccc5)c(C(=O)c5ccccc5)c4)c(C(=O)c4ccccc4)c3)c(C(=O)c3ccccc3)c2)c(C(=O)c2ccccc2)c1",
+              "record_id": "ru_009596",
+              "restore_label_length": 188,
+              "split": "train",
+              "view1_token_length": 202
+            }
+          ],
+          "restore_label_length": {
+            "count": 37056,
+            "max": 221,
+            "mean": 37.4711,
+            "min": 3,
+            "p50": 32,
+            "p90": 71,
+            "p95": 82,
+            "p99": 105
+          },
+          "view1_token_length": {
+            "count": 37056,
+            "max": 274,
+            "mean": 52.2412,
+            "min": 15,
+            "p50": 46,
+            "p90": 87,
+            "p95": 98,
+            "p99": 123
+          }
+        },
+        "valid": {
+          "count": 1158,
+          "longest_restore_label_examples": [
+            {
+              "canonical_smiles": "*c1ccc(OCCN(c2ccccc2)c2ccc(/C=C/C3=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010421",
+              "restore_label_length": 152,
+              "split": "valid",
+              "view1_token_length": 166
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(-c2ccc(N3C(=O)c4ccc(Oc5ccc(C(c6ccc(Oc7ccc8c(c7)C(=O)N(c7ccc(-c9ccc(Oc%10ccc%11c(c%10)C(C)(C)CC%11%10CC(C)(C)c%11cc(*)ccc%11%10)c(C(F)(F)F)c9)cc7)C8=O)cc6)(C(F)(F)F)C(F)(F)F)cc5)cc4C3=O)cc2)cc1C(F)(F)F",
+              "record_id": "ru_008011",
+              "restore_label_length": 149,
+              "split": "valid",
+              "view1_token_length": 163
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5ccc6c(c5)C(=O)N(c5ccc(Oc7ccc(C8(c9ccc(Oc%10ccc(N%11C(=O)c%12ccc(C(*)=O)cc%12C%11=O)cc%10)cc9)CC9CC8C8CCCC98)cc7)cc5)C6=O)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006525",
+              "restore_label_length": 137,
+              "split": "valid",
+              "view1_token_length": 151
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(CC)c2ccc(/N=N/c3ccc([N+](=O)[O-])cc3)cc2)c(N2C(=O)c3ccc(C(c4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(CC)c4ccc(/N=N/c6ccc([N+](=O)[O-])cc6)cc4)C5=O)(C(F)(F)F)C(F)(F)F)cc3C2=O)c1",
+              "record_id": "ru_010419",
+              "restore_label_length": 134,
+              "split": "valid",
+              "view1_token_length": 148
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(NC(=O)c2ccc3c(c2)C(=O)N(c2ccc(Oc4ccc(C5(c6ccc(Oc7ccc(N8C(=O)c9ccc(C(=O)Nc%10ccc(Oc%11cc(C(C)(C)C)c(*)cc%11C(C)(C)C)cc%10)cc9C8=O)cc7)cc6)CC6CC5C5CCCC65)cc4)cc2)C3=O)cc1",
+              "record_id": "ru_008396",
+              "restore_label_length": 127,
+              "split": "valid",
+              "view1_token_length": 141
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(-c3ccc(Oc4ccc(C5(c6ccc(Oc7ccc(-c8ccc(N9C(=O)c%10ccc(C(*)(C(F)(F)F)C(F)(F)F)cc%10C9=O)cc8)cc7C(F)(F)F)cc6)C(=O)N(c6ccccc6)c6ccccc65)cc4)c(C(F)(F)F)c3)cc1)C2=O",
+              "record_id": "ru_011030",
+              "restore_label_length": 127,
+              "split": "valid",
+              "view1_token_length": 141
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(-c2cc(-c3ccc(-c4ccccc4)cc3)cc(-c3ccc(NC(=O)Nc4ccc5c(c4)C(=O)N(c4ccc(Oc6ccc7ccccc7c6-c6c(Oc7ccc(N8C(=O)c9ccc(NC(*)=O)cc9C8=O)cc7)ccc7ccccc67)cc4)C5=O)cc3)n2)cc1",
+              "record_id": "ru_006197",
+              "restore_label_length": 116,
+              "split": "valid",
+              "view1_token_length": 130
+            },
+            {
+              "canonical_smiles": "*c1ccc(Oc2ccc(NC(=O)c3ccc4c(c3)C(=O)N(c3ccc(-c5sc(-c6ccc(N7C(=O)c8ccc(C(=O)Nc9ccc(Oc%10ccc(C(*)(C)C)cc%10)cc9)cc8C7=O)cc6)c(-c6ccccc6)c5-c5ccccc5)cc3)C4=O)cc2)cc1",
+              "record_id": "ru_010750",
+              "restore_label_length": 113,
+              "split": "valid",
+              "view1_token_length": 127
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5cccc(N6C(=O)c7ccc(C(c8ccc9c(c8)C(=O)N(c8cccc(C(*)=O)c8)C9=O)(C(F)(F)F)C(F)(F)F)cc7C6=O)c5)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006529",
+              "restore_label_length": 112,
+              "split": "valid",
+              "view1_token_length": 126
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2cccc(Oc3ccc(NC(=O)c4ccc5c(c4)C(=O)N(c4ccc(Oc6ccc(C7(c8ccc(Oc9ccc(N%10C(=O)c%11ccc(C(*)=O)cc%11C%10=O)cc9)cc8)NC(=O)c8ccccc87)cc6)cc4)C5=O)cc3)c2)cc1",
+              "record_id": "ru_006662",
+              "restore_label_length": 112,
+              "split": "valid",
+              "view1_token_length": 126
+            }
+          ],
+          "longest_view1_examples": [
+            {
+              "canonical_smiles": "*c1ccc(OCCN(c2ccccc2)c2ccc(/C=C/C3=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C3)cc2)c(N2C(=O)c3ccc(Oc4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(c4ccccc4)c4ccc(/C=C/C6=CC(=C(/C#N)S(C)(=O)=O)/CC(C)(C)C6)cc4)C5=O)cc3C2=O)c1",
+              "record_id": "ru_010421",
+              "restore_label_length": 152,
+              "split": "valid",
+              "view1_token_length": 166
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(-c2ccc(N3C(=O)c4ccc(Oc5ccc(C(c6ccc(Oc7ccc8c(c7)C(=O)N(c7ccc(-c9ccc(Oc%10ccc%11c(c%10)C(C)(C)CC%11%10CC(C)(C)c%11cc(*)ccc%11%10)c(C(F)(F)F)c9)cc7)C8=O)cc6)(C(F)(F)F)C(F)(F)F)cc5)cc4C3=O)cc2)cc1C(F)(F)F",
+              "record_id": "ru_008011",
+              "restore_label_length": 149,
+              "split": "valid",
+              "view1_token_length": 163
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5ccc6c(c5)C(=O)N(c5ccc(Oc7ccc(C8(c9ccc(Oc%10ccc(N%11C(=O)c%12ccc(C(*)=O)cc%12C%11=O)cc%10)cc9)CC9CC8C8CCCC98)cc7)cc5)C6=O)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006525",
+              "restore_label_length": 137,
+              "split": "valid",
+              "view1_token_length": 151
+            },
+            {
+              "canonical_smiles": "*c1ccc(OCCN(CC)c2ccc(/N=N/c3ccc([N+](=O)[O-])cc3)cc2)c(N2C(=O)c3ccc(C(c4ccc5c(c4)C(=O)N(c4cc(C(*)(C(F)(F)F)C(F)(F)F)ccc4OCCN(CC)c4ccc(/N=N/c6ccc([N+](=O)[O-])cc6)cc4)C5=O)(C(F)(F)F)C(F)(F)F)cc3C2=O)c1",
+              "record_id": "ru_010419",
+              "restore_label_length": 134,
+              "split": "valid",
+              "view1_token_length": 148
+            },
+            {
+              "canonical_smiles": "*Oc1ccc(NC(=O)c2ccc3c(c2)C(=O)N(c2ccc(Oc4ccc(C5(c6ccc(Oc7ccc(N8C(=O)c9ccc(C(=O)Nc%10ccc(Oc%11cc(C(C)(C)C)c(*)cc%11C(C)(C)C)cc%10)cc9C8=O)cc7)cc6)CC6CC5C5CCCC65)cc4)cc2)C3=O)cc1",
+              "record_id": "ru_008396",
+              "restore_label_length": 127,
+              "split": "valid",
+              "view1_token_length": 141
+            },
+            {
+              "canonical_smiles": "*c1ccc2c(c1)C(=O)N(c1ccc(-c3ccc(Oc4ccc(C5(c6ccc(Oc7ccc(-c8ccc(N9C(=O)c%10ccc(C(*)(C(F)(F)F)C(F)(F)F)cc%10C9=O)cc8)cc7C(F)(F)F)cc6)C(=O)N(c6ccccc6)c6ccccc65)cc4)c(C(F)(F)F)c3)cc1)C2=O",
+              "record_id": "ru_011030",
+              "restore_label_length": 127,
+              "split": "valid",
+              "view1_token_length": 141
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(-c2cc(-c3ccc(-c4ccccc4)cc3)cc(-c3ccc(NC(=O)Nc4ccc5c(c4)C(=O)N(c4ccc(Oc6ccc7ccccc7c6-c6c(Oc7ccc(N8C(=O)c9ccc(NC(*)=O)cc9C8=O)cc7)ccc7ccccc67)cc4)C5=O)cc3)n2)cc1",
+              "record_id": "ru_006197",
+              "restore_label_length": 116,
+              "split": "valid",
+              "view1_token_length": 130
+            },
+            {
+              "canonical_smiles": "*c1ccc(Oc2ccc(NC(=O)c3ccc4c(c3)C(=O)N(c3ccc(-c5sc(-c6ccc(N7C(=O)c8ccc(C(=O)Nc9ccc(Oc%10ccc(C(*)(C)C)cc%10)cc9)cc8C7=O)cc6)c(-c6ccccc6)c5-c5ccccc5)cc3)C4=O)cc2)cc1",
+              "record_id": "ru_010750",
+              "restore_label_length": 113,
+              "split": "valid",
+              "view1_token_length": 127
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2ccc(C(c3ccc(Oc4ccc(NC(=O)c5cccc(N6C(=O)c7ccc(C(c8ccc9c(c8)C(=O)N(c8cccc(C(*)=O)c8)C9=O)(C(F)(F)F)C(F)(F)F)cc7C6=O)c5)cc4)cc3)(C(F)(F)F)C(F)(F)F)cc2)cc1",
+              "record_id": "ru_006529",
+              "restore_label_length": 112,
+              "split": "valid",
+              "view1_token_length": 126
+            },
+            {
+              "canonical_smiles": "*Nc1ccc(Oc2cccc(Oc3ccc(NC(=O)c4ccc5c(c4)C(=O)N(c4ccc(Oc6ccc(C7(c8ccc(Oc9ccc(N%10C(=O)c%11ccc(C(*)=O)cc%11C%10=O)cc9)cc8)NC(=O)c8ccccc87)cc6)cc4)C5=O)cc3)c2)cc1",
+              "record_id": "ru_006662",
+              "restore_label_length": 112,
+              "split": "valid",
+              "view1_token_length": 126
+            }
+          ],
+          "restore_label_length": {
+            "count": 1158,
+            "max": 152,
+            "mean": 37.5881,
+            "min": 4,
+            "p50": 32,
+            "p90": 70,
+            "p95": 81,
+            "p99": 109
+          },
+          "view1_token_length": {
+            "count": 1158,
+            "max": 166,
+            "mean": 51.4991,
+            "min": 17,
+            "p50": 46,
+            "p90": 84,
+            "p95": 95,
+            "p99": 123
+          }
+        }
+      }
+    }
+  },
+  "stage": "stage_a_restore_aug_v1_template_preview",
+  "template": {
+    "augmentation_policy": "restore_aug_v1",
+    "input_text_view1": "<polymer_view_smiles>\\n{text_view_1}\\n</polymer_view_smiles>\\n",
+    "stage_b_train_views_per_record": 4,
+    "stage_c_strategy_distribution": {
+      "attachment_rooted_smiles": 0.2,
+      "identity": 0.3,
+      "light_denoise": 0.2,
+      "rdkit_random_smiles": 0.3
+    },
+    "stage_c_train_views_per_record": 1,
+    "target_text": "canonical_text_target + tokenizer.eos_token",
+    "task": "restore_only_augmented",
+    "uses_fragment_vocab": false,
+    "uses_graph_tensor": false,
+    "uses_text_view_2": false
+  },
+  "tokenizer": {
+    "class": "Qwen2Tokenizer",
+    "eos_token": "<|endoftext|>",
+    "eos_token_id": 151643,
+    "is_fast": true,
+    "len": 151665,
+    "model_max_length": 131072,
+    "pad_token": "<|endoftext|>",
+    "pad_token_id": 151643,
+    "path": "/home/hongchang/lzq/gith/baselite_warmup-test/models/qwen2.5-7b-tokenizer",
+    "vocab_size": 151643
+  }
+}

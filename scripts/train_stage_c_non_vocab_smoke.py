@@ -28,7 +28,7 @@ from scripts.build_stage_c_non_vocab_dataset import (  # noqa: E402
     build_graph_feature_schema,
     read_jsonl,
 )
-from scripts.train_stage_b_restore_smoke import (  # noqa: E402
+from scripts.train_stage_b_restore_full import (  # noqa: E402
     RestoreCrossAttentionHead,
     forward_encoder_hidden,
     greedy_decode_restore,
@@ -869,6 +869,122 @@ def save_stage_c_artifacts(
     write_eval_report(output_dir / "eval_report.md", metrics, config)
 
 
+def write_extra_stage_c_eval_report(
+    path: Path,
+    *,
+    metrics: dict[str, Any],
+    config: StageCConfig,
+    eval_preview_path: Path,
+    split: str,
+) -> None:
+    lines = [
+        "# Stage C Non-vocab Extra Eval Report",
+        "",
+        "This report is an eval-only pass against an alternate preview file.",
+        "",
+        f"- split: `{split}`",
+        f"- train preview path: `{config.preview_path}`",
+        f"- eval preview path: `{eval_preview_path}`",
+        f"- graph path: `{config.graph_path}`",
+        "- retrieval metrics are skipped for robustness eval files that may contain duplicate graph identities.",
+        "",
+        "## Metrics",
+        "",
+    ]
+    for key, value in metrics.items():
+        lines.append(f"- `{key}`: `{value}`")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def write_extra_stage_c_eval_outputs(
+    *,
+    output_dir: Path,
+    prefix: str,
+    split: str,
+    metrics: dict[str, Any],
+    failed_cases: list[dict[str, Any]],
+    retrieval_rows: list[dict[str, Any]],
+    config: StageCConfig,
+    eval_preview_path: Path,
+) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    stem = f"{prefix}_{split}"
+    (output_dir / f"{stem}_eval_metrics.json").write_text(
+        json.dumps(metrics, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    with (output_dir / f"{stem}_failed_cases.jsonl").open("w", encoding="utf-8") as handle:
+        for row in failed_cases:
+            handle.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
+    with (output_dir / f"{stem}_retrieval_predictions.jsonl").open("w", encoding="utf-8") as handle:
+        for row in retrieval_rows:
+            handle.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
+    write_extra_stage_c_eval_report(
+        output_dir / f"{stem}_eval_report.md",
+        metrics=metrics,
+        config=config,
+        eval_preview_path=eval_preview_path,
+        split=split,
+    )
+
+
+def run_extra_stage_c_eval(
+    *,
+    eval_preview_path: Path,
+    output_dir: Path,
+    output_prefix: str,
+    model: nn.Module,
+    restore_head: RestoreCrossAttentionHead,
+    graph_encoder: PureTorchGraphEncoder,
+    text_projector: ProjectionHead,
+    graph_projector: ProjectionHead,
+    graph_memory_projector: nn.Module,
+    tokenizer: Any,
+    config: StageCConfig,
+    collate_fn: Any,
+    device: torch.device,
+) -> dict[str, dict[str, Any]]:
+    results: dict[str, dict[str, Any]] = {}
+    validate_preview_tokenizer_compatibility(tokenizer, eval_preview_path)
+    for split in ("valid", "test"):
+        dataset = StageCPreviewGraphDataset(
+            preview_path=eval_preview_path,
+            graph_path=config.graph_path,
+            split=split,
+            max_samples=config.max_valid_samples,
+        )
+        if len(dataset) == 0:
+            continue
+        dataloader = DataLoader(dataset, batch_size=config.per_device_eval_batch_size, shuffle=False, collate_fn=collate_fn)
+        metrics, failed_cases, retrieval_rows = evaluate_stage_c(
+            model=model,
+            restore_head=restore_head,
+            graph_encoder=graph_encoder,
+            text_projector=text_projector,
+            graph_projector=graph_projector,
+            graph_memory_projector=graph_memory_projector,
+            dataloader=dataloader,
+            tokenizer=tokenizer,
+            config=config,
+            device=device,
+            decode_sample_limit=config.eval_decode_samples,
+            retrieval_sample_limit=0,
+        )
+        metrics["retrieval_skipped_for_duplicate_graph_views"] = True
+        write_extra_stage_c_eval_outputs(
+            output_dir=output_dir,
+            prefix=output_prefix,
+            split=split,
+            metrics=metrics,
+            failed_cases=failed_cases,
+            retrieval_rows=retrieval_rows,
+            config=config,
+            eval_preview_path=eval_preview_path,
+        )
+        results[split] = metrics
+    return results
+
+
 def save_checkpoint_with_eval(
     *,
     checkpoint_dir: Path,
@@ -1100,6 +1216,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--preview-path", type=Path, default=None)
     parser.add_argument("--graph-path", type=Path, default=None)
     parser.add_argument("--graph-feature-schema-path", type=Path, default=None)
+    parser.add_argument("--eval-preview-path", type=Path, default=None)
+    parser.add_argument("--eval-output-prefix", default="robustness")
     return parser.parse_args()
 
 
@@ -1388,6 +1506,23 @@ def main() -> None:
         feature_schema=feature_schema,
     )
     copy_config_snapshot(args.config, output_dir)
+    extra_eval: dict[str, dict[str, Any]] = {}
+    if args.eval_preview_path is not None:
+        extra_eval = run_extra_stage_c_eval(
+            eval_preview_path=args.eval_preview_path,
+            output_dir=output_dir,
+            output_prefix=args.eval_output_prefix,
+            model=model,
+            restore_head=restore_head,
+            graph_encoder=graph_encoder,
+            text_projector=text_projector,
+            graph_projector=graph_projector,
+            graph_memory_projector=graph_memory_projector,
+            tokenizer=tokenizer,
+            config=config,
+            collate_fn=collate,
+            device=device,
+        )
     del optimizer
     del model
     del restore_head
@@ -1407,7 +1542,7 @@ def main() -> None:
         collate_fn=collate,
         device=device,
     )
-    print(json.dumps({"output_dir": str(output_dir), "metrics": metrics, "reload_smoke": reload_smoke}, ensure_ascii=False, indent=2, sort_keys=True))
+    print(json.dumps({"output_dir": str(output_dir), "metrics": metrics, "reload_smoke": reload_smoke, "extra_eval": extra_eval}, ensure_ascii=False, indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":

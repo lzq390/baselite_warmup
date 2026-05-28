@@ -5,16 +5,20 @@ from pathlib import Path
 
 import torch
 
-from scripts.train_stage_b_restore_smoke import (
+from scripts.train_stage_b_restore_full import (
     RestoreBatch,
     RestoreCrossAttentionHead,
     StageBConfig,
     StageAPreviewDataset,
+    append_epoch_metrics,
+    append_quick_eval_metrics,
     collate_restore_records,
+    early_stopping_is_improvement,
     evaluate_restore,
     get_model_backbone,
     greedy_decode_restore,
     masked_cross_entropy,
+    reset_training_metric_files,
     save_restore_checkpoint,
     shift_restore_labels_right,
     validate_preview_tokenizer_compatibility,
@@ -91,6 +95,8 @@ def test_collator_pads_inputs_and_restore_labels() -> None:
     assert batch.restore_labels.tolist() == [[4, 5, 0], [7, 8, 9]]
     assert batch.restore_label_mask.tolist() == [[True, True, False], [True, True, True]]
     assert batch.record_ids == ["a", "b"]
+    assert batch.view_ids == ["identity", "identity"]
+    assert batch.augmentation_strategies == ["identity", "identity"]
 
 
 def test_shift_restore_labels_right_uses_eos_start_token() -> None:
@@ -119,6 +125,45 @@ def test_masked_cross_entropy_only_uses_true_mask_positions() -> None:
     )
 
     assert torch.allclose(loss, expected)
+
+
+def test_epoch_and_quick_eval_metric_writers(tmp_path: Path) -> None:
+    reset_training_metric_files(tmp_path)
+    append_quick_eval_metrics(tmp_path, {"optimizer_step": 10, "quick_valid": {"loss": 1.5}})
+    append_epoch_metrics(
+        tmp_path,
+        {
+            "checkpoint_name": "epoch_001",
+            "checkpoint_epoch": 1,
+            "checkpoint_optimizer_step": 12,
+            "loss": 1.25,
+        },
+        early_stopping={
+            "enabled": True,
+            "metric": "loss",
+            "mode": "min",
+            "current": 1.25,
+            "best": 1.25,
+            "best_checkpoint": "epoch_001",
+            "wait": 0,
+            "stop_training": False,
+            "reason": None,
+        },
+    )
+
+    quick_rows = [json.loads(line) for line in (tmp_path / "quick_eval_metrics.jsonl").read_text().splitlines()]
+    epoch_rows = [json.loads(line) for line in (tmp_path / "epoch_metrics.jsonl").read_text().splitlines()]
+    csv_text = (tmp_path / "epoch_metrics.csv").read_text()
+
+    assert quick_rows[0]["optimizer_step"] == 10
+    assert epoch_rows[0]["early_stopping"]["best_checkpoint"] == "epoch_001"
+    assert "checkpoint_name" in csv_text
+
+
+def test_early_stopping_improvement_modes() -> None:
+    assert early_stopping_is_improvement(0.9, 1.0, mode="min", min_delta=0.05)
+    assert not early_stopping_is_improvement(0.98, 1.0, mode="min", min_delta=0.05)
+    assert early_stopping_is_improvement(0.8, 0.7, mode="max", min_delta=0.05)
 
 
 def test_greedy_decode_restore_stops_at_eos() -> None:
@@ -366,8 +411,8 @@ def test_evaluate_restore_limits_greedy_decode_to_configured_samples(monkeypatch
         calls["batch_sizes"].append(kwargs["encoder_hidden_states"].shape[0])
         return torch.tensor([[9]] * kwargs["encoder_hidden_states"].shape[0])
 
-    monkeypatch.setattr("scripts.train_stage_b_restore_smoke.forward_encoder_hidden", fake_forward_encoder_hidden)
-    monkeypatch.setattr("scripts.train_stage_b_restore_smoke.greedy_decode_restore", fake_greedy_decode_restore)
+    monkeypatch.setattr("scripts.train_stage_b_restore_full.forward_encoder_hidden", fake_forward_encoder_hidden)
+    monkeypatch.setattr("scripts.train_stage_b_restore_full.greedy_decode_restore", fake_greedy_decode_restore)
 
     rows = [
         {
@@ -386,7 +431,7 @@ def test_evaluate_restore_limits_greedy_decode_to_configured_samples(monkeypatch
         collate_fn=lambda batch_rows: collate_restore_records(batch_rows, pad_token_id=0, label_pad_token_id=0),
     )
 
-    metrics, failed = evaluate_restore(
+    metrics, failed, predictions = evaluate_restore(
         model=FakeModel(),
         restore_head=FakeHead(),
         dataloader=loader,
@@ -399,6 +444,7 @@ def test_evaluate_restore_limits_greedy_decode_to_configured_samples(monkeypatch
     assert calls["count"] == 2
     assert sum(calls["batch_sizes"]) == 2
     assert failed == []
+    assert len(predictions) == 2
 
 
 def test_evaluate_restore_casts_bf16_logits_for_loss(monkeypatch) -> None:
@@ -421,9 +467,9 @@ def test_evaluate_restore_casts_bf16_logits_for_loss(monkeypatch) -> None:
     def fake_forward_encoder_hidden(model, batch):
         return torch.zeros(batch.input_ids_view1.shape[0], 2, 4, dtype=torch.bfloat16)
 
-    monkeypatch.setattr("scripts.train_stage_b_restore_smoke.forward_encoder_hidden", fake_forward_encoder_hidden)
+    monkeypatch.setattr("scripts.train_stage_b_restore_full.forward_encoder_hidden", fake_forward_encoder_hidden)
     monkeypatch.setattr(
-        "scripts.train_stage_b_restore_smoke.greedy_decode_restore",
+        "scripts.train_stage_b_restore_full.greedy_decode_restore",
         lambda **kwargs: torch.tensor([[9]] * kwargs["encoder_hidden_states"].shape[0]),
     )
 
@@ -443,7 +489,7 @@ def test_evaluate_restore_casts_bf16_logits_for_loss(monkeypatch) -> None:
         collate_fn=lambda batch_rows: collate_restore_records(batch_rows, pad_token_id=0, label_pad_token_id=0),
     )
 
-    metrics, _ = evaluate_restore(
+    metrics, _, predictions = evaluate_restore(
         model=FakeModel(),
         restore_head=Bf16Head(),
         dataloader=loader,
@@ -453,3 +499,4 @@ def test_evaluate_restore_casts_bf16_logits_for_loss(monkeypatch) -> None:
     )
 
     assert torch.isfinite(torch.tensor(metrics["loss"]))
+    assert predictions[0]["record_id"] == "r0"

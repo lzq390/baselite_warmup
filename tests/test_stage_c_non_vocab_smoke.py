@@ -10,7 +10,7 @@ from scripts.build_stage_c_non_vocab_dataset import (
     build_stage_c_audit,
     validate_join,
 )
-from scripts.train_stage_b_restore_smoke import RestoreCrossAttentionHead, masked_cross_entropy
+from scripts.train_stage_b_restore_full import RestoreCrossAttentionHead, masked_cross_entropy
 from scripts.train_stage_c_non_vocab_smoke import (
     ProjectionHead,
     PureTorchGraphEncoder,

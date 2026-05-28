@@ -26,6 +26,7 @@ models/qwen2.5-7b-tokenizer/tokenizer_config.json
 packaging/stage_c_non_vocab_smoke_files.txt
 scripts/build_baselite_restore_template_preview.py
 scripts/build_stage_c_non_vocab_dataset.py
+scripts/train_stage_b_restore_full.py
 scripts/train_stage_b_restore_smoke.py
 scripts/train_stage_c_non_vocab_smoke.py
 tests/test_build_baselite_restore_template_preview.py
