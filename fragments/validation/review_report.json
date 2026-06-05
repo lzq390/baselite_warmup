@@ -1,6 +1,6 @@
 {
-  "core_rule_count": 60,
-  "generated_at_utc": "2026-05-26T01:03:13.461161+00:00",
+  "core_rule_count": 59,
+  "generated_at_utc": "2026-05-27T07:07:19.985118+00:00",
   "manual_review_reason": "化学语义正确性和 cut-shift 稳定性仍需要领域审核，并依赖 periodic graph matcher 做最终验证。",
   "manual_review_required": true,
   "rejected_low_frequency_rules": [

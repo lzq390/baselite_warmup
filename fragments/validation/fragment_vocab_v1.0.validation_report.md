@@ -1,27 +1,27 @@
 # fragment_vocab_v1.0 验证报告
 
-- 生成时间 UTC: `2026-05-26T01:03:13.461161+00:00`
+- 生成时间 UTC: `2026-05-27T07:07:19.985118+00:00`
 - 源数据 SHA256: `f597f846ff06a8fd43fa48480009c195c22105583a55e6d01a4611cef6235a57`
-- RDKit 版本: `2026.03.1`
+- RDKit 版本: `2026.03.2`
 - 覆盖率分母层级: `level_3_canonical_repeat_unit_unique`
 - 覆盖率分母数量: `11580`
 
 ## 规则可执行性
 
-- seed 规则数: `71`
-- 有效 seed 规则数: `71`
+- seed 规则数: `70`
+- 有效 seed 规则数: `70`
 - 无效规则数: `0`
 - 规则编译成功率: `1.0000`
-- 最终核心规则数: `60`
+- 最终核心规则数: `59`
 - 因低频未进入核心的规则数: `11`
 
 ## 覆盖率
 
 - 至少匹配 1 个 fragment 的 polymer 数: `11577`
 - 至少匹配 1 个 fragment 的比例: `0.9997`
-- 每个 polymer 平均 fragment 类型数: `9.2990`
+- 每个 polymer 平均 fragment 类型数: `9.1103`
 - 每个 polymer 的 fragment 类型数中位数: `8.0`
-- 至少有一次命中的规则数: `60`
+- 至少有一次命中的规则数: `59`
 
 ## Motif 挖掘
 
@@ -36,8 +36,8 @@
 
 ## 重叠与冲突
 
-- 高重叠规则对数量: `120`
-- 同 exclusive group 内冲突数量: `64`
+- 高重叠规则对数量: `116`
+- 同 exclusive group 内冲突数量: `62`
 
 ## 覆盖率最高的核心 fragments
 
@@ -60,9 +60,9 @@
 - RING_LACTAM: `2218` (0.1915)
 - COMP_CONJUGATED_AROMATIC_PAIR: `2204` (0.1903)
 - RING_IMIDE: `2186` (0.1888)
-- COMP_AROMATIC_ETHER: `2185` (0.1887)
 - FG_AROMATIC_ETHER: `2185` (0.1887)
 - COMP_AROMATIC_IMIDE: `1887` (0.1630)
 - SUB_HALOGEN: `1762` (0.1522)
 - RING_HETEROAROMATIC_5: `1521` (0.1313)
 - SUB_FLUORO: `1304` (0.1126)
+- SUB_ETHYL: `1168` (0.1009)

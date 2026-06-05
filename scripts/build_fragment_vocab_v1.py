@@ -103,6 +103,10 @@ def write_json(path: Path, obj: Any) -> None:
     path.write_text(json.dumps(obj, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def repo_relative_path(path: Path) -> str:
+    return str(path.relative_to(ROOT))
+
+
 def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
     with path.open("w", encoding="utf-8", newline="\n") as handle:
         for row in rows:
@@ -479,7 +483,6 @@ def seed_rules() -> list[dict[str, Any]]:
         r("COMP_AROMATIC_AMIDE_C", "aromatic_amide_c_linkage", "composite_motif", "[c:1][CX3:2](=[OX1:3])[NX3:4]", {"1": "aryl_carbon", "2": "carbonyl_carbon", "3": "carbonyl_oxygen", "4": "amide_nitrogen"}, "carbonyl_carbon", ["aromatic", "amide", "rigidifying"], parent_fragment_id="FG_AMIDE", exclusive_group="carbonyl_family", priority=95),
         r("COMP_AROMATIC_IMIDE", "aromatic_imide", "composite_motif", "[c:1][NX3:2]([CX3:3](=[OX1:4]))[CX3:5](=[OX1:6])", {"1": "aryl_carbon", "2": "imide_nitrogen", "3": "carbonyl_carbon_a", "4": "carbonyl_oxygen_a", "5": "carbonyl_carbon_b", "6": "carbonyl_oxygen_b"}, "imide_nitrogen", ["aromatic", "imide", "rigidifying"], parent_fragment_id="FG_IMIDE", exclusive_group="carbonyl_family", priority=105),
         r("COMP_FLUORINATED_AROMATIC", "fluorinated_aromatic", "composite_motif", "[F:1][c:2]", {"1": "fluorine", "2": "aryl_carbon"}, "aryl_carbon", ["fluorinated", "aromatic", "hydrophobic"], parent_fragment_id="SUB_FLUORO", exclusive_group="halogen_family", priority=80),
-        r("COMP_AROMATIC_ETHER", "aromatic_ether_linkage", "composite_motif", "[c:1][OX2:2][c:3]", {"1": "aryl_carbon_a", "2": "ether_oxygen", "3": "aryl_carbon_b"}, "ether_oxygen", ["aromatic", "flexible"], parent_fragment_id="FG_AROMATIC_ETHER", exclusive_group="oxygen_linkage_family", priority=80),
         r("COMP_BISPHENOL_A_BRIDGE", "bisphenol_a_bridge", "composite_motif", "[c:1][CX4:2]([CH3:3])([CH3:4])[c:5]", {"1": "aryl_carbon_a", "2": "isopropylidene_carbon", "3": "methyl_a", "4": "methyl_b", "5": "aryl_carbon_b"}, "isopropylidene_carbon", ["bulky", "hydrophobic", "cardo_like"], exclusive_group="alkyl_side_group_family", priority=85),
         r("COMP_PERFLUOROALKYL", "perfluoroalkyl_segment", "composite_motif", "[CX4:1]([F:2])([F:3])[CX4:4]([F:5])([F:6])", {"1": "fluorinated_carbon_a", "2": "fluorine_a", "3": "fluorine_b", "4": "fluorinated_carbon_b", "5": "fluorine_c", "6": "fluorine_d"}, "fluorinated_carbon_a", ["fluorinated", "hydrophobic"], parent_fragment_id="SUB_FLUORO", exclusive_group="halogen_family", priority=80),
         r("COMP_RIGID_ETHYNYL_AROMATIC", "rigid_ethynyl_aromatic_segment", "composite_motif", "[c:1][#6:2]#[#6:3][c:4]", {"1": "aryl_carbon_a", "2": "alkyne_carbon_a", "3": "alkyne_carbon_b", "4": "aryl_carbon_b"}, "alkyne_carbon_a", ["rigid_linear", "conjugated"], parent_fragment_id="LINK_ETHYNYLENE", exclusive_group="mainchain_linker_family", priority=85),
@@ -977,7 +980,7 @@ def build() -> dict[str, Any]:
     )
 
     summary = {
-        "source_data": str(DATA_FILE),
+        "source_data": repo_relative_path(DATA_FILE),
         "source_sha256": data_hash,
         "csv_rows": len(rows),
         "rdkit_version": rdBase.rdkitVersion,
@@ -989,12 +992,12 @@ def build() -> dict[str, Any]:
         "mined_candidate_count": len(mined_rows),
         "coverage": coverage_report,
         "outputs": {
-            "core_vocab_jsonl": str(VOCAB_JSONL),
-            "core_vocab_json": str(VOCAB_JSON),
-            "stats": str(STATS_JSON),
-            "examples": str(EXAMPLES_JSONL),
-            "validation_report": str(VALIDATION_REPORT),
-            "failed_cases": str(FAILED_JSONL),
+            "core_vocab_jsonl": repo_relative_path(VOCAB_JSONL),
+            "core_vocab_json": repo_relative_path(VOCAB_JSON),
+            "stats": repo_relative_path(STATS_JSON),
+            "examples": repo_relative_path(EXAMPLES_JSONL),
+            "validation_report": repo_relative_path(VALIDATION_REPORT),
+            "failed_cases": repo_relative_path(FAILED_JSONL),
         },
     }
     write_json(FRAGMENT_DIR / "fragment_vocab_v1.0.build_summary.json", summary)

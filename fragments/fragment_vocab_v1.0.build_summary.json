@@ -16,30 +16,30 @@
       "unresolved_R_group": 2
     }
   },
-  "core_rule_count": 60,
+  "core_rule_count": 59,
   "coverage": {
-    "avg_fragment_types_per_polymer": 9.298963730569948,
+    "avg_fragment_types_per_polymer": 9.11027633851468,
     "denominator_count": 11580,
     "denominator_level": "level_3_canonical_repeat_unit_unique",
     "median_fragment_types_per_polymer": 8.0,
     "polymer_with_at_least_one_fragment": 11577,
     "polymer_with_at_least_one_fragment_ratio": 0.9997409326424871,
-    "rules_with_any_match": 60
+    "rules_with_any_match": 59
   },
   "csv_rows": 64071,
   "invalid_seed_rule_count": 0,
   "mined_candidate_count": 300,
   "outputs": {
-    "core_vocab_json": "/home/lzq390/gith/baselite_warmup/fragments/vocab/fragment_vocab_v1.0.json",
-    "core_vocab_jsonl": "/home/lzq390/gith/baselite_warmup/fragments/vocab/fragment_vocab_v1.0.jsonl",
-    "examples": "/home/lzq390/gith/baselite_warmup/fragments/vocab/fragment_vocab_v1.0.examples.jsonl",
-    "failed_cases": "/home/lzq390/gith/baselite_warmup/fragments/validation/fragment_vocab_v1.0.failed_cases.jsonl",
-    "stats": "/home/lzq390/gith/baselite_warmup/fragments/vocab/fragment_vocab_v1.0.stats.json",
-    "validation_report": "/home/lzq390/gith/baselite_warmup/fragments/validation/fragment_vocab_v1.0.validation_report.md"
+    "core_vocab_json": "fragments/vocab/fragment_vocab_v1.0.json",
+    "core_vocab_jsonl": "fragments/vocab/fragment_vocab_v1.0.jsonl",
+    "examples": "fragments/vocab/fragment_vocab_v1.0.examples.jsonl",
+    "failed_cases": "fragments/validation/fragment_vocab_v1.0.failed_cases.jsonl",
+    "stats": "fragments/vocab/fragment_vocab_v1.0.stats.json",
+    "validation_report": "fragments/validation/fragment_vocab_v1.0.validation_report.md"
   },
-  "rdkit_version": "2026.03.1",
-  "seed_rule_count": 71,
-  "source_data": "/home/lzq390/gith/baselite_warmup/data/all_polymers_experiment_final.csv",
+  "rdkit_version": "2026.03.2",
+  "seed_rule_count": 70,
+  "source_data": "data/all_polymers_experiment_final.csv",
   "source_sha256": "f597f846ff06a8fd43fa48480009c195c22105583a55e6d01a4611cef6235a57",
-  "valid_seed_rule_count": 71
+  "valid_seed_rule_count": 70
 }

@@ -1,9 +1,9 @@
 {
-  "avg_fragment_types_per_polymer": 9.298963730569948,
+  "avg_fragment_types_per_polymer": 9.11027633851468,
   "denominator_count": 11580,
   "denominator_level": "level_3_canonical_repeat_unit_unique",
   "median_fragment_types_per_polymer": 8.0,
   "polymer_with_at_least_one_fragment": 11577,
   "polymer_with_at_least_one_fragment_ratio": 0.9997409326424871,
-  "rules_with_any_match": 60
+  "rules_with_any_match": 59
 }

@@ -134,49 +134,6 @@
   {
     "allow_boundary_crossing": true,
     "anchor_rule": {
-      "anchor_role": "ether_oxygen",
-      "anchor_type": "atom"
-    },
-    "atom_roles": {
-      "1": "aryl_carbon_a",
-      "2": "ether_oxygen",
-      "3": "aryl_carbon_b"
-    },
-    "category": "composite_motif",
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_role",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
-    "enable_cut_shift_scan": true,
-    "fragment_id": "COMP_AROMATIC_ETHER",
-    "fragment_name": "aromatic_ether_linkage",
-    "match_rule": {
-      "constraints": {},
-      "pattern": "[c:1][OX2:2][c:3]",
-      "type": "smarts"
-    },
-    "max_cut_shift": 1,
-    "overlap_policy": {
-      "allow_child_fragments": true,
-      "exclusive_group": "oxygen_linkage_family",
-      "priority": 80
-    },
-    "ownership_rule": "anchor_in_RU0",
-    "parent_fragment_id": "FG_AROMATIC_ETHER",
-    "periodic_radius": 1,
-    "semantic_tags": [
-      "aromatic",
-      "flexible"
-    ],
-    "version": "v1.0"
-  },
-  {
-    "allow_boundary_crossing": true,
-    "anchor_rule": {
       "anchor_role": "imide_nitrogen",
       "anchor_type": "atom"
     },

@@ -13,13 +13,6 @@
     "polymer_coverage_count": 2815,
     "polymer_coverage_ratio": 0.24309153713298792
   },
-  "COMP_AROMATIC_ETHER": {
-    "anchor_success_ratio": 1.0,
-    "cut_shift_stability": null,
-    "match_count": 4033,
-    "polymer_coverage_count": 2185,
-    "polymer_coverage_ratio": 0.18868739205526772
-  },
   "COMP_AROMATIC_IMIDE": {
     "anchor_success_ratio": 1.0,
     "cut_shift_stability": null,

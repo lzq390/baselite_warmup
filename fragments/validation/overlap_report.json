@@ -1,15 +1,6 @@
 {
   "exclusive_group_conflicts": [
     {
-      "containment_a": 1.0,
-      "containment_b": 1.0,
-      "exclusive_group_a": "oxygen_linkage_family",
-      "exclusive_group_b": "oxygen_linkage_family",
-      "fragment_id_a": "COMP_AROMATIC_ETHER",
-      "fragment_id_b": "FG_AROMATIC_ETHER",
-      "jaccard": 1.0
-    },
-    {
       "containment_a": 0.9855725879170424,
       "containment_b": 1.0,
       "exclusive_group_a": "carbonyl_family",
@@ -287,15 +278,6 @@
       "fragment_id_a": "COMP_AROMATIC_AMIDE_C",
       "fragment_id_b": "FG_CARBONYL",
       "jaccard": 0.34408198975128107
-    },
-    {
-      "containment_a": 1.0,
-      "containment_b": 0.31963136337039205,
-      "exclusive_group_a": "oxygen_linkage_family",
-      "exclusive_group_b": "oxygen_linkage_family",
-      "fragment_id_a": "COMP_AROMATIC_ETHER",
-      "fragment_id_b": "FG_ETHER",
-      "jaccard": 0.31963136337039205
     },
     {
       "containment_a": 0.31963136337039205,
@@ -577,17 +559,8 @@
       "jaccard": 0.008123984501937258
     }
   ],
-  "high_overlap_pair_count": 120,
+  "high_overlap_pair_count": 116,
   "high_overlap_pairs": [
-    {
-      "containment_a": 1.0,
-      "containment_b": 1.0,
-      "exclusive_group_a": "oxygen_linkage_family",
-      "exclusive_group_b": "oxygen_linkage_family",
-      "fragment_id_a": "COMP_AROMATIC_ETHER",
-      "fragment_id_b": "FG_AROMATIC_ETHER",
-      "jaccard": 1.0
-    },
     {
       "containment_a": 0.9855725879170424,
       "containment_b": 1.0,
@@ -1003,15 +976,6 @@
       "jaccard": 0.33130625152031135
     },
     {
-      "containment_a": 1.0,
-      "containment_b": 0.31963136337039205,
-      "exclusive_group_a": "oxygen_linkage_family",
-      "exclusive_group_b": "oxygen_linkage_family",
-      "fragment_id_a": "COMP_AROMATIC_ETHER",
-      "fragment_id_b": "FG_ETHER",
-      "jaccard": 0.31963136337039205
-    },
-    {
       "containment_a": 0.31963136337039205,
       "containment_b": 1.0,
       "exclusive_group_a": "oxygen_linkage_family",
@@ -1019,15 +983,6 @@
       "fragment_id_a": "FG_ETHER",
       "fragment_id_b": "FG_AROMATIC_ETHER",
       "jaccard": 0.31963136337039205
-    },
-    {
-      "containment_a": 0.9212814645308924,
-      "containment_b": 0.326150356448477,
-      "exclusive_group_a": "oxygen_linkage_family",
-      "exclusive_group_b": "ring_family",
-      "fragment_id_a": "COMP_AROMATIC_ETHER",
-      "fragment_id_b": "LINK_PHENYLENE_PARA",
-      "jaccard": 0.3173076923076923
     },
     {
       "containment_a": 0.9212814645308924,
@@ -1100,15 +1055,6 @@
       "fragment_id_a": "FG_CARBONYL",
       "fragment_id_b": "RING_IMIDE",
       "jaccard": 0.2732158480189976
-    },
-    {
-      "containment_a": 0.9981693363844394,
-      "containment_b": 0.2662028560966679,
-      "exclusive_group_a": "oxygen_linkage_family",
-      "exclusive_group_b": "ring_family",
-      "fragment_id_a": "COMP_AROMATIC_ETHER",
-      "fragment_id_b": "RING_AROMATIC_6",
-      "jaccard": 0.2660729535195803
     },
     {
       "containment_a": 0.9981693363844394,
