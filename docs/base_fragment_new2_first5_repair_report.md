@@ -1,34 +1,29 @@
-# base_fragment_new2 前 5 个核心片段修复报告
+# base_fragment_new2 第一批核心片段修复报告
 
 - 核心词表：`fragments_1/base_fragment_new2.json`
-- 定位：修复前五项后的过渡基准词表，用于保留和审计当前 `fragments_1` 工作；最终 fragment v1 主线以 `fragments/vocab/fragment_vocab_v1.0.*` 为准。
+- 统计文件：`data/processed/base_fragment_new2_resolved_stats.csv`
 - 匹配数据：`data/processed/periods2_from_unique_standardized_smiles.csv`
 - period 总数：55060
 - 唯一 source 总数：10444
+- 口径：raw_substruct 是 RDKit 原始 SMARTS 命中；normalized 是执行 constraints 和 dedup 后；resolved 是 active core 再执行 overlap suppression 后。
 
 ## 修复范围
 
-| fragment_id | 片段 | 修复内容 |
-|---|---|---|
-| `fragment_001` | `amide` | 移除全局 not_smarts，priority=40；最终统计采用实例级 overlap 过滤。 |
-| `fragment_002` | `imide` | SMARTS 不变，priority 由 50 调到 70，高于 amide/ester。 |
-| `fragment_003` | `ester` | SMARTS 和 priority 保持，作为 ester 基础核心。 |
-| `fragment_004` | `ether` | SMARTS 从宽泛 [*][OX2][*] 收窄为非 carbonyl-adjacent 的 C-O-C，priority=30。 |
-| `fragment_005` | `carbonate` | 移除自然语言 exclude，priority 由 50 调到 70，高于 ester/ether。 |
+原“前 5 项”仍是 001-005；006/007 因为参与 suppress amide/ester，本轮一并收尾。
 
-## 修复前后统计
-
-| fragment_id | old_period_hits | old_source_hits | old_match_total | old_max | new_period_hits | new_source_hits | new_match_total | new_max | priority |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| `fragment_001` | 27559 (50.05%) | 3934 (37.67%) | 124626 | 18 | 16579 (30.11%) | 2392 (22.90%) | 31319 | 8 | 40 |
-| `fragment_002` | 11348 (20.61%) | 1993 (19.08%) | 21357 | 6 | 11348 (20.61%) | 1993 (19.08%) | 21357 | 6 | 70 |
-| `fragment_003` | 21707 (39.42%) | 3455 (33.08%) | 44034 | 8 | 21707 (39.42%) | 3455 (33.08%) | 44034 | 8 | 50 |
-| `fragment_004` | 40715 (73.95%) | 6868 (65.76%) | 108289 | 38 | 23780 (43.19%) | 4113 (39.38%) | 48102 | 24 | 30 |
-| `fragment_005` | 1428 (2.59%) | 283 (2.71%) | 2082 | 3 | 1428 (2.59%) | 283 (2.71%) | 2082 | 3 | 70 |
+| fragment_id | 片段 | priority | resolved_period_hits | resolved_match_total | 说明 |
+|---|---|---:|---:|---:|---|
+| `fragment_001` | `amide` | 40 | 16600 (30.15%) | 30312 | 实例级过滤，排除 imide/urethane/urea 覆盖的 amide-like 局部。 |
+| `fragment_002` | `imide` | 70 | 11348 (20.61%) | 21309 | 保留核心，priority=70，dedup 后去掉少量对称重复。 |
+| `fragment_003` | `ester` | 50 | 18291 (33.22%) | 34707 | 按 carbonyl anchor 排除 carbonate/urethane 覆盖。 |
+| `fragment_004` | `ether` | 30 | 23780 (43.19%) | 48102 | 已收窄为非 carbonyl-adjacent C-O-C。 |
+| `fragment_005` | `carbonate` | 70 | 1428 (2.59%) | 2082 | 保留 carbonate，priority=70。 |
+| `fragment_006` | `urethane` | 70 | 3027 (5.50%) | 5163 | 移除自然语言 constraints，按 carbonyl/O/N 核心去重。 |
+| `fragment_007` | `urea` | 70 | 1117 (2.03%) | 1762 | 移除自然语言 constraints，按 carbonyl + unordered 两个 N 去重。 |
 
 ## 关键验证
 
-- `fragment_004 ether` 从 `[*][OX2][*]` 收窄到 `[#6;!$(C=O)][OX2][#6;!$(C=O)]` 后，match_total 从 108289 降到 48102。
-- 新 ether 与 `C(=O)-O` carbonyl-adjacent O 的重叠检查为 0，说明 ester/carbonate/urethane 中的单键 O 已被排除。
-- `fragment_001 amide` 的最终统计采用实例级 overlap 过滤，保留普通 amide，排除被 imide/urethane/urea 覆盖的 amide-like 局部。
-- `fragment_002 imide` 和 `fragment_005 carbonate` 通过 priority=70 压过 amide/ester/ether 等更泛化片段。
+- `fragment_001 amide` raw match_total=124626，resolved match_total=30312，只删除被更具体 carbonyl-N 片段覆盖的实例。
+- `fragment_006 urethane` raw max=6，normalized max=4，说明 wildcard/方向重复已被核心去重压掉。
+- `fragment_007 urea` raw max=8，normalized max=3，对称 N-C(=O)-N 重复已被去重。
+- 主词表 JSON 不再内嵌 `match_count`，统计全部外置。

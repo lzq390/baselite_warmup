@@ -2,9 +2,8 @@
   {
     "fragment_id": "fragment_001",
     "fragment_name": "amide",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "polar",
       "hydrogen_bonding",
@@ -25,37 +24,65 @@
       "anchor_type": "atom",
       "anchor_role": "carbonyl_carbon"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "carbonyl_family",
       "priority": 40,
-      "allow_child_fragments": true
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 29731
+      "instance_suppression": {
+        "mode": "drop_if_core_atoms_covered_by_higher_priority",
+        "core_atom_roles": [
+          "amide_nitrogen",
+          "carbonyl_carbon",
+          "carbonyl_oxygen"
+        ],
+        "covering_fragments": [
+          {
+            "fragment_id": "fragment_002",
+            "core_atom_role_sets": [
+              [
+                "imide_nitrogen",
+                "carbonyl_carbon_1",
+                "carbonyl_oxygen_1"
+              ],
+              [
+                "imide_nitrogen",
+                "carbonyl_carbon_2",
+                "carbonyl_oxygen_2"
+              ]
+            ]
+          },
+          {
+            "fragment_id": "fragment_006",
+            "core_atom_role_sets": [
+              [
+                "urethane_nitrogen",
+                "carbonyl_carbon",
+                "carbonyl_oxygen"
+              ]
+            ]
+          },
+          {
+            "fragment_id": "fragment_007",
+            "core_atom_role_sets": [
+              [
+                "urea_nitrogen_left",
+                "carbonyl_carbon",
+                "carbonyl_oxygen"
+              ],
+              [
+                "urea_nitrogen_right",
+                "carbonyl_carbon",
+                "carbonyl_oxygen"
+              ]
+            ]
+          }
+        ]
+      }
+    }
   },
   {
     "fragment_id": "fragment_002",
     "fragment_name": "imide",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "rigid",
       "electron_withdrawing"
@@ -77,40 +104,15 @@
       "anchor_type": "atom",
       "anchor_role": "imide_nitrogen"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_role",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "carbonyl_family",
-      "priority": 70,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 21343
+      "priority": 70
+    }
   },
   {
     "fragment_id": "fragment_003",
     "fragment_name": "ester",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "polar",
       "flexible"
@@ -130,36 +132,29 @@
       "anchor_type": "atom",
       "anchor_role": "carbonyl_carbon"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_canonical_id_in_RU0"
-    ],
     "overlap_policy": {
-      "exclusive_group": "carbonyl_family",
       "priority": 50,
-      "allow_child_fragments": true
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 44044
+      "instance_suppression": {
+        "mode": "drop_if_anchor_covered_by_higher_priority",
+        "anchor_role": "carbonyl_carbon",
+        "covering_fragments": [
+          {
+            "fragment_id": "fragment_005",
+            "anchor_role": "carbonyl_carbon"
+          },
+          {
+            "fragment_id": "fragment_006",
+            "anchor_role": "carbonyl_carbon"
+          }
+        ]
+      }
+    }
   },
   {
     "fragment_id": "fragment_004",
     "fragment_name": "ether",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "flexible",
       "linkage"
@@ -177,36 +172,15 @@
       "anchor_type": "atom",
       "anchor_role": "ether_oxygen"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_canonical_id_in_RU0"
-    ],
     "overlap_policy": {
-      "exclusive_group": "linkage_family",
-      "priority": 30,
-      "allow_child_fragments": true
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 108215
+      "priority": 30
+    }
   },
   {
     "fragment_id": "fragment_005",
     "fragment_name": "carbonate",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "polar",
       "electron_withdrawing",
@@ -229,39 +203,15 @@
       "anchor_type": "atom",
       "anchor_role": "carbonyl_carbon"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "carbonyl_family",
-      "priority": 70,
-      "allow_child_fragments": true
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 2080
+      "priority": 70
+    }
   },
   {
     "fragment_id": "fragment_006",
     "fragment_name": "urethane",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "polar",
       "hydrogen_bonding",
@@ -270,14 +220,7 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][OX2:2][CX3:3](=[O:4])[NX3:5][*:6]",
-      "constraints": {
-        "exclude": [
-          "amide_if_no_alkoxy_oxygen",
-          "urea_if_N_on_both_sides",
-          "carbonate_if_no_N"
-        ]
-      }
+      "pattern": "[*:1][OX2:2][CX3:3](=[O:4])[NX3:5][*:6]"
     },
     "atom_roles": {
       "1": "connected_atom_left",
@@ -291,39 +234,22 @@
       "anchor_type": "atom",
       "anchor_role": "carbonyl_carbon"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "carbonyl_family",
-      "priority": 50,
-      "allow_child_fragments": true
+      "priority": 70
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 5291
+    "deduplication": {
+      "roles": [
+        "carbonyl_carbon",
+        "alkoxy_oxygen",
+        "urethane_nitrogen"
+      ]
+    }
   },
   {
     "fragment_id": "fragment_007",
     "fragment_name": "urea",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "polar",
       "strong_hydrogen_bonding",
@@ -333,13 +259,7 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][NX3:2][CX3:3](=[O:4])[NX3:5][*:6]",
-      "constraints": {
-        "exclude": [
-          "amide_if_single_N",
-          "urethane_if_contains_alkoxy_oxygen"
-        ]
-      }
+      "pattern": "[*:1][NX3:2][CX3:3](=[O:4])[NX3:5][*:6]"
     },
     "atom_roles": {
       "1": "connected_atom_left",
@@ -353,39 +273,26 @@
       "anchor_type": "atom",
       "anchor_role": "carbonyl_carbon"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "carbonyl_family",
-      "priority": 50,
-      "allow_child_fragments": true
+      "priority": 70
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 2464
+    "deduplication": {
+      "roles": [
+        "carbonyl_carbon"
+      ],
+      "unordered_role_groups": [
+        [
+          "urea_nitrogen_left",
+          "urea_nitrogen_right"
+        ]
+      ]
+    }
   },
   {
     "fragment_id": "fragment_008",
     "fragment_name": "thioether",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "hydrophobic",
       "flexible",
@@ -394,56 +301,31 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1]-[S:2]-[*:3]",
-      "constraints": {
-        "exclude": [
-          "sulfoxide_if_S_double_bond_O",
-          "sulfone_if_S_double_bond_two_O"
-        ]
-      }
+      "pattern": "[#6;!$(C=O):1]-[SX2:2]-[#6;!$(C=O):3]"
     },
     "atom_roles": {
-      "1": "connected_atom_left",
+      "1": "thioether_carbon_left",
       "2": "thioether_sulfur",
-      "3": "connected_atom_right"
+      "3": "thioether_carbon_right"
     },
     "anchor_rule": {
       "anchor_type": "atom",
       "anchor_role": "thioether_sulfur"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "sulfur_family",
-      "priority": 50,
-      "allow_child_fragments": true
+      "priority": 50
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 7945
+    "deduplication": {
+      "roles": [
+        "thioether_sulfur"
+      ]
+    }
   },
   {
     "fragment_id": "fragment_009",
     "fragment_name": "sulfone",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "polar",
       "strong_electron_withdrawing",
@@ -452,13 +334,7 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][SX4:2](=[O:3])(=[O:4])[*:5]",
-      "constraints": {
-        "exclude": [
-          "sulfoxide_if_single_S_double_bond_O",
-          "thioether_if_no_S_double_bond_O"
-        ]
-      }
+      "pattern": "[*:1][SX4:2](=[O:3])(=[O:4])[*:5]"
     },
     "atom_roles": {
       "1": "connected_atom_left",
@@ -471,39 +347,15 @@
       "anchor_type": "atom",
       "anchor_role": "sulfone_sulfur"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "sulfur_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 3883
+      "priority": 80
+    }
   },
   {
     "fragment_id": "fragment_010",
     "fragment_name": "sulfoxide",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "polar",
       "electron_withdrawing",
@@ -512,13 +364,7 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][SX3:2](=[O:3])[*:4]",
-      "constraints": {
-        "exclude": [
-          "sulfone_if_two_S_double_bond_O",
-          "thioether_if_no_S_double_bond_O"
-        ]
-      }
+      "pattern": "[*:1][SX3:2](=[O:3])[*:4]"
     },
     "atom_roles": {
       "1": "connected_atom_left",
@@ -530,39 +376,15 @@
       "anchor_type": "atom",
       "anchor_role": "sulfoxide_sulfur"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "sulfur_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 30
+      "priority": 70
+    }
   },
   {
     "fragment_id": "fragment_011",
     "fragment_name": "nitrile",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "polar",
       "strong_electron_withdrawing",
@@ -572,13 +394,7 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][CX2:2]#[NX1:3]",
-      "constraints": {
-        "exclude": [
-          "isonitrile_if_NC_triple_bond_reversed",
-          "cyanate_if_O_linked"
-        ]
-      }
+      "pattern": "[*:1][CX2:2]#[NX1:3]"
     },
     "atom_roles": {
       "1": "connected_atom_left",
@@ -589,39 +405,15 @@
       "anchor_type": "atom",
       "anchor_role": "nitrile_carbon"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 0,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "nitrile_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 3115
+      "priority": 50
+    }
   },
   {
     "fragment_id": "fragment_012",
     "fragment_name": "hydroxyl",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "polar",
       "hydrogen_bonding",
@@ -630,14 +422,7 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][OH:2]",
-      "constraints": {
-        "exclude": [
-          "carboxylic_acid_if_adjacent_carbonyl",
-          "phenol_if_aromatic_carbon",
-          "water_or_free_OH"
-        ]
-      }
+      "pattern": "[*:1][OH:2]"
     },
     "atom_roles": {
       "1": "attached_atom",
@@ -647,39 +432,25 @@
       "anchor_type": "atom",
       "anchor_role": "hydroxyl_oxygen"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 0,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "oxygen_hydrogen_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 3242
+      "priority": 30,
+      "instance_suppression": {
+        "mode": "drop_if_anchor_covered_by_higher_priority",
+        "anchor_role": "hydroxyl_oxygen",
+        "covering_fragments": [
+          {
+            "fragment_id": "fragment_015",
+            "anchor_role": "hydroxyl_oxygen"
+          }
+        ]
+      }
+    }
   },
   {
     "fragment_id": "fragment_013",
     "fragment_name": "amine",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "polar",
       "hydrogen_bonding",
@@ -690,12 +461,7 @@
       "type": "smarts",
       "pattern": "[*:1][NX3:2][*:3]",
       "constraints": {
-        "exclude": [
-          "amide_if_adjacent_carbonyl",
-          "urea_if_two_carbonyl_neighbors",
-          "imide_if_between_two_carbonyls",
-          "aromatic_amine_if_sp2_aromatic"
-        ]
+        "exclude_atom_role_adjacent_to_carbonyl": "amine_nitrogen"
       }
     },
     "atom_roles": {
@@ -707,56 +473,38 @@
       "anchor_type": "atom",
       "anchor_role": "amine_nitrogen"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 0,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "nitrogen_family",
-      "priority": 50,
-      "allow_child_fragments": false
+      "priority": 35,
+      "instance_suppression": {
+        "mode": "drop_if_anchor_covered_by_higher_priority",
+        "anchor_role": "amine_nitrogen",
+        "covering_fragments": [
+          {
+            "fragment_id": "fragment_023",
+            "anchor_role": "secondary_nitrogen"
+          }
+        ]
+      }
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 120746
+    "deduplication": {
+      "roles": [
+        "amine_nitrogen"
+      ]
+    }
   },
   {
     "fragment_id": "fragment_014",
-    "fragment_name": "ketone",
-    "source": "fragment_000",
-    "version": "v1.0",
+    "fragment_name": "carbonyl",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "polar",
       "electron_withdrawing",
-      "moderately_rigid",
-      "backbone_possible"
+      "carbonyl_parent"
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][C:2](=[O:3])[*:4]",
-      "constraints": {
-        "exclude": [
-          "aldehyde_if_one_H_on_carbonyl_carbon",
-          "amide_if_adjacent_N",
-          "ester_if_adjacent_O",
-          "carboxylic_acid_if_OH_present"
-        ]
-      }
+      "pattern": "[*:1][C:2](=[O:3])[*:4]"
     },
     "atom_roles": {
       "1": "connected_atom_left",
@@ -768,39 +516,58 @@
       "anchor_type": "atom",
       "anchor_role": "carbonyl_carbon"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "carbonyl_family",
-      "priority": 50,
-      "allow_child_fragments": true
+      "priority": 20,
+      "instance_suppression": {
+        "mode": "drop_if_anchor_covered_by_higher_priority",
+        "anchor_role": "carbonyl_carbon",
+        "covering_fragments": [
+          {
+            "fragment_id": "fragment_001",
+            "anchor_role": "carbonyl_carbon"
+          },
+          {
+            "fragment_id": "fragment_002",
+            "anchor_role": "carbonyl_carbon_1"
+          },
+          {
+            "fragment_id": "fragment_002",
+            "anchor_role": "carbonyl_carbon_2"
+          },
+          {
+            "fragment_id": "fragment_003",
+            "anchor_role": "carbonyl_carbon"
+          },
+          {
+            "fragment_id": "fragment_005",
+            "anchor_role": "carbonyl_carbon"
+          },
+          {
+            "fragment_id": "fragment_006",
+            "anchor_role": "carbonyl_carbon"
+          },
+          {
+            "fragment_id": "fragment_007",
+            "anchor_role": "carbonyl_carbon"
+          },
+          {
+            "fragment_id": "fragment_015",
+            "anchor_role": "carbonyl_carbon"
+          }
+        ]
+      }
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 129013
+    "deduplication": {
+      "roles": [
+        "carbonyl_carbon"
+      ]
+    }
   },
   {
     "fragment_id": "fragment_015",
     "fragment_name": "carboxylic_acid",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
       "polar",
       "strong_hydrogen_bonding",
@@ -809,14 +576,7 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][C:2](=[O:3])[OH:4]",
-      "constraints": {
-        "exclude": [
-          "ester_if_no_hydroxyl_hydrogen",
-          "amide_if_adjacent_N",
-          "carboxylate_if_deprotonated"
-        ]
-      }
+      "pattern": "[*:1][C:2](=[O:3])[OH:4]"
     },
     "atom_roles": {
       "1": "connected_atom",
@@ -828,567 +588,105 @@
       "anchor_type": "atom",
       "anchor_role": "carbonyl_carbon"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 0,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0",
-      "atom_role_pattern",
-      "boundary_pattern"
-    ],
     "overlap_policy": {
-      "exclusive_group": "carbonyl_family",
-      "priority": 50,
-      "allow_child_fragments": false
+      "priority": 75
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 337
+    "deduplication": {
+      "roles": [
+        "carbonyl_carbon"
+      ]
+    }
   },
   {
     "fragment_id": "fragment_016",
-    "fragment_name": "four_membered_aliphatic_heterocycle_one_substituted",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "cycloaliphatic_ring",
+    "fragment_name": "four_membered_ring",
+    "category": "ring_structure",
+    "core_status": "core",
     "semantic_tags": [
-      "aliphatic",
-      "non_aromatic",
+      "small_ring",
       "strained_ring",
       "rigid",
-      "heterocycle",
-      "small_ring",
-      "monosubstituted"
+      "ring_motif",
+      "structure_property_relevant"
     ],
     "match_rule": {
-      "type": "smarts",
-      "pattern": "[C,N,O,S;R:1]1([*:2])[C,N,O,S;R:3][C,N,O,S;R:4][C,N,O,S;R:5]1"
+      "type": "rdkit_ring",
+      "ring_size": 4,
+      "ring_filter": "any",
+      "attribute_schema": [
+        "ring_size",
+        "ring_atom_class",
+        "hetero_atom_count",
+        "hetero_atom_symbols",
+        "hetero_atom_signature",
+        "aromaticity",
+        "ring_aromatic_atom_count",
+        "ring_aromaticity_class",
+        "polycyclic",
+        "external_connection_count",
+        "external_connection_topology",
+        "exocyclic_substituent_count",
+        "exocyclic_substituent_topology",
+        "polycyclic_connection_count",
+        "polycyclic_connection_topology",
+        "substitution_count",
+        "substitution_topology",
+        "attachment_count",
+        "mainchain_through_ring"
+      ]
     },
     "atom_roles": {
-      "1": "substituted_ring_atom_1",
-      "2": "connected_substituent_atom",
-      "3": "ring_atom_2",
-      "4": "ring_atom_3",
-      "5": "ring_atom_4"
+      "1": "ring_atom_1",
+      "2": "ring_atom_2",
+      "3": "ring_atom_3",
+      "4": "ring_atom_4"
     },
     "anchor_rule": {
       "anchor_type": "composite",
       "anchor_role": "four_membered_ring_center"
     },
-    "ownership_rule": "center_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "ring_canonical_id",
-      "ring_size",
-      "atom_type_signature"
-    ],
     "overlap_policy": {
-      "exclusive_group": "small_strained_ring_family",
-      "priority": 50,
-      "allow_child_fragments": false
+      "priority": 60
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 844
+    "status_reason": "Core structural motif for structure-property alignment; subtype and substitution details are emitted as match attributes."
   },
   {
     "fragment_id": "fragment_017",
-    "fragment_name": "four_membered_aliphatic_heterocycle_two_substituted_first",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "cycloaliphatic_ring",
-    "semantic_tags": [
-      "aliphatic",
-      "non_aromatic",
-      "strained_ring",
-      "rigid",
-      "heterocycle",
-      "small_ring",
-      "disubstituted"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[C,N,O,S;R:1]1([*:2])[C,N,O,S;R:3]([*:4])[C,N,O,S;R:5][C,N,O,S;R:6]1"
-    },
-    "atom_roles": {
-      "1": "substituted_ring_atom_1",
-      "2": "connected_substituent_atom_1",
-      "3": "substituted_ring_atom_2",
-      "4": "connected_substituent_atom_2",
-      "5": "ring_atom_3",
-      "6": "ring_atom_4"
-    },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "four_membered_ring_center"
-    },
-    "ownership_rule": "center_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "ring_canonical_id",
-      "ring_size",
-      "atom_type_signature"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "small_strained_ring_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 1174
-  },
-  {
-    "fragment_id": "fragment_018",
-    "fragment_name": "four_membered_aliphatic_heterocycle_two_substituted_second",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "cycloaliphatic_ring",
-    "semantic_tags": [
-      "aliphatic",
-      "non_aromatic",
-      "strained_ring",
-      "rigid",
-      "heterocycle",
-      "small_ring",
-      "disubstituted"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[C,N,O,S;R:1]1([*:2])[C,N,O,S;R:3][C,N,O,S;R:4]([*:5])[C,N,O,S;R:6]1"
-    },
-    "atom_roles": {
-      "1": "substituted_ring_atom_1",
-      "2": "connected_substituent_atom_1",
-      "3": "ring_atom_2",
-      "4": "substituted_ring_atom_2",
-      "5": "connected_substituent_atom_2",
-      "6": "ring_atom_4"
-    },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "four_membered_ring_center"
-    },
-    "ownership_rule": "center_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "ring_canonical_id",
-      "ring_size",
-      "atom_type_signature"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "small_strained_ring_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 668
-  },
-  {
-    "fragment_id": "fragment_019",
-    "fragment_name": "four_membered_aliphatic_heterocycle_three_substituted",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "cycloaliphatic_ring",
-    "semantic_tags": [
-      "aliphatic",
-      "non_aromatic",
-      "strained_ring",
-      "rigid",
-      "heterocycle",
-      "small_ring",
-      "trisubstituted"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[C,N,O,S;R:1]1([*:2])[C,N,O,S;R:3]([*:4])[C,N,O,S;R:5]([*:6])[C,N,O,S;R:7]1"
-    },
-    "atom_roles": {
-      "1": "substituted_ring_atom_1",
-      "2": "connected_substituent_atom_1",
-      "3": "substituted_ring_atom_2",
-      "4": "connected_substituent_atom_2",
-      "5": "substituted_ring_atom_3",
-      "6": "connected_substituent_atom_3",
-      "7": "unsubstituted_ring_atom_4"
-    },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "four_membered_ring_center"
-    },
-    "ownership_rule": "center_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "ring_canonical_id",
-      "ring_size",
-      "atom_type_signature"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "small_strained_ring_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 1929
-  },
-  {
-    "fragment_id": "fragment_020",
-    "fragment_name": "four_membered_aliphatic_heterocycle_four_substituted",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "cycloaliphatic_ring",
-    "semantic_tags": [
-      "aliphatic",
-      "non_aromatic",
-      "strained_ring",
-      "rigid",
-      "heterocycle",
-      "small_ring",
-      "tetrasubstituted"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[C,N,O,S;R:1]1([*:2])[C,N,O,S;R:3]([*:4])[C,N,O,S;R:5]([*:6])[C,N,O,S;R:7]([*:8])1"
-    },
-    "atom_roles": {
-      "1": "substituted_ring_atom_1",
-      "2": "connected_substituent_atom_1",
-      "3": "substituted_ring_atom_2",
-      "4": "connected_substituent_atom_2",
-      "5": "substituted_ring_atom_3",
-      "6": "connected_substituent_atom_3",
-      "7": "substituted_ring_atom_4",
-      "8": "connected_substituent_atom_4"
-    },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "four_membered_ring_center"
-    },
-    "ownership_rule": "center_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "ring_canonical_id",
-      "ring_size",
-      "atom_type_signature"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "small_strained_ring_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 796
-  },
-  {
-    "fragment_id": "fragment_021",
-    "fragment_name": "four_membered_aromatic_heterocycle_two_substituted_first",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "cycloaliphatic_ring",
-    "semantic_tags": [
-      "aliphatic",
-      "non_aromatic",
-      "strained_ring",
-      "rigid",
-      "heterocycle",
-      "small_ring",
-      "disubstituted"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[c,n,o,s;R:1]1([*:2])[c,n,o,s;R:3]([*:4])[c,n,o,s;R:5][c,n,o,s;R:6]1"
-    },
-    "atom_roles": {
-      "1": "substituted_ring_atom_1",
-      "2": "connected_substituent_atom_1",
-      "3": "substituted_ring_atom_2",
-      "4": "connected_substituent_atom_2",
-      "5": "ring_atom_3",
-      "6": "ring_atom_4"
-    },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "four_membered_ring_center"
-    },
-    "ownership_rule": "center_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "ring_canonical_id",
-      "ring_size",
-      "atom_type_signature"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "small_strained_ring_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 1174
-  },
-  {
-    "fragment_id": "fragment_022",
-    "fragment_name": "four_membered_aromatic_heterocycle_two_substituted_second",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "cycloaliphatic_ring",
-    "semantic_tags": [
-      "aliphatic",
-      "non_aromatic",
-      "strained_ring",
-      "rigid",
-      "heterocycle",
-      "small_ring",
-      "disubstituted"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[c,n,o,s;R:1]1([*:2])[c,n,o,s;R:3][c,n,o,s;R:4]([*:5])[c,n,o,s;R:6]1"
-    },
-    "atom_roles": {
-      "1": "substituted_ring_atom_1",
-      "2": "connected_substituent_atom_1",
-      "3": "ring_atom_2",
-      "4": "substituted_ring_atom_2",
-      "5": "connected_substituent_atom_2",
-      "6": "ring_atom_4"
-    },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "four_membered_ring_center"
-    },
-    "ownership_rule": "center_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "ring_canonical_id",
-      "ring_size",
-      "atom_type_signature"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "small_strained_ring_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 668
-  },
-  {
-    "fragment_id": "fragment_023",
-    "fragment_name": "four_membered_aromatic_heterocycle_three_substituted",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "cycloaliphatic_ring",
-    "semantic_tags": [
-      "aliphatic",
-      "non_aromatic",
-      "strained_ring",
-      "rigid",
-      "heterocycle",
-      "small_ring",
-      "trisubstituted"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[c,n,o,s;R:1]1([*:2])[c,n,o,s;R:3]([*:4])[c,n,o,s;R:5]([*:6])[c,n,o,s;R:7]1"
-    },
-    "atom_roles": {
-      "1": "substituted_ring_atom_1",
-      "2": "connected_substituent_atom_1",
-      "3": "substituted_ring_atom_2",
-      "4": "connected_substituent_atom_2",
-      "5": "substituted_ring_atom_3",
-      "6": "connected_substituent_atom_3",
-      "7": "unsubstituted_ring_atom_4"
-    },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "four_membered_ring_center"
-    },
-    "ownership_rule": "center_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "ring_canonical_id",
-      "ring_size",
-      "atom_type_signature"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "small_strained_ring_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 1929
-  },
-  {
-    "fragment_id": "fragment_024",
-    "fragment_name": "four_membered_aromatic_heterocycle_four_substituted",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "cycloaliphatic_ring",
-    "semantic_tags": [
-      "aliphatic",
-      "non_aromatic",
-      "strained_ring",
-      "rigid",
-      "heterocycle",
-      "small_ring",
-      "tetrasubstituted"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[c,n,o,s;R:1]1([*:2])[c,n,o,s;R:3]([*:4])[c,n,o,s;R:5]([*:6])[c,n,o,s;R:7]([*:8])1"
-    },
-    "atom_roles": {
-      "1": "substituted_ring_atom_1",
-      "2": "connected_substituent_atom_1",
-      "3": "substituted_ring_atom_2",
-      "4": "connected_substituent_atom_2",
-      "5": "substituted_ring_atom_3",
-      "6": "connected_substituent_atom_3",
-      "7": "substituted_ring_atom_4",
-      "8": "connected_substituent_atom_4"
-    },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "four_membered_ring_center"
-    },
-    "ownership_rule": "center_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "ring_canonical_id",
-      "ring_size",
-      "atom_type_signature"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "small_strained_ring_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 796
-  },
-  {
-    "fragment_id": "fragment_025",
-    "fragment_name": "five_membered_aromatic_heterocycle",
-    "source": "fragment_000",
-    "version": "v1.0",
+    "fragment_name": "five_membered_aromatic_ring",
     "category": "aromatic_ring",
+    "core_status": "core",
     "semantic_tags": [
       "aromatic",
-      "heterocycle",
       "pi_conjugated",
       "planar",
-      "stable_ring"
+      "ring_scaffold",
+      "structure_property_relevant"
     ],
     "match_rule": {
-      "type": "smarts",
-      "pattern": "[c,n,o,s;R:1]1[c,n,o,s;R:2][c,n,o,s;R:3][c,n,o,s;R:4][c,n,o,s;R:5]1"
+      "type": "rdkit_ring",
+      "ring_size": 5,
+      "ring_filter": "aromatic",
+      "attribute_schema": [
+        "ring_size",
+        "ring_atom_class",
+        "hetero_atom_count",
+        "hetero_atom_symbols",
+        "hetero_atom_signature",
+        "aromaticity",
+        "ring_aromatic_atom_count",
+        "ring_aromaticity_class",
+        "polycyclic",
+        "external_connection_count",
+        "external_connection_topology",
+        "exocyclic_substituent_count",
+        "exocyclic_substituent_topology",
+        "polycyclic_connection_count",
+        "polycyclic_connection_topology",
+        "substitution_count",
+        "substitution_topology",
+        "attachment_count",
+        "mainchain_through_ring"
+      ]
     },
     "atom_roles": {
       "1": "ring_atom_1",
@@ -1401,38 +699,177 @@
       "anchor_type": "composite",
       "anchor_role": "five_membered_aromatic_ring_center"
     },
-    "ownership_rule": "center_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "ring_canonical_id",
-      "ring_size",
-      "atom_type_signature"
-    ],
     "overlap_policy": {
-      "exclusive_group": "aromatic_ring_family",
-      "priority": 50,
-      "allow_child_fragments": false
+      "priority": 50
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 9763
+    "status_reason": "Core five-membered aromatic ring scaffold; RDKit ring perception avoids atom-list SMARTS omissions and emits ring environment attributes."
   },
   {
-    "fragment_id": "fragment_026",
+    "fragment_id": "fragment_018",
+    "fragment_name": "five_membered_not_fully_aromatic_ring",
+    "category": "ring_structure",
+    "core_status": "core",
+    "semantic_tags": [
+      "not_fully_aromatic",
+      "ring_scaffold",
+      "small_ring",
+      "structure_property_relevant"
+    ],
+    "match_rule": {
+      "type": "rdkit_ring",
+      "ring_size": 5,
+      "ring_filter": "nonaromatic",
+      "attribute_schema": [
+        "ring_size",
+        "ring_atom_class",
+        "hetero_atom_count",
+        "hetero_atom_symbols",
+        "hetero_atom_signature",
+        "aromaticity",
+        "ring_aromatic_atom_count",
+        "ring_aromaticity_class",
+        "polycyclic",
+        "external_connection_count",
+        "external_connection_topology",
+        "exocyclic_substituent_count",
+        "exocyclic_substituent_topology",
+        "polycyclic_connection_count",
+        "polycyclic_connection_topology",
+        "substitution_count",
+        "substitution_topology",
+        "attachment_count",
+        "mainchain_through_ring"
+      ]
+    },
+    "atom_roles": {
+      "1": "ring_atom_1",
+      "2": "ring_atom_2",
+      "3": "ring_atom_3",
+      "4": "ring_atom_4",
+      "5": "ring_atom_5"
+    },
+    "anchor_rule": {
+      "anchor_type": "composite",
+      "anchor_role": "five_membered_not_fully_aromatic_ring_center"
+    },
+    "overlap_policy": {
+      "priority": 50
+    },
+    "status_reason": "Core five-membered not-fully-aromatic ring scaffold; RDKit ring perception includes saturated, fused, imide-like, and partially aromatic five-membered rings."
+  },
+  {
+    "fragment_id": "fragment_019",
+    "fragment_name": "six_membered_aromatic_ring",
+    "category": "aromatic_ring",
+    "core_status": "core",
+    "semantic_tags": [
+      "aromatic",
+      "pi_conjugated",
+      "planar",
+      "ring_scaffold",
+      "structure_property_relevant"
+    ],
+    "match_rule": {
+      "type": "rdkit_ring",
+      "ring_size": 6,
+      "ring_filter": "aromatic",
+      "attribute_schema": [
+        "ring_size",
+        "ring_atom_class",
+        "hetero_atom_count",
+        "hetero_atom_symbols",
+        "hetero_atom_signature",
+        "aromaticity",
+        "ring_aromatic_atom_count",
+        "ring_aromaticity_class",
+        "polycyclic",
+        "external_connection_count",
+        "external_connection_topology",
+        "exocyclic_substituent_count",
+        "exocyclic_substituent_topology",
+        "polycyclic_connection_count",
+        "polycyclic_connection_topology",
+        "substitution_count",
+        "substitution_topology",
+        "attachment_count",
+        "mainchain_through_ring"
+      ]
+    },
+    "atom_roles": {
+      "1": "ring_atom_1",
+      "2": "ring_atom_2",
+      "3": "ring_atom_3",
+      "4": "ring_atom_4",
+      "5": "ring_atom_5",
+      "6": "ring_atom_6"
+    },
+    "anchor_rule": {
+      "anchor_type": "composite",
+      "anchor_role": "six_membered_aromatic_ring_center"
+    },
+    "overlap_policy": {
+      "priority": 50
+    },
+    "status_reason": "Core six-membered aromatic ring scaffold; RDKit ring perception aligns six-membered rings with the four- and five-membered ring attribute model."
+  },
+  {
+    "fragment_id": "fragment_020",
+    "fragment_name": "six_membered_not_fully_aromatic_ring",
+    "category": "ring_structure",
+    "core_status": "core",
+    "semantic_tags": [
+      "not_fully_aromatic",
+      "ring_scaffold",
+      "structure_property_relevant"
+    ],
+    "match_rule": {
+      "type": "rdkit_ring",
+      "ring_size": 6,
+      "ring_filter": "nonaromatic",
+      "attribute_schema": [
+        "ring_size",
+        "ring_atom_class",
+        "hetero_atom_count",
+        "hetero_atom_symbols",
+        "hetero_atom_signature",
+        "aromaticity",
+        "ring_aromatic_atom_count",
+        "ring_aromaticity_class",
+        "polycyclic",
+        "external_connection_count",
+        "external_connection_topology",
+        "exocyclic_substituent_count",
+        "exocyclic_substituent_topology",
+        "polycyclic_connection_count",
+        "polycyclic_connection_topology",
+        "substitution_count",
+        "substitution_topology",
+        "attachment_count",
+        "mainchain_through_ring"
+      ]
+    },
+    "atom_roles": {
+      "1": "ring_atom_1",
+      "2": "ring_atom_2",
+      "3": "ring_atom_3",
+      "4": "ring_atom_4",
+      "5": "ring_atom_5",
+      "6": "ring_atom_6"
+    },
+    "anchor_rule": {
+      "anchor_type": "composite",
+      "anchor_role": "six_membered_not_fully_aromatic_ring_center"
+    },
+    "overlap_policy": {
+      "priority": 50
+    },
+    "status_reason": "Core six-membered not-fully-aromatic ring scaffold; saturated, partially aromatic, fused, and heterocyclic subclasses are emitted as match attributes."
+  },
+  {
+    "fragment_id": "fragment_021",
     "fragment_name": "vinylene_linkage",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "mainchain_linker",
+    "core_status": "core",
     "semantic_tags": [
       "pi_conjugated",
       "semi_rigid",
@@ -1454,37 +891,23 @@
       "anchor_type": "bond",
       "anchor_role": "double_bond"
     },
-    "ownership_rule": "bond_midpoint_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_bond_canonical_id"
-    ],
     "overlap_policy": {
-      "exclusive_group": "unsaturated_linker_family",
-      "priority": 50,
-      "allow_child_fragments": false
+      "priority": 50
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 4209
+    "deduplication": {
+      "unordered_role_groups": [
+        [
+          "vinyl_carbon_1",
+          "vinyl_carbon_2"
+        ]
+      ]
+    }
   },
   {
-    "fragment_id": "fragment_027",
+    "fragment_id": "fragment_022",
     "fragment_name": "ethynylene_linkage",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "mainchain_linker",
+    "core_status": "core",
     "semantic_tags": [
       "pi_conjugated",
       "linear",
@@ -1506,37 +929,92 @@
       "anchor_type": "bond",
       "anchor_role": "triple_bond"
     },
-    "ownership_rule": "bond_midpoint_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": true,
-    "enable_cut_shift_scan": true,
-    "max_cut_shift": 1,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_bond_canonical_id"
-    ],
     "overlap_policy": {
-      "exclusive_group": "unsaturated_linker_family",
-      "priority": 50,
-      "allow_child_fragments": false
+      "priority": 50
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 955
+    "deduplication": {
+      "unordered_role_groups": [
+        [
+          "alkyne_carbon_1",
+          "alkyne_carbon_2"
+        ]
+      ]
+    }
   },
   {
-    "fragment_id": "fragment_028",
+    "fragment_id": "fragment_023",
+    "fragment_name": "secondary_amine_linker",
+    "category": "linker",
+    "core_status": "core",
+    "semantic_tags": [
+      "polar",
+      "hydrogen_bond_donor",
+      "hydrogen_bond_acceptor",
+      "linker",
+      "amine",
+      "flexible"
+    ],
+    "match_rule": {
+      "type": "smarts",
+      "pattern": "[*:1][NH:2][*:3]",
+      "constraints": {
+        "exclude_atom_role_adjacent_to_carbonyl": "secondary_nitrogen"
+      }
+    },
+    "atom_roles": {
+      "1": "left_attachment",
+      "2": "secondary_nitrogen",
+      "3": "right_attachment"
+    },
+    "anchor_rule": {
+      "anchor_type": "atom",
+      "anchor_role": "secondary_nitrogen"
+    },
+    "overlap_policy": {
+      "priority": 60
+    },
+    "deduplication": {
+      "roles": [
+        "secondary_nitrogen"
+      ]
+    }
+  },
+  {
+    "fragment_id": "fragment_024",
+    "fragment_name": "azo_linker",
+    "category": "linker",
+    "core_status": "core",
+    "semantic_tags": [
+      "azo",
+      "rigid",
+      "polar",
+      "hydrogen_bond_acceptor",
+      "chromophore",
+      "linker"
+    ],
+    "match_rule": {
+      "type": "smarts",
+      "pattern": "[*:1][N:2]=[N:3][*:4]"
+    },
+    "atom_roles": {
+      "1": "left_attachment",
+      "2": "azo_nitrogen_1",
+      "3": "azo_nitrogen_2",
+      "4": "right_attachment"
+    },
+    "anchor_rule": {
+      "anchor_type": "atom",
+      "anchor_role": "azo_nitrogen_1"
+    },
+    "overlap_policy": {
+      "priority": 50
+    }
+  },
+  {
+    "fragment_id": "fragment_025",
     "fragment_name": "halogen_substituent",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "side_group",
+    "core_status": "core",
     "semantic_tags": [
       "electron_withdrawing",
       "polarizable",
@@ -1546,51 +1024,57 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][#6:2]-[F,Cl,Br,I:3]",
-      "constraints": {
-        "exclude_inorganic_halides": true
-      }
+      "pattern": "[#6:1]-[F,Cl,Br,I:2]"
     },
     "atom_roles": {
-      "1": "connected_atom",
-      "2": "substituted_carbon",
-      "3": "halogen_atom"
+      "1": "substituted_carbon",
+      "2": "halogen_atom"
     },
     "anchor_rule": {
       "anchor_type": "atom",
       "anchor_role": "halogen_atom"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 0,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0"
-    ],
     "overlap_policy": {
-      "exclusive_group": "substituent_family",
-      "priority": 50,
-      "allow_child_fragments": false
+      "priority": 40,
+      "instance_suppression": {
+        "mode": "drop_if_core_atoms_covered_by_higher_priority",
+        "core_atom_roles": [
+          "substituted_carbon",
+          "halogen_atom"
+        ],
+        "covering_fragments": [
+          {
+            "fragment_id": "fragment_026",
+            "core_atom_role_sets": [
+              [
+                "trifluoromethyl_carbon",
+                "fluorine_atom_1"
+              ],
+              [
+                "trifluoromethyl_carbon",
+                "fluorine_atom_2"
+              ],
+              [
+                "trifluoromethyl_carbon",
+                "fluorine_atom_3"
+              ]
+            ]
+          }
+        ]
+      }
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 85252
+    "deduplication": {
+      "roles": [
+        "substituted_carbon",
+        "halogen_atom"
+      ]
+    }
   },
   {
-    "fragment_id": "fragment_029",
+    "fragment_id": "fragment_026",
     "fragment_name": "trifluoromethyl",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "side_group",
+    "core_status": "core",
     "semantic_tags": [
       "strong_electron_withdrawing",
       "highly_hydrophobic",
@@ -1619,37 +1103,20 @@
       "anchor_type": "atom",
       "anchor_role": "trifluoromethyl_carbon"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 0,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0"
-    ],
     "overlap_policy": {
-      "exclusive_group": "fluorinated_family",
-      "priority": 50,
-      "allow_child_fragments": false
+      "priority": 80
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 22769
+    "deduplication": {
+      "roles": [
+        "trifluoromethyl_carbon"
+      ]
+    }
   },
   {
-    "fragment_id": "fragment_030",
+    "fragment_id": "fragment_027",
     "fragment_name": "methyl",
-    "source": "fragment_000",
-    "version": "v1.0",
     "category": "side_group",
+    "core_status": "derived_attribute",
     "semantic_tags": [
       "alkyl",
       "hydrophobic",
@@ -1659,10 +1126,7 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][#6:2]-[CH3:3]",
-      "constraints": {
-        "exclude_methane": true
-      }
+      "pattern": "[*:1][#6:2]-[CH3:3]"
     },
     "atom_roles": {
       "1": "connected_atom",
@@ -1673,356 +1137,14 @@
       "anchor_type": "atom",
       "anchor_role": "methyl_carbon"
     },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 0,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0"
-    ],
     "overlap_policy": {
-      "exclusive_group": "alkyl_substituent_family",
-      "priority": 50,
-      "allow_child_fragments": false
+      "priority": 50
     },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 78948
-  },
-  {
-    "fragment_id": "fragment_031",
-    "fragment_name": "diacylamine_linker",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "linker",
-    "semantic_tags": [
-      "polar",
-      "hydrogen_bond_donor",
-      "hydrogen_bond_acceptor",
-      "linker",
-      "amide_like",
-      "rigid"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[*:1][C:2](=[O:3])[N:4][C:5](=[O:6])[*:7]",
-      "constraints": {}
-    },
-    "atom_roles": {
-      "1": "left_attachment",
-      "2": "carbonyl_carbon_1",
-      "3": "carbonyl_oxygen_1",
-      "4": "imide_nitrogen",
-      "5": "carbonyl_carbon_2",
-      "6": "carbonyl_oxygen_2",
-      "7": "right_attachment"
-    },
-    "anchor_rule": {
-      "anchor_type": "atom",
-      "anchor_role": "imide_nitrogen"
-    },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 0,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "diacylamine_linker_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 0
-  },
-  {
-    "fragment_id": "fragment_032",
-    "fragment_name": "secondary_amine_linker",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "linker",
-    "semantic_tags": [
-      "polar",
-      "hydrogen_bond_donor",
-      "hydrogen_bond_acceptor",
-      "linker",
-      "amine",
-      "flexible"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[*:1][NH:2][*:3]",
-      "constraints": {}
-    },
-    "atom_roles": {
-      "1": "left_attachment",
-      "2": "secondary_nitrogen",
-      "3": "right_attachment"
-    },
-    "anchor_rule": {
-      "anchor_type": "atom",
-      "anchor_role": "secondary_nitrogen"
-    },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 0,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "secondary_amine_linker_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 0
-  },
-  {
-    "fragment_id": "fragment_033",
-    "fragment_name": "azo_linker",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "linker",
-    "semantic_tags": [
-      "azo",
-      "rigid",
-      "polar",
-      "hydrogen_bond_acceptor",
-      "chromophore",
-      "linker"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[*:1][N:2]=[N:3][*:4]",
-      "constraints": {}
-    },
-    "atom_roles": {
-      "1": "left_attachment",
-      "2": "azo_nitrogen_1",
-      "3": "azo_nitrogen_2",
-      "4": "right_attachment"
-    },
-    "anchor_rule": {
-      "anchor_type": "atom",
-      "anchor_role": "azo_nitrogen_1"
-    },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 0,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "azo_linker_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 0
-  },
-  {
-    "fragment_id": "fragment_034",
-    "fragment_name": "ester_linker",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "linker",
-    "semantic_tags": [
-      "ester",
-      "polar",
-      "hydrogen_bond_acceptor",
-      "linker",
-      "flexible"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[*:1][C:2](=[O:3])[O:4][*:5]",
-      "constraints": {}
-    },
-    "atom_roles": {
-      "1": "left_attachment",
-      "2": "carbonyl_carbon",
-      "3": "carbonyl_oxygen",
-      "4": "ester_oxygen",
-      "5": "right_attachment"
-    },
-    "anchor_rule": {
-      "anchor_type": "atom",
-      "anchor_role": "carbonyl_carbon"
-    },
-    "ownership_rule": "anchor_in_RU0",
-    "periodic_radius": 0,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "anchor_type",
-      "anchor_canonical_id_in_RU0"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "ester_linker_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      -1
-    ],
-    "atom_link": [
-      "-1",
-      "-1"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 0
-  },
-  {
-    "fragment_id": "fragment_035",
-    "fragment_name": "six_membered_aromatic_heterocycle",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "aromatic_ring",
-    "semantic_tags": [
-      "aromatic",
-      "heterocycle",
-      "pi_conjugated",
-      "planar",
-      "stable_ring"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[C,N,O,S,c,n,o,s;R:1]1[C,N,O,S,c,n,o,s;R:2][C,N,O,S,c,n,o,s;R:3][C,N,O,S,c,n,o,s;R:4][C,N,O,S,c,n,o,s;R:5][C,N,O,S,c,n,o,s;R:6]1"
-    },
-    "atom_roles": {
-      "1": "ring_atom_1",
-      "2": "ring_atom_2",
-      "3": "ring_atom_3",
-      "4": "ring_atom_4",
-      "5": "ring_atom_5",
-      "6": "ring_atom_6"
-    },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "six_membered_aromatic_ring_center"
-    },
-    "ownership_rule": "center_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "ring_canonical_id",
-      "ring_size",
-      "atom_type_signature"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "aromatic_ring_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      2
-    ],
-    "atom_link": [
-      "C",
-      "C"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 161069
-  },
-  {
-    "fragment_id": "fragment_036",
-    "fragment_name": "five_membered_aromatic_heterocycle",
-    "source": "fragment_000",
-    "version": "v1.0",
-    "category": "aromatic_ring",
-    "semantic_tags": [
-      "aromatic",
-      "heterocycle",
-      "pi_conjugated",
-      "planar",
-      "stable_ring"
-    ],
-    "match_rule": {
-      "type": "smarts",
-      "pattern": "[C,N,O,S,c,n,o,s;R:1]1[C,N,O,S,c,n,o,s;R:2][C,N,O,S,c,n,o,s;R:3][C,N,O,S,c,n,o,s;R:4][C,N,O,S,c,n,o,s;R:5]1"
-    },
-    "atom_roles": {
-      "1": "ring_atom_1",
-      "2": "ring_atom_2",
-      "3": "ring_atom_3",
-      "4": "ring_atom_4",
-      "5": "ring_atom_5"
-    },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "five_membered_aromatic_ring_center"
-    },
-    "ownership_rule": "center_in_RU0",
-    "periodic_radius": 1,
-    "allow_boundary_crossing": false,
-    "enable_cut_shift_scan": false,
-    "max_cut_shift": 0,
-    "dedup_key_fields": [
-      "fragment_id",
-      "ring_canonical_id",
-      "ring_size",
-      "atom_type_signature"
-    ],
-    "overlap_policy": {
-      "exclusive_group": "aromatic_ring_family",
-      "priority": 50,
-      "allow_child_fragments": false
-    },
-    "position_difference": [
-      2
-    ],
-    "atom_link": [
-      "C",
-      "C"
-    ],
-    "in_main_or_side_chain": 0,
-    "match_count": 9763
+    "status_reason": "Methyl is retained as an auxiliary substituent count, not an independent core fragment.",
+    "deduplication": {
+      "roles": [
+        "methyl_carbon"
+      ]
+    }
   }
 ]

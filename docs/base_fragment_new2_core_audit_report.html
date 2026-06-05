@@ -1,0 +1,2257 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>base_fragment_new2 片段规则审计报告</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17212b;
+      --muted: #657384;
+      --line: #d9e0e8;
+      --paper: #ffffff;
+      --band: #f5f7fa;
+      --ok: #217a52;
+      --ok-bg: #e6f4ee;
+      --warn: #a35b00;
+      --warn-bg: #fff2d8;
+      --info: #245a9c;
+      --info-bg: #e8f1ff;
+      --bad: #a93d3d;
+      --bad-bg: #ffe8e8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--band);
+      line-height: 1.55;
+    }
+    header {
+      padding: 34px 42px 26px;
+      background: #1f3544;
+      color: #fff;
+    }
+    header h1 { margin: 0 0 8px; font-size: 30px; letter-spacing: 0; }
+    header p { margin: 0; color: #d8e4ec; max-width: 980px; }
+    main { max-width: 1480px; margin: 0 auto; padding: 28px 32px 48px; }
+    h2 { margin: 34px 0 12px; font-size: 22px; }
+    h3 { margin: 22px 0 10px; font-size: 17px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px 16px;
+      min-width: 0;
+    }
+    .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+    .metric { font-size: 25px; font-weight: 700; margin-top: 4px; }
+    .card p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin: 16px 0;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 16px;
+    }
+    ul { margin: 8px 0 0 20px; padding: 0; }
+    li { margin: 5px 0; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .92em;
+      background: #eef2f6;
+      border-radius: 4px;
+      padding: 1px 4px;
+    }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+    table { width: 100%; border-collapse: collapse; min-width: 1180px; }
+    table.compact-table { min-width: 0; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { text-align: left; background: #eef3f7; font-size: 12px; color: #344657; position: sticky; top: 0; }
+    td { font-size: 13px; }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .subtle { color: var(--muted); font-size: 12px; }
+    .refs { color: #394b5c; min-width: 220px; }
+    .badge {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+    .badge.ok { color: var(--ok); background: var(--ok-bg); }
+    .badge.warn { color: var(--warn); background: var(--warn-bg); }
+    .badge.info { color: var(--info); background: var(--info-bg); }
+    .badge.muted { color: #52616f; background: #edf0f2; }
+    .hist-row {
+      display: grid;
+      grid-template-columns: 42px minmax(140px, 1fr) 150px;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 0;
+    }
+    .hist-key { font-variant-numeric: tabular-nums; color: var(--muted); }
+    .hist-bar {
+      height: 12px;
+      background: #e5ebf1;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .hist-bar span { display: block; height: 100%; background: #4c8fb5; }
+    .hist-value { color: var(--muted); font-size: 13px; }
+    footer { color: var(--muted); font-size: 12px; margin-top: 30px; }
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .two-col { grid-template-columns: 1fr; }
+      header { padding: 28px 24px 22px; }
+      main { padding: 22px 18px 36px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>base_fragment_new2 片段规则审计报告</h1>
+    <p>主审计对象为 <code>fragments_1/base_fragment_new2.json</code>；其中 active core 是 26 条。59 条 <code>fragment_vocab_v1.0</code> 仅作为参考系。报告同时使用 11580 条 canonical repeat-unit 与 period-expanded resolved 统计。</p>
+  </header>
+  <main>
+    <section class="grid">
+
+        <section class="card">
+          <div class="label">片段规则数</div>
+          <div class="metric">27</div>
+          <p>active core 26; 其余为非核心派生属性</p>
+        </section>
+
+
+        <section class="card">
+          <div class="label">11580 覆盖</div>
+          <div class="metric">11,329 / 11,580</div>
+          <p>97.832%</p>
+        </section>
+
+
+        <section class="card">
+          <div class="label">平均 active 类型</div>
+          <div class="metric">3.08</div>
+          <p>中位数 3.0; 最大 11</p>
+        </section>
+
+
+        <section class="card">
+          <div class="label">四元环 core</div>
+          <div class="metric">69 / 73</div>
+          <p>records / rings</p>
+        </section>
+
+
+        <section class="card">
+          <div class="label">五元环 core</div>
+          <div class="metric">4,261 / 7,826</div>
+          <p>records / rings</p>
+        </section>
+
+
+        <section class="card">
+          <div class="label">六元环 core</div>
+          <div class="metric">8,682 / 30,902</div>
+          <p>records / rings</p>
+        </section>
+
+
+        <section class="card">
+          <div class="label">period 展开口径</div>
+          <div class="metric">55,060</div>
+          <p>source id 10,444</p>
+        </section>
+
+
+        <section class="card">
+          <div class="label">59 条参考词表</div>
+          <div class="metric">59</div>
+          <p>v1 覆盖 99.974%</p>
+        </section>
+
+
+        <section class="card">
+          <div class="label">RDKit</div>
+          <div class="metric">2026.03.2</div>
+          <p>parser failed 0</p>
+        </section>
+
+    </section>
+
+    <section class="panel">
+      <h2>审计结论</h2>
+      <ul>
+        <li>修后的 27 条规则可以作为当前主片段体系继续使用；其中真正进入下游 resolved 输出的是 26 条 active core。</li>
+        <li>覆盖口径上，11580 条 canonical repeat-unit 中有 11,329 条命中至少一个 active core，覆盖率为 97.832%。</li>
+        <li>仍有 251 条 canonical repeat-unit 未命中 active core，主要需要判断是否补充全脂肪/烷基/取代烯烃类核心，或继续视为当前词表范围外。</li>
+        <li>非 active 条目包括 1 条 derived attribute、0 条 deprecated alias、0 条 rejected；它们有些仍有 raw/normalized 命中，但 resolved 输出已归零。</li>
+        <li><code>fragment_016 four_membered_ring</code> 已作为结构-性质相关核心片段进入 active core；碳/杂环、芳香性、稠合、多取代和取代位置作为 match attributes 保留。</li>
+        <li><code>fragment_017</code> 与 <code>fragment_018</code> 已改为 RDKit 真实五元环 matcher；fully aromatic / not fully aromatic 决定两个 active core，环环境信息进入 attributes。</li>
+        <li><code>fragment_019</code> 与 <code>fragment_020</code> 已改为 RDKit 真实六元环 matcher；fully aromatic / not fully aromatic 决定两个 active core，环环境信息进入 attributes。</li>
+        <li>主要剩余风险不是编译或零命中，而是高覆盖泛化规则的解释层级：醚、酯、酰胺、羰基等应在最终解释中作为父级/roll-up 或和更具体规则配合。</li>
+      </ul>
+    </section>
+
+    <section class="two-col">
+      <div class="panel">
+        <h2>Top active core</h2>
+        <ul><li><code>fragment_019</code> six_membered_aromatic_ring: 8,277 (71.5%)</li>
+<li><code>fragment_004</code> ether: 4,240 (36.6%)</li>
+<li><code>fragment_003</code> ester: 3,425 (29.6%)</li>
+<li><code>fragment_018</code> five_membered_not_fully_aromatic_ring: 2,918 (25.2%)</li>
+<li><code>fragment_014</code> carbonyl: 2,599 (22.4%)</li>
+<li><code>fragment_002</code> imide: 2,217 (19.1%)</li>
+<li><code>fragment_001</code> amide: 2,215 (19.1%)</li>
+<li><code>fragment_017</code> five_membered_aromatic_ring: 1,523 (13.2%)</li>
+<li><code>fragment_023</code> secondary_amine_linker: 1,220 (10.5%)</li>
+<li><code>fragment_025</code> halogen_substituent: 1,038 (9.0%)</li>
+<li><code>fragment_020</code> six_membered_not_fully_aromatic_ring: 913 (7.9%)</li>
+<li><code>fragment_026</code> trifluoromethyl: 811 (7.0%)</li></ul>
+      </div>
+      <div class="panel">
+        <h2>active 类型分布</h2>
+
+            <div class="hist-row">
+              <span class="hist-key">0</span>
+              <span class="hist-bar"><span style="width:9.4%"></span></span>
+              <span class="hist-value">251 (2.2%)</span>
+            </div>
+
+
+            <div class="hist-row">
+              <span class="hist-key">1</span>
+              <span class="hist-bar"><span style="width:64.3%"></span></span>
+              <span class="hist-value">1,709 (14.8%)</span>
+            </div>
+
+
+            <div class="hist-row">
+              <span class="hist-key">2</span>
+              <span class="hist-bar"><span style="width:100.0%"></span></span>
+              <span class="hist-value">2,659 (23.0%)</span>
+            </div>
+
+
+            <div class="hist-row">
+              <span class="hist-key">3</span>
+              <span class="hist-bar"><span style="width:98.0%"></span></span>
+              <span class="hist-value">2,607 (22.5%)</span>
+            </div>
+
+
+            <div class="hist-row">
+              <span class="hist-key">4</span>
+              <span class="hist-bar"><span style="width:82.1%"></span></span>
+              <span class="hist-value">2,183 (18.9%)</span>
+            </div>
+
+
+            <div class="hist-row">
+              <span class="hist-key">5</span>
+              <span class="hist-bar"><span style="width:50.7%"></span></span>
+              <span class="hist-value">1,347 (11.6%)</span>
+            </div>
+
+
+            <div class="hist-row">
+              <span class="hist-key">6</span>
+              <span class="hist-bar"><span style="width:19.5%"></span></span>
+              <span class="hist-value">519 (4.5%)</span>
+            </div>
+
+
+            <div class="hist-row">
+              <span class="hist-key">7</span>
+              <span class="hist-bar"><span style="width:7.8%"></span></span>
+              <span class="hist-value">207 (1.8%)</span>
+            </div>
+
+
+            <div class="hist-row">
+              <span class="hist-key">8</span>
+              <span class="hist-bar"><span style="width:3.0%"></span></span>
+              <span class="hist-value">80 (0.7%)</span>
+            </div>
+
+
+            <div class="hist-row">
+              <span class="hist-key">9</span>
+              <span class="hist-bar"><span style="width:0.5%"></span></span>
+              <span class="hist-value">12 (0.1%)</span>
+            </div>
+
+
+            <div class="hist-row">
+              <span class="hist-key">10</span>
+              <span class="hist-bar"><span style="width:0.2%"></span></span>
+              <span class="hist-value">5 (0.0%)</span>
+            </div>
+
+
+            <div class="hist-row">
+              <span class="hist-key">11</span>
+              <span class="hist-bar"><span style="width:0.0%"></span></span>
+              <span class="hist-value">1 (0.0%)</span>
+            </div>
+
+      </div>
+    </section>
+
+    <section class="two-col">
+      <div class="panel">
+        <h2>需要继续观察</h2>
+        <h3>高覆盖泛化规则</h3>
+        <ul><li><code>fragment_019</code> six_membered_aromatic_ring: 8,277 (71.5%)，建议输出解释时作为父级/roll-up。</li></ul>
+        <h3>低频但化学语义明确的 core</h3>
+        <ul><li><code>fragment_010</code> sulfoxide: 9 (0.08%)</li></ul>
+      </div>
+      <div class="panel">
+        <h2>非 active 命中</h2>
+        <p>这些条目仍可用于审计，但不应进入核心输出。</p>
+        <ul><li><code>fragment_027</code> methyl: normalized 4,099 rows / 9,112 matches，resolved 已归零。</li></ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>四元环结构属性</h2>
+      <p><code>fragment_016 four_membered_ring</code> 是唯一四元环 active core。下面的碳/杂环、芳香性、稠合/多环连接和外接取代基信息来自同一个 ring match 的 attributes，不再作为独立 fragment id 重复计数。</p>
+      <div class="two-col">
+        <div>
+          <h3>环原子类别</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>carbocycle</td>
+              <td class="num">60</td>
+              <td class="num">64</td>
+            </tr>
+
+            <tr>
+              <td>heterocycle</td>
+              <td class="num">9</td>
+              <td class="num">9</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>芳香性</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>nonaromatic</td>
+              <td class="num">65</td>
+              <td class="num">67</td>
+            </tr>
+
+            <tr>
+              <td>partially_aromatic</td>
+              <td class="num">3</td>
+              <td class="num">5</td>
+            </tr>
+
+            <tr>
+              <td>fully_aromatic</td>
+              <td class="num">1</td>
+              <td class="num">1</td>
+            </tr>
+            </tbody>
+    </table>
+
+        </div>
+        <div>
+          <h3>稠合/多环</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>false</td>
+              <td class="num">55</td>
+              <td class="num">56</td>
+            </tr>
+
+            <tr>
+              <td>true</td>
+              <td class="num">14</td>
+              <td class="num">17</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>稠合/多环连接位置数</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>0</td>
+              <td class="num">55</td>
+              <td class="num">56</td>
+            </tr>
+
+            <tr>
+              <td>2</td>
+              <td class="num">11</td>
+              <td class="num">11</td>
+            </tr>
+
+            <tr>
+              <td>4</td>
+              <td class="num">2</td>
+              <td class="num">4</td>
+            </tr>
+
+            <tr>
+              <td>1</td>
+              <td class="num">1</td>
+              <td class="num">2</td>
+            </tr>
+            </tbody>
+    </table>
+
+        </div>
+      </div>
+      <div class="two-col">
+        <div>
+          <h3>外接取代基数</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>4</td>
+              <td class="num">41</td>
+              <td class="num">41</td>
+            </tr>
+
+            <tr>
+              <td>1</td>
+              <td class="num">13</td>
+              <td class="num">17</td>
+            </tr>
+
+            <tr>
+              <td>2</td>
+              <td class="num">11</td>
+              <td class="num">11</td>
+            </tr>
+
+            <tr>
+              <td>3</td>
+              <td class="num">3</td>
+              <td class="num">3</td>
+            </tr>
+
+            <tr>
+              <td>0</td>
+              <td class="num">1</td>
+              <td class="num">1</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>外接取代基拓扑</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>1,2,3,4</td>
+              <td class="num">41</td>
+              <td class="num">41</td>
+            </tr>
+
+            <tr>
+              <td>mono</td>
+              <td class="num">13</td>
+              <td class="num">17</td>
+            </tr>
+
+            <tr>
+              <td>1,2</td>
+              <td class="num">6</td>
+              <td class="num">6</td>
+            </tr>
+
+            <tr>
+              <td>1,3</td>
+              <td class="num">5</td>
+              <td class="num">5</td>
+            </tr>
+
+            <tr>
+              <td>1,2,3</td>
+              <td class="num">3</td>
+              <td class="num">3</td>
+            </tr>
+
+            <tr>
+              <td>none</td>
+              <td class="num">1</td>
+              <td class="num">1</td>
+            </tr>
+            </tbody>
+    </table>
+
+        </div>
+        <div>
+          <h3>总外部连接数</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>4</td>
+              <td class="num">48</td>
+              <td class="num">50</td>
+            </tr>
+
+            <tr>
+              <td>3</td>
+              <td class="num">8</td>
+              <td class="num">8</td>
+            </tr>
+
+            <tr>
+              <td>1</td>
+              <td class="num">7</td>
+              <td class="num">8</td>
+            </tr>
+
+            <tr>
+              <td>2</td>
+              <td class="num">6</td>
+              <td class="num">7</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>总外部连接拓扑</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>1,2,3,4</td>
+              <td class="num">48</td>
+              <td class="num">50</td>
+            </tr>
+
+            <tr>
+              <td>1,2,3</td>
+              <td class="num">8</td>
+              <td class="num">8</td>
+            </tr>
+
+            <tr>
+              <td>mono</td>
+              <td class="num">7</td>
+              <td class="num">8</td>
+            </tr>
+
+            <tr>
+              <td>1,3</td>
+              <td class="num">4</td>
+              <td class="num">5</td>
+            </tr>
+
+            <tr>
+              <td>1,2</td>
+              <td class="num">2</td>
+              <td class="num">2</td>
+            </tr>
+            </tbody>
+    </table>
+
+        </div>
+      </div>
+      <h3>稠合/多环连接拓扑</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>none</td>
+              <td class="num">55</td>
+              <td class="num">56</td>
+            </tr>
+
+            <tr>
+              <td>1,2</td>
+              <td class="num">11</td>
+              <td class="num">11</td>
+            </tr>
+
+            <tr>
+              <td>1,2,3,4</td>
+              <td class="num">2</td>
+              <td class="num">4</td>
+            </tr>
+
+            <tr>
+              <td>mono</td>
+              <td class="num">1</td>
+              <td class="num">2</td>
+            </tr>
+            </tbody>
+    </table>
+
+      <div class="two-col">
+        <div>
+          <h3>dummy attachment 数</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>0</td>
+              <td class="num">38</td>
+              <td class="num">41</td>
+            </tr>
+
+            <tr>
+              <td>1</td>
+              <td class="num">30</td>
+              <td class="num">30</td>
+            </tr>
+
+            <tr>
+              <td>2</td>
+              <td class="num">2</td>
+              <td class="num">2</td>
+            </tr>
+            </tbody>
+    </table>
+
+        </div>
+        <div>
+          <h3>主链穿环判定</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>unknown</td>
+              <td class="num">67</td>
+              <td class="num">71</td>
+            </tr>
+
+            <tr>
+              <td>true</td>
+              <td class="num">2</td>
+              <td class="num">2</td>
+            </tr>
+            </tbody>
+    </table>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>五元环结构属性</h2>
+      <p><code>fragment_017 five_membered_aromatic_ring</code> 与 <code>fragment_018 five_membered_not_fully_aromatic_ring</code> 均使用 RDKit ring info 枚举真实五元环。fully aromatic / not fully aromatic 保留为两个 active core；杂环、杂原子 signature、稠合、多环连接和取代环境作为 attributes 输出，不新增杂环 active core。</p>
+      <p class="subtle"><code>fragment_018</code> 表示 not fully aromatic five-membered ring，包括普通饱和五元环，以及 fused/imide/fluorene-like 等部分 aromatic atom 参与的真实五元环。它与 imide/fused imide 的高共现属于 ring scaffold 与 functional group 的不同解释层级，不应互相 suppress。</p>
+      <div class="two-col">
+        <div>
+          <h3>芳香五元环：环原子类别</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>heterocycle</td>
+              <td class="num">1,523</td>
+              <td class="num">2,465</td>
+            </tr>
+
+            <tr>
+              <td>carbocycle</td>
+              <td class="num">8</td>
+              <td class="num">8</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>芳香五元环：杂原子 signature</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>S</td>
+              <td class="num">489</td>
+              <td class="num">773</td>
+            </tr>
+
+            <tr>
+              <td>N</td>
+              <td class="num">477</td>
+              <td class="num">767</td>
+            </tr>
+
+            <tr>
+              <td>N2</td>
+              <td class="num">233</td>
+              <td class="num">377</td>
+            </tr>
+
+            <tr>
+              <td>N,O</td>
+              <td class="num">78</td>
+              <td class="num">129</td>
+            </tr>
+
+            <tr>
+              <td>O</td>
+              <td class="num">80</td>
+              <td class="num">126</td>
+            </tr>
+
+            <tr>
+              <td>N2,O</td>
+              <td class="num">96</td>
+              <td class="num">125</td>
+            </tr>
+
+            <tr>
+              <td>N,S</td>
+              <td class="num">56</td>
+              <td class="num">92</td>
+            </tr>
+
+            <tr>
+              <td>N2,S</td>
+              <td class="num">41</td>
+              <td class="num">41</td>
+            </tr>
+
+            <tr>
+              <td>N3</td>
+              <td class="num">29</td>
+              <td class="num">33</td>
+            </tr>
+
+            <tr>
+              <td>none</td>
+              <td class="num">8</td>
+              <td class="num">8</td>
+            </tr>
+
+            <tr>
+              <td>Se</td>
+              <td class="num">1</td>
+              <td class="num">1</td>
+            </tr>
+
+            <tr>
+              <td>N4</td>
+              <td class="num">1</td>
+              <td class="num">1</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>芳香五元环：芳香性分级</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>fully_aromatic</td>
+              <td class="num">1,523</td>
+              <td class="num">2,473</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>芳香五元环：稠合/多环</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>true</td>
+              <td class="num">730</td>
+              <td class="num">1,250</td>
+            </tr>
+
+            <tr>
+              <td>false</td>
+              <td class="num">832</td>
+              <td class="num">1,223</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>芳香五元环：外接取代基数</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>2</td>
+              <td class="num">601</td>
+              <td class="num">902</td>
+            </tr>
+
+            <tr>
+              <td>3</td>
+              <td class="num">543</td>
+              <td class="num">872</td>
+            </tr>
+
+            <tr>
+              <td>1</td>
+              <td class="num">363</td>
+              <td class="num">537</td>
+            </tr>
+
+            <tr>
+              <td>0</td>
+              <td class="num">55</td>
+              <td class="num">84</td>
+            </tr>
+
+            <tr>
+              <td>4</td>
+              <td class="num">61</td>
+              <td class="num">69</td>
+            </tr>
+
+            <tr>
+              <td>5</td>
+              <td class="num">9</td>
+              <td class="num">9</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>芳香五元环：主链穿环判定</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>unknown</td>
+              <td class="num">1,391</td>
+              <td class="num">2,335</td>
+            </tr>
+
+            <tr>
+              <td>true</td>
+              <td class="num">138</td>
+              <td class="num">138</td>
+            </tr>
+            </tbody>
+    </table>
+
+        </div>
+        <div>
+          <h3>not fully aromatic 五元环：环原子类别</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>heterocycle</td>
+              <td class="num">2,437</td>
+              <td class="num">4,489</td>
+            </tr>
+
+            <tr>
+              <td>carbocycle</td>
+              <td class="num">593</td>
+              <td class="num">864</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>not fully aromatic 五元环：杂原子 signature</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>N</td>
+              <td class="num">2,198</td>
+              <td class="num">4,112</td>
+            </tr>
+
+            <tr>
+              <td>none</td>
+              <td class="num">593</td>
+              <td class="num">864</td>
+            </tr>
+
+            <tr>
+              <td>O</td>
+              <td class="num">185</td>
+              <td class="num">272</td>
+            </tr>
+
+            <tr>
+              <td>N2</td>
+              <td class="num">24</td>
+              <td class="num">36</td>
+            </tr>
+
+            <tr>
+              <td>O2</td>
+              <td class="num">33</td>
+              <td class="num">33</td>
+            </tr>
+
+            <tr>
+              <td>S</td>
+              <td class="num">15</td>
+              <td class="num">15</td>
+            </tr>
+
+            <tr>
+              <td>N,O</td>
+              <td class="num">4</td>
+              <td class="num">7</td>
+            </tr>
+
+            <tr>
+              <td>N,S</td>
+              <td class="num">3</td>
+              <td class="num">6</td>
+            </tr>
+
+            <tr>
+              <td>N3</td>
+              <td class="num">2</td>
+              <td class="num">4</td>
+            </tr>
+
+            <tr>
+              <td>S2</td>
+              <td class="num">1</td>
+              <td class="num">2</td>
+            </tr>
+
+            <tr>
+              <td>N2,O</td>
+              <td class="num">1</td>
+              <td class="num">1</td>
+            </tr>
+
+            <tr>
+              <td>B,O2</td>
+              <td class="num">1</td>
+              <td class="num">1</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>not fully aromatic 五元环：芳香原子数</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>2</td>
+              <td class="num">2,122</td>
+              <td class="num">3,981</td>
+            </tr>
+
+            <tr>
+              <td>0</td>
+              <td class="num">643</td>
+              <td class="num">1,113</td>
+            </tr>
+
+            <tr>
+              <td>4</td>
+              <td class="num">235</td>
+              <td class="num">254</td>
+            </tr>
+
+            <tr>
+              <td>3</td>
+              <td class="num">5</td>
+              <td class="num">5</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>not fully aromatic 五元环：芳香性分级</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>partially_aromatic</td>
+              <td class="num">2,319</td>
+              <td class="num">4,240</td>
+            </tr>
+
+            <tr>
+              <td>nonaromatic</td>
+              <td class="num">643</td>
+              <td class="num">1,113</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>not fully aromatic 五元环：稠合/多环</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>true</td>
+              <td class="num">2,606</td>
+              <td class="num">4,921</td>
+            </tr>
+
+            <tr>
+              <td>false</td>
+              <td class="num">351</td>
+              <td class="num">432</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>not fully aromatic 五元环：外接取代基数</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>3</td>
+              <td class="num">2,144</td>
+              <td class="num">3,940</td>
+            </tr>
+
+            <tr>
+              <td>1</td>
+              <td class="num">446</td>
+              <td class="num">595</td>
+            </tr>
+
+            <tr>
+              <td>2</td>
+              <td class="num">306</td>
+              <td class="num">347</td>
+            </tr>
+
+            <tr>
+              <td>0</td>
+              <td class="num">148</td>
+              <td class="num">202</td>
+            </tr>
+
+            <tr>
+              <td>5</td>
+              <td class="num">106</td>
+              <td class="num">137</td>
+            </tr>
+
+            <tr>
+              <td>4</td>
+              <td class="num">102</td>
+              <td class="num">132</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>not fully aromatic 五元环：主链穿环判定</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>unknown</td>
+              <td class="num">2,879</td>
+              <td class="num">5,291</td>
+            </tr>
+
+            <tr>
+              <td>true</td>
+              <td class="num">62</td>
+              <td class="num">62</td>
+            </tr>
+            </tbody>
+    </table>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>六元环结构属性</h2>
+      <p><code>fragment_019 six_membered_aromatic_ring</code> 与 <code>fragment_020 six_membered_not_fully_aromatic_ring</code> 均使用 RDKit ring info 枚举真实六元环。fully aromatic / not fully aromatic 保留为两个 active core；杂环、稠合、多环连接和取代环境作为 attributes 输出。</p>
+      <p class="subtle">六元杂环、稠合六元环、多取代六元环不新增独立 active core；这些语义由同一个 ring match 的 attributes 表达。</p>
+      <div class="two-col">
+        <div>
+          <h3>芳香六元环：环原子类别</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>carbocycle</td>
+              <td class="num">8,193</td>
+              <td class="num">28,558</td>
+            </tr>
+
+            <tr>
+              <td>heterocycle</td>
+              <td class="num">653</td>
+              <td class="num">956</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>芳香六元环：杂原子 signature</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>none</td>
+              <td class="num">8,193</td>
+              <td class="num">28,558</td>
+            </tr>
+
+            <tr>
+              <td>N</td>
+              <td class="num">335</td>
+              <td class="num">439</td>
+            </tr>
+
+            <tr>
+              <td>N2</td>
+              <td class="num">219</td>
+              <td class="num">353</td>
+            </tr>
+
+            <tr>
+              <td>N3</td>
+              <td class="num">76</td>
+              <td class="num">82</td>
+            </tr>
+
+            <tr>
+              <td>O</td>
+              <td class="num">18</td>
+              <td class="num">46</td>
+            </tr>
+
+            <tr>
+              <td>O2</td>
+              <td class="num">11</td>
+              <td class="num">19</td>
+            </tr>
+
+            <tr>
+              <td>N,O</td>
+              <td class="num">9</td>
+              <td class="num">12</td>
+            </tr>
+
+            <tr>
+              <td>S2</td>
+              <td class="num">3</td>
+              <td class="num">3</td>
+            </tr>
+
+            <tr>
+              <td>N,S</td>
+              <td class="num">2</td>
+              <td class="num">2</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>芳香六元环：芳香性分级</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>fully_aromatic</td>
+              <td class="num">8,277</td>
+              <td class="num">29,514</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>芳香六元环：稠合/多环</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>false</td>
+              <td class="num">7,783</td>
+              <td class="num">21,588</td>
+            </tr>
+
+            <tr>
+              <td>true</td>
+              <td class="num">3,471</td>
+              <td class="num">7,926</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>芳香六元环：外接取代基数</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>2</td>
+              <td class="num">6,623</td>
+              <td class="num">16,760</td>
+            </tr>
+
+            <tr>
+              <td>1</td>
+              <td class="num">3,551</td>
+              <td class="num">7,519</td>
+            </tr>
+
+            <tr>
+              <td>3</td>
+              <td class="num">1,690</td>
+              <td class="num">2,368</td>
+            </tr>
+
+            <tr>
+              <td>0</td>
+              <td class="num">1,011</td>
+              <td class="num">1,568</td>
+            </tr>
+
+            <tr>
+              <td>4</td>
+              <td class="num">686</td>
+              <td class="num">1,045</td>
+            </tr>
+
+            <tr>
+              <td>6</td>
+              <td class="num">127</td>
+              <td class="num">169</td>
+            </tr>
+
+            <tr>
+              <td>5</td>
+              <td class="num">64</td>
+              <td class="num">85</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>芳香六元环：主链穿环判定</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>unknown</td>
+              <td class="num">8,256</td>
+              <td class="num">29,469</td>
+            </tr>
+
+            <tr>
+              <td>true</td>
+              <td class="num">45</td>
+              <td class="num">45</td>
+            </tr>
+            </tbody>
+    </table>
+
+        </div>
+        <div>
+          <h3>not fully aromatic 六元环：环原子类别</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>carbocycle</td>
+              <td class="num">619</td>
+              <td class="num">996</td>
+            </tr>
+
+            <tr>
+              <td>heterocycle</td>
+              <td class="num">302</td>
+              <td class="num">392</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>not fully aromatic 六元环：杂原子 signature</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>none</td>
+              <td class="num">619</td>
+              <td class="num">996</td>
+            </tr>
+
+            <tr>
+              <td>O</td>
+              <td class="num">88</td>
+              <td class="num">119</td>
+            </tr>
+
+            <tr>
+              <td>N</td>
+              <td class="num">52</td>
+              <td class="num">82</td>
+            </tr>
+
+            <tr>
+              <td>N2</td>
+              <td class="num">70</td>
+              <td class="num">76</td>
+            </tr>
+
+            <tr>
+              <td>O2</td>
+              <td class="num">47</td>
+              <td class="num">57</td>
+            </tr>
+
+            <tr>
+              <td>O,P</td>
+              <td class="num">7</td>
+              <td class="num">14</td>
+            </tr>
+
+            <tr>
+              <td>S2</td>
+              <td class="num">14</td>
+              <td class="num">14</td>
+            </tr>
+
+            <tr>
+              <td>N,S</td>
+              <td class="num">11</td>
+              <td class="num">11</td>
+            </tr>
+
+            <tr>
+              <td>N,O</td>
+              <td class="num">9</td>
+              <td class="num">10</td>
+            </tr>
+
+            <tr>
+              <td>N3,P3</td>
+              <td class="num">6</td>
+              <td class="num">7</td>
+            </tr>
+
+            <tr>
+              <td>O3,Si3</td>
+              <td class="num">1</td>
+              <td class="num">1</td>
+            </tr>
+
+            <tr>
+              <td>N,Si</td>
+              <td class="num">1</td>
+              <td class="num">1</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>not fully aromatic 六元环：芳香原子数</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>0</td>
+              <td class="num">782</td>
+              <td class="num">1,183</td>
+            </tr>
+
+            <tr>
+              <td>4</td>
+              <td class="num">84</td>
+              <td class="num">103</td>
+            </tr>
+
+            <tr>
+              <td>2</td>
+              <td class="num">41</td>
+              <td class="num">63</td>
+            </tr>
+
+            <tr>
+              <td>3</td>
+              <td class="num">18</td>
+              <td class="num">38</td>
+            </tr>
+
+            <tr>
+              <td>5</td>
+              <td class="num">1</td>
+              <td class="num">1</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>not fully aromatic 六元环：芳香性分级</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>nonaromatic</td>
+              <td class="num">782</td>
+              <td class="num">1,183</td>
+            </tr>
+
+            <tr>
+              <td>partially_aromatic</td>
+              <td class="num">139</td>
+              <td class="num">205</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>not fully aromatic 六元环：稠合/多环</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>false</td>
+              <td class="num">645</td>
+              <td class="num">759</td>
+            </tr>
+
+            <tr>
+              <td>true</td>
+              <td class="num">282</td>
+              <td class="num">629</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>not fully aromatic 六元环：外接取代基数</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>2</td>
+              <td class="num">425</td>
+              <td class="num">512</td>
+            </tr>
+
+            <tr>
+              <td>1</td>
+              <td class="num">242</td>
+              <td class="num">398</td>
+            </tr>
+
+            <tr>
+              <td>0</td>
+              <td class="num">126</td>
+              <td class="num">200</td>
+            </tr>
+
+            <tr>
+              <td>3</td>
+              <td class="num">138</td>
+              <td class="num">180</td>
+            </tr>
+
+            <tr>
+              <td>5</td>
+              <td class="num">49</td>
+              <td class="num">65</td>
+            </tr>
+
+            <tr>
+              <td>4</td>
+              <td class="num">28</td>
+              <td class="num">28</td>
+            </tr>
+
+            <tr>
+              <td>6</td>
+              <td class="num">5</td>
+              <td class="num">5</td>
+            </tr>
+            </tbody>
+    </table>
+
+          <h3>not fully aromatic 六元环：主链穿环判定</h3>
+
+    <table class="compact-table">
+      <thead>
+        <tr>
+          <th>value</th>
+          <th>records</th>
+          <th>rings</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td>unknown</td>
+              <td class="num">910</td>
+              <td class="num">1,379</td>
+            </tr>
+
+            <tr>
+              <td>true</td>
+              <td class="num">6</td>
+              <td class="num">9</td>
+            </tr>
+            </tbody>
+    </table>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>11580 canonical 口径逐条审计</h2>
+      <div class="table-wrap">
+
+    <table>
+      <thead>
+        <tr>
+          <th>36-rule id</th>
+          <th>status</th>
+          <th>category</th>
+          <th>canonical resolved rows</th>
+          <th>canonical ratio</th>
+          <th>match total</th>
+          <th>max</th>
+          <th>period source hits</th>
+          <th>audit</th>
+          <th>notes</th>
+          <th>59-rule refs</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td><code>fragment_001</code><br><span class="subtle">amide</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">2,215</td>
+              <td class="num">19.13%</td>
+              <td class="num">3,619</td>
+              <td class="num">8</td>
+              <td class="num">2,396</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>raw-&gt;normalized 下降明显，dedup/constraints 生效; resolved suppression 生效</td>
+              <td class="refs">FG_AMIDE 4,366/37.7%; COMP_AROMATIC_AMIDE_N 2,815/24.3%; COMP_AROMATIC_AMIDE_C 2,753/23.8%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_002</code><br><span class="subtle">imide</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">2,217</td>
+              <td class="num">19.15%</td>
+              <td class="num">4,149</td>
+              <td class="num">4</td>
+              <td class="num">1,993</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">FG_IMIDE 2,220/19.2%; RING_IMIDE 2,186/18.9%; COMP_AROMATIC_IMIDE 1,887/16.3%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_003</code><br><span class="subtle">ester</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">3,425</td>
+              <td class="num">29.58%</td>
+              <td class="num">5,267</td>
+              <td class="num">8</td>
+              <td class="num">3,435</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">FG_ESTER 3,924/33.9%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_004</code><br><span class="subtle">ether</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">4,240</td>
+              <td class="num">36.61%</td>
+              <td class="num">8,349</td>
+              <td class="num">24</td>
+              <td class="num">4,113</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">FG_ETHER 6,836/59.0%; FG_AROMATIC_ETHER 2,185/18.9%; SUB_ALKOXY 4,375/37.8%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_005</code><br><span class="subtle">carbonate</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">269</td>
+              <td class="num">2.32%</td>
+              <td class="num">320</td>
+              <td class="num">3</td>
+              <td class="num">283</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">FG_CARBONATE 269/2.3%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_006</code><br><span class="subtle">urethane</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">382</td>
+              <td class="num">3.30%</td>
+              <td class="num">629</td>
+              <td class="num">4</td>
+              <td class="num">315</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">FG_URETHANE 382/3.3%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_007</code><br><span class="subtle">urea</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">135</td>
+              <td class="num">1.17%</td>
+              <td class="num">177</td>
+              <td class="num">2</td>
+              <td class="num">143</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>raw-&gt;normalized 下降明显，dedup/constraints 生效</td>
+              <td class="refs">FG_UREA 136/1.2%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_008</code><br><span class="subtle">thioether</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">343</td>
+              <td class="num">2.96%</td>
+              <td class="num">487</td>
+              <td class="num">6</td>
+              <td class="num">343</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">FG_THIOETHER 359/3.1%; LINK_AROMATIC_SULFIDE 174/1.5%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_009</code><br><span class="subtle">sulfone</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">645</td>
+              <td class="num">5.57%</td>
+              <td class="num">765</td>
+              <td class="num">3</td>
+              <td class="num">586</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">FG_SULFONE 477/4.1%; LINK_AROMATIC_SULFONE 396/3.4%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_010</code><br><span class="subtle">sulfoxide</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">9</td>
+              <td class="num">0.08%</td>
+              <td class="num">9</td>
+              <td class="num">1</td>
+              <td class="num">9</td>
+              <td><span class="badge info">观察</span></td>
+              <td>低频 core，建议保留但单独标注 rare</td>
+              <td class="refs">无直接参考</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_011</code><br><span class="subtle">nitrile</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">391</td>
+              <td class="num">3.38%</td>
+              <td class="num">646</td>
+              <td class="num">11</td>
+              <td class="num">368</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">FG_NITRILE 391/3.4%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_012</code><br><span class="subtle">hydroxyl</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">433</td>
+              <td class="num">3.74%</td>
+              <td class="num">735</td>
+              <td class="num">8</td>
+              <td class="num">414</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">FG_HYDROXYL 496/4.3%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_013</code><br><span class="subtle">amine</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">610</td>
+              <td class="num">5.27%</td>
+              <td class="num">884</td>
+              <td class="num">4</td>
+              <td class="num">623</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>raw-&gt;normalized 下降明显，dedup/constraints 生效; resolved suppression 生效</td>
+              <td class="refs">FG_SECONDARY_AMINE 2,480/21.4%; FG_TERTIARY_AMINE 2,556/22.1%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_014</code><br><span class="subtle">carbonyl</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">2,599</td>
+              <td class="num">22.44%</td>
+              <td class="num">3,062</td>
+              <td class="num">19</td>
+              <td class="num">4,248</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>resolved suppression 生效</td>
+              <td class="refs">FG_CARBONYL 8,001/69.1%; FG_KETONE 748/6.5%; LINK_AROMATIC_CARBONYL 555/4.8%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_015</code><br><span class="subtle">carboxylic_acid</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>functional_group</td>
+              <td class="num">68</td>
+              <td class="num">0.59%</td>
+              <td class="num">94</td>
+              <td class="num">2</td>
+              <td class="num">63</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">FG_CARBOXYLIC_ACID 68/0.6%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_016</code><br><span class="subtle">four_membered_ring</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>ring_structure</td>
+              <td class="num">69</td>
+              <td class="num">0.60%</td>
+              <td class="num">73</td>
+              <td class="num">2</td>
+              <td class="num">62</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">无直接参考</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_017</code><br><span class="subtle">five_membered_aromatic_ring</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>aromatic_ring</td>
+              <td class="num">1,523</td>
+              <td class="num">13.15%</td>
+              <td class="num">2,473</td>
+              <td class="num">6</td>
+              <td class="num">1,437</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">RING_HETEROAROMATIC_5 1,521/13.1%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_018</code><br><span class="subtle">five_membered_not_fully_aromatic_ring</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>ring_structure</td>
+              <td class="num">2,918</td>
+              <td class="num">25.20%</td>
+              <td class="num">5,353</td>
+              <td class="num">9</td>
+              <td class="num">2,632</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">无直接参考</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_019</code><br><span class="subtle">six_membered_aromatic_ring</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>aromatic_ring</td>
+              <td class="num">8,277</td>
+              <td class="num">71.48%</td>
+              <td class="num">29,514</td>
+              <td class="num">20</td>
+              <td class="num">7,557</td>
+              <td><span class="badge info">观察</span></td>
+              <td>高覆盖泛化规则，适合作 roll-up 或父级特征</td>
+              <td class="refs">RING_AROMATIC_6 8,193/70.8%; RING_HETEROAROMATIC_6 653/5.6%; RING_FUSED_AROMATIC_ATOM 3,536/30.5%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_020</code><br><span class="subtle">six_membered_not_fully_aromatic_ring</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>ring_structure</td>
+              <td class="num">913</td>
+              <td class="num">7.88%</td>
+              <td class="num">1,388</td>
+              <td class="num">8</td>
+              <td class="num">830</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">无直接参考</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_021</code><br><span class="subtle">vinylene_linkage</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>mainchain_linker</td>
+              <td class="num">564</td>
+              <td class="num">4.87%</td>
+              <td class="num">715</td>
+              <td class="num">4</td>
+              <td class="num">530</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">LINK_VINYLENE 1,020/8.8%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_022</code><br><span class="subtle">ethynylene_linkage</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>mainchain_linker</td>
+              <td class="num">90</td>
+              <td class="num">0.78%</td>
+              <td class="num">153</td>
+              <td class="num">6</td>
+              <td class="num">82</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">LINK_ETHYNYLENE 101/0.9%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_023</code><br><span class="subtle">secondary_amine_linker</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>linker</td>
+              <td class="num">1,220</td>
+              <td class="num">10.54%</td>
+              <td class="num">1,408</td>
+              <td class="num">5</td>
+              <td class="num">2,446</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>raw-&gt;normalized 下降明显，dedup/constraints 生效</td>
+              <td class="refs">FG_SECONDARY_AMINE 2,480/21.4%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_024</code><br><span class="subtle">azo_linker</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>linker</td>
+              <td class="num">283</td>
+              <td class="num">2.44%</td>
+              <td class="num">327</td>
+              <td class="num">3</td>
+              <td class="num">282</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>当前口径无明显异常</td>
+              <td class="refs">FG_AZO 283/2.4%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_025</code><br><span class="subtle">halogen_substituent</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>side_group</td>
+              <td class="num">1,038</td>
+              <td class="num">8.96%</td>
+              <td class="num">5,008</td>
+              <td class="num">36</td>
+              <td class="num">959</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>resolved suppression 生效</td>
+              <td class="refs">SUB_HALOGEN 1,762/15.2%; SUB_FLUORO 1,304/11.3%; SUB_CHLORO 323/2.8%; SUB_BROMO 168/1.5%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_026</code><br><span class="subtle">trifluoromethyl</span></td>
+              <td><span class="badge ok">core</span></td>
+              <td>side_group</td>
+              <td class="num">811</td>
+              <td class="num">7.00%</td>
+              <td class="num">1,718</td>
+              <td class="num">9</td>
+              <td class="num">785</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>raw-&gt;normalized 下降明显，dedup/constraints 生效</td>
+              <td class="refs">SUB_TRIFLUOROMETHYL 943/8.1%; COMP_PERFLUOROALKYL 268/2.3%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_027</code><br><span class="subtle">methyl</span></td>
+              <td><span class="badge info">derived_attribute</span></td>
+              <td>side_group</td>
+              <td class="num">0</td>
+              <td class="num">0.00%</td>
+              <td class="num">0</td>
+              <td class="num">0</td>
+              <td class="num">0</td>
+              <td><span class="badge ok">通过</span></td>
+              <td>raw-&gt;normalized 下降明显，dedup/constraints 生效; 非 active，仅保留审计命中，不进入 resolved 输出</td>
+              <td class="refs">SUB_METHYL 4,104/35.4%</td>
+            </tr>
+            </tbody>
+    </table>
+
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>active core 高重叠对</h2>
+      <p>这里按 canonical row 的 resolved 命中集合计算，阈值为 Jaccard ≥ 45% 或任一方向 containment ≥ 90%。这是分子级共现，不等于实例级冲突，但能提示解释层级。</p>
+      <div class="table-wrap">
+
+    <table>
+      <thead>
+        <tr>
+          <th>A</th>
+          <th>B</th>
+          <th>shared rows</th>
+          <th>Jaccard</th>
+          <th>A in B</th>
+          <th>B in A</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr>
+              <td><code>fragment_002</code><br><span class="subtle">imide</span></td>
+              <td><code>fragment_018</code><br><span class="subtle">five_membered_not_fully_aromatic_ring</span></td>
+              <td class="num">2,166</td>
+              <td class="num">72.95%</td>
+              <td class="num">97.70%</td>
+              <td class="num">74.23%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_002</code><br><span class="subtle">imide</span></td>
+              <td><code>fragment_019</code><br><span class="subtle">six_membered_aromatic_ring</span></td>
+              <td class="num">2,160</td>
+              <td class="num">25.92%</td>
+              <td class="num">97.43%</td>
+              <td class="num">26.10%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_019</code><br><span class="subtle">six_membered_aromatic_ring</span></td>
+              <td><code>fragment_026</code><br><span class="subtle">trifluoromethyl</span></td>
+              <td class="num">768</td>
+              <td class="num">9.23%</td>
+              <td class="num">9.28%</td>
+              <td class="num">94.70%</td>
+            </tr>
+
+            <tr>
+              <td><code>fragment_019</code><br><span class="subtle">six_membered_aromatic_ring</span></td>
+              <td><code>fragment_024</code><br><span class="subtle">azo_linker</span></td>
+              <td class="num">283</td>
+              <td class="num">3.42%</td>
+              <td class="num">3.42%</td>
+              <td class="num">100.00%</td>
+            </tr>
+            </tbody>
+    </table>
+
+      </div>
+    </section>
+
+    <section class="two-col">
+      <div class="panel">
+        <h2>未覆盖样例</h2>
+        <p>最多展示 12 条 canonical repeat-unit；这些条目没有命中任何 active core。</p>
+        <h3>未覆盖条目的非 active 命中</h3>
+        <ul><li><code>fragment_027</code>: 170 unmatched rows</li></ul>
+        <h3>样例</h3>
+        <ul><li><code>ru_000038</code> */C(C)=C(/*)CC(C)C<br><span class="subtle">non-active hits: fragment_027</span></li>
+<li><code>ru_000039</code> */C(C)=C(/*)CCC<br><span class="subtle">non-active hits: fragment_027</span></li>
+<li><code>ru_000040</code> */C(C)=C(/*)CCC(C)C<br><span class="subtle">non-active hits: fragment_027</span></li>
+<li><code>ru_000041</code> */C(C)=C(/*)CCCCC<br><span class="subtle">non-active hits: fragment_027</span></li>
+<li><code>ru_000042</code> */C(C)=C(/*)CCCCCCC<br><span class="subtle">non-active hits: fragment_027</span></li>
+<li><code>ru_000046</code> */C(C)=C(/*)[Si](C)(C)C<br><span class="subtle">non-active hits: fragment_027</span></li>
+<li><code>ru_000047</code> */C(C)=C(/*)[Si](C)(C)C(C)C<br><span class="subtle">non-active hits: fragment_027</span></li>
+<li><code>ru_000048</code> */C(C)=C(/*)[Si](C)(C)CC<br><span class="subtle">non-active hits: fragment_027</span></li>
+<li><code>ru_000049</code> */C(C)=C(/*)[Si](C)(C)CCC<br><span class="subtle">non-active hits: fragment_027</span></li>
+<li><code>ru_000050</code> */C(C)=C(/*)[Si](C)(C)CCCC<br><span class="subtle">non-active hits: fragment_027</span></li>
+<li><code>ru_000051</code> */C(C)=C(/*)[Si](C)(C)CCCCC<br><span class="subtle">non-active hits: fragment_027</span></li>
+<li><code>ru_000052</code> */C(C)=C(/*)[Si](C)(C)CCCCCC<br><span class="subtle">non-active hits: fragment_027</span></li></ul>
+      </div>
+      <div class="panel">
+        <h2>59 条参考词表启示</h2>
+        <ul>
+          <li>59 条 v1 是高覆盖 feature vocabulary，不是本轮主核心词表；其验证覆盖为 99.974%，平均每条 polymer 命中 9.11 类。</li>
+          <li>v1 的高重叠规则对为 116，说明当前词表引入 resolved 层是必要且方向正确的。</li>
+          <li>可借鉴 v1 的拆分方向：醚可拆 aromatic ether / alkoxy，胺可拆 secondary / tertiary，环可拆 heteroaromatic / cycloaliphatic / fused，卤素可拆 F/Cl/Br/CF3/perfluoroalkyl。</li>
+          <li>这些拆分不建议直接平铺进当前 active core；应先定义 priority、父子关系和 instance suppression 后再提升。</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      生成时间 UTC: 2026-06-05T06:34:43+00:00 · RDKit 2026.03.2 · canonical file: data/processed/unique_standardized_smiles.csv · period stats: data/processed/base_fragment_new2_resolved_stats.csv
+    </footer>
+  </main>
+</body>
+</html>
