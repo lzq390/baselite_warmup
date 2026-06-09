@@ -210,6 +210,12 @@ tempCodeRunnerFile.py
 # Ruff stuff:
 .ruff_cache/
 
+# Large report decode details and in-progress remote snapshots
+reports/**/*predictions.jsonl
+reports/**/*failed_cases.jsonl
+reports/**/train_input_label_conflicts.jsonl
+reports/**/*_remote_current/
+
 # PyPI configuration file
 .pypirc
 

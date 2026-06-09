@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
 from pathlib import Path
 
 import torch
@@ -10,8 +11,10 @@ from scripts.build_stage_c_non_vocab_dataset import (
     build_stage_c_audit,
     validate_join,
 )
-from scripts.train_stage_b_restore_full import RestoreCrossAttentionHead, masked_cross_entropy
-from scripts.train_stage_c_non_vocab_smoke import (
+from scripts.train_stage_b_restore_full import RestoreCrossAttentionHead, load_yaml_config as load_stage_b_config, masked_cross_entropy
+from scripts.train_stage_b_restore_curriculum import allocate_strategy_counts, build_curriculum_epoch_rows
+from scripts.train_stage_c_non_vocab_curriculum import update_early_stopping_monitor
+from scripts.train_stage_c_non_vocab_full import (
     ProjectionHead,
     PureTorchGraphEncoder,
     StageCConfig,
@@ -21,11 +24,17 @@ from scripts.train_stage_c_non_vocab_smoke import (
     collate_stage_c_records,
     early_stopping_is_improvement,
     encode_graph_row,
+    formal_eval_decode_sample_limit,
+    formal_eval_retrieval_sample_limit,
     forward_stage_c,
+    load_yaml_config,
     retrieval_metrics,
     save_module_checkpoint,
     symmetric_infonce_loss,
+    unique_record_sample_limit,
     validate_training_config,
+    write_eval_report,
+    write_extra_stage_c_eval_outputs,
 )
 
 
@@ -358,6 +367,169 @@ def test_early_stopping_helpers_and_config_validation() -> None:
         assert "checkpoint_eval_samples" in str(exc)
     else:
         raise AssertionError("expected negative checkpoint_eval_samples to fail")
+
+
+def test_stage_c_aug_v2_configs_align_with_stage_b_v2() -> None:
+    root = Path(__file__).resolve().parents[1]
+    stage_b_full = load_stage_b_config(root / "configs" / "stage_b_restore_aug_v2_full_20epoch_bf16.yaml")
+    stage_b_curriculum = load_stage_b_config(root / "configs" / "stage_b_restore_aug_v2_curriculum_full_20epoch_bf16.yaml")
+
+    for config_name, output_dir in [
+        ("stage_c_non_vocab_aug_v2_full_20epoch_bf16.yaml", "outputs/stage_c_non_vocab_aug_v2_full_30epoch"),
+        (
+            "stage_c_non_vocab_aug_v2_curriculum_full_20epoch_bf16.yaml",
+            "outputs/stage_c_non_vocab_aug_v2_curriculum_full_30epoch",
+        ),
+    ]:
+        config = load_yaml_config(root / "configs" / config_name)
+        stage_b = stage_b_curriculum if "curriculum" in config_name else stage_b_full
+
+        assert config.preview_path == stage_b.preview_path == "data/baselite_smiles_aug_v2/training_template_preview.jsonl"
+        assert config.output_dir == output_dir
+        assert stage_b.max_epochs == 20
+        assert config.max_epochs == 30
+        assert config.per_device_train_batch_size * config.gradient_accumulation_steps == (
+            stage_b.per_device_train_batch_size * stage_b.gradient_accumulation_steps
+        )
+        assert config.seed == stage_b.seed == 42
+        assert config.lora_rank == stage_b.lora_rank
+        assert config.lora_alpha == stage_b.lora_alpha
+        assert config.lora_dropout == stage_b.lora_dropout
+        assert config.lora_target_modules == stage_b.lora_target_modules
+        assert config.restore_hidden_size == stage_b.restore_hidden_size
+        assert config.restore_num_layers == stage_b.restore_num_layers
+        assert config.restore_num_attention_heads == stage_b.restore_num_attention_heads
+        assert config.restore_dropout == stage_b.restore_dropout
+        assert config.learning_rate_lora == stage_b.learning_rate_lora
+        assert config.learning_rate_restore_head == stage_b.learning_rate_restore_head
+        assert config.checkpoint_at_epoch_end is True
+        assert config.checkpoint_every_steps == 0
+        assert config.early_stopping_enabled is True
+        assert config.early_stopping_monitor_only is True
+        assert config.early_stopping_metric == "restore_loss"
+        assert stage_b.early_stopping_metric == "loss"
+        assert config.formal_eval_full_decode is True
+        assert config.formal_eval_dedup_retrieval is True
+
+
+def test_stage_c_eval_report_uses_formal_stage_c_wording(tmp_path: Path) -> None:
+    report_path = tmp_path / "eval_report.md"
+    write_eval_report(
+        report_path,
+        {"restore_loss": 1.0, "canonical_match": 0.5},
+        StageCConfig(max_epochs=20, align_loss_weight=0.2),
+    )
+
+    text = report_path.read_text(encoding="utf-8")
+    assert "smoke" not in text.lower()
+    assert "L_restore + 0.2 * L_align" in text
+
+
+def test_stage_c_extra_eval_outputs_write_restore_predictions(tmp_path: Path) -> None:
+    prediction = {
+        "record_id": "ru_1",
+        "augmentation_strategy": "identity",
+        "decoded_smiles": "*CC*",
+        "canonical_match": True,
+    }
+    write_extra_stage_c_eval_outputs(
+        output_dir=tmp_path,
+        prefix="robustness",
+        split="valid",
+        metrics={"canonical_match": 1.0},
+        failed_cases=[],
+        predictions=[prediction],
+        retrieval_rows=[],
+        config=StageCConfig(),
+        eval_preview_path=tmp_path / "preview.jsonl",
+    )
+
+    rows = (tmp_path / "robustness_valid_predictions.jsonl").read_text(encoding="utf-8").splitlines()
+    assert len(rows) == 1
+    assert json.loads(rows[0]) == prediction
+
+
+def test_stage_c_formal_eval_uses_full_decode_and_dedup_retrieval(tmp_path: Path) -> None:
+    preview_path = tmp_path / "preview.jsonl"
+    graph_path = tmp_path / "graphs.jsonl"
+    rows = [
+        {**preview_row("ru_1", "valid", "hash_1"), "view_id": "ru_1::identity", "augmentation_strategy": "identity"},
+        {
+            **preview_row("ru_1", "valid", "hash_1"),
+            "view_id": "ru_1::rdkit_random_smiles",
+            "augmentation_strategy": "rdkit_random_smiles",
+        },
+        {**preview_row("ru_2", "valid", "hash_2"), "view_id": "ru_2::identity", "augmentation_strategy": "identity"},
+    ]
+    write_jsonl(preview_path, rows)
+    write_jsonl(graph_path, [graph_row("ru_1", "hash_1"), graph_row("ru_2", "hash_2")])
+
+    dataset = StageCPreviewGraphDataset(preview_path=preview_path, graph_path=graph_path, split="valid")
+    config = StageCConfig(formal_eval_full_decode=True, formal_eval_dedup_retrieval=True)
+
+    assert len(dataset) == 3
+    assert unique_record_sample_limit(dataset) == 2
+    assert formal_eval_decode_sample_limit(config, dataset, configured_limit=0) == 3
+    assert formal_eval_retrieval_sample_limit(config, dataset, configured_limit=0) == 2
+
+
+def test_aug_v2_preview_counts_support_stage_b_stage_c_comparison() -> None:
+    root = Path(__file__).resolve().parents[1]
+    preview_path = root / "data" / "baselite_smiles_aug_v2" / "training_template_preview.jsonl"
+    split_counts: Counter[str] = Counter()
+    split_records: dict[str, set[str]] = {"train": set(), "valid": set(), "test": set()}
+    strategy_counts: Counter[tuple[str, str]] = Counter()
+    with preview_path.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            row = json.loads(line)
+            split = str(row["split"])
+            strategy = str(row.get("augmentation_strategy") or row.get("text_view_1_strategy") or "identity")
+            split_counts[split] += 1
+            split_records[split].add(str(row["record_id"]))
+            strategy_counts[(split, strategy)] += 1
+
+    assert split_counts == Counter({"train": 46320, "valid": 5790, "test": 5790})
+    assert {split: len(records) for split, records in split_records.items()} == {"train": 9264, "valid": 1158, "test": 1158}
+    for strategy in ("identity", "rdkit_random_smiles", "direction_flip", "attachment_rooted_smiles", "light_denoise"):
+        assert strategy_counts[("train", strategy)] == 9264
+        assert strategy_counts[("valid", strategy)] == 1158
+        assert strategy_counts[("test", strategy)] == 1158
+
+
+def test_stage_c_curriculum_uses_stage_b_weights_and_monitor_only() -> None:
+    rows = []
+    for strategy in ("identity", "rdkit_random_smiles", "direction_flip", "attachment_rooted_smiles", "light_denoise"):
+        for index in range(4):
+            rows.append({"record_id": f"{strategy}_{index}", "augmentation_strategy": strategy})
+
+    epoch_rows, metadata = build_curriculum_epoch_rows(rows, epoch_index=13, seed=42, epoch_target_row_count=20)
+    counts = Counter(row["augmentation_strategy"] for row in epoch_rows)
+
+    assert metadata["curriculum_enabled"] is True
+    assert counts == Counter(allocate_strategy_counts(20, metadata["curriculum_strategy_weights"]))
+
+    state, best, checkpoint, wait = update_early_stopping_monitor(
+        config=StageCConfig(
+            early_stopping_enabled=True,
+            early_stopping_monitor_only=True,
+            early_stopping_min_epochs=1,
+            early_stopping_patience=1,
+        ),
+        checkpoint_metrics={"restore_loss": 1.1},
+        checkpoint_name="epoch_002",
+        epoch_index=2,
+        best_metric=1.0,
+        best_checkpoint="epoch_001",
+        wait=0,
+    )
+
+    assert state is not None
+    assert state["monitor_only"] is True
+    assert state["stop_training"] is False
+    assert state["would_stop_training"] is True
+    assert best == 1.0
+    assert checkpoint == "epoch_001"
+    assert wait == 1
 
 
 def test_append_epoch_metrics_writes_jsonl_and_csv(tmp_path: Path) -> None:

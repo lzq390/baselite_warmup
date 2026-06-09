@@ -73,7 +73,9 @@ class StageBConfig:
     early_stopping_patience: int = 4
     early_stopping_min_delta: float = 0.001
     early_stopping_min_epochs: int = 8
+    early_stopping_monitor_only: bool = False
     eval_decode_samples: int = 64
+    formal_eval_full_decode: bool = False
     learning_rate_lora: float = 1.0e-4
     learning_rate_restore_head: float = 5.0e-5
     weight_decay: float = 0.01
@@ -587,6 +589,70 @@ def evaluate_restore(
     return metrics, failed_cases, predictions
 
 
+def full_decode_sample_limit(dataset: Any) -> int:
+    return len(dataset)
+
+
+def formal_eval_decode_sample_limit(config: StageBConfig, dataset: Any, configured_limit: int) -> int:
+    if config.formal_eval_full_decode:
+        return full_decode_sample_limit(dataset)
+    return configured_limit
+
+
+def rate(count: int | float, total: int) -> float:
+    return count / total if total else 0.0
+
+
+def aggregate_boolean_metric(rows: list[dict[str, Any]], key: str) -> float:
+    return rate(sum(1 for row in rows if bool(row.get(key))), len(rows))
+
+
+def add_strategy_aggregates(
+    metrics: dict[str, Any],
+    predictions: list[dict[str, Any]],
+    *,
+    prefix: str,
+    macro_strategies: tuple[str, ...] | None = None,
+) -> dict[str, Any]:
+    by_strategy_rows: dict[str, list[dict[str, Any]]] = {}
+    for row in predictions:
+        strategy = str(row.get("augmentation_strategy", "unknown"))
+        by_strategy_rows.setdefault(strategy, []).append(row)
+
+    by_strategy: dict[str, dict[str, Any]] = {}
+    for strategy in sorted(by_strategy_rows):
+        rows = by_strategy_rows[strategy]
+        by_strategy[strategy] = {
+            "sample_count": len(rows),
+            "failed_count": sum(1 for row in rows if not bool(row.get("canonical_match"))),
+            "exact_string_match": aggregate_boolean_metric(rows, "exact_string_match"),
+            "rdkit_validity": aggregate_boolean_metric(rows, "rdkit_valid"),
+            "two_attachment_validity": aggregate_boolean_metric(rows, "two_attachment_valid"),
+            "canonical_match": aggregate_boolean_metric(rows, "canonical_match"),
+        }
+
+    selected_strategies = [
+        strategy
+        for strategy in (macro_strategies or tuple(sorted(by_strategy)))
+        if by_strategy.get(strategy, {}).get("sample_count", 0) > 0
+    ]
+    macro_metrics = {
+        metric_name: rate(
+            sum(by_strategy[strategy][metric_name] for strategy in selected_strategies),
+            len(selected_strategies),
+        )
+        for metric_name in ("exact_string_match", "rdkit_validity", "two_attachment_validity", "canonical_match")
+    }
+    macro_metrics["strategy_count"] = len(selected_strategies)
+    macro_metrics["strategies"] = selected_strategies
+
+    return {
+        **metrics,
+        f"{prefix}_by_strategy": by_strategy,
+        f"{prefix}_strategy_macro_avg": macro_metrics,
+    }
+
+
 def write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
     with path.open("w", encoding="utf-8") as handle:
         for row in rows:
@@ -684,6 +750,7 @@ def run_extra_restore_eval(
         if len(dataset) == 0:
             continue
         dataloader = DataLoader(dataset, batch_size=config.per_device_eval_batch_size, shuffle=False, collate_fn=collate_fn)
+        decode_sample_limit = formal_eval_decode_sample_limit(config, dataset, config.eval_decode_samples)
         metrics, failed_cases, predictions = evaluate_restore(
             model=model,
             restore_head=restore_head,
@@ -691,8 +758,10 @@ def run_extra_restore_eval(
             tokenizer=tokenizer,
             config=config,
             device=device,
-            decode_sample_limit=config.eval_decode_samples,
+            decode_sample_limit=decode_sample_limit,
         )
+        metrics = add_strategy_aggregates(metrics, predictions, prefix=output_prefix)
+        metrics["formal_eval_full_decode"] = config.formal_eval_full_decode
         write_extra_eval_outputs(
             output_dir=output_dir,
             prefix=output_prefix,
@@ -779,7 +848,12 @@ def append_epoch_metrics(
     csv_path = output_dir / EPOCH_METRICS_CSV
     write_header = not csv_path.exists()
     with csv_path.open("a", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=EPOCH_METRIC_CSV_FIELDS, extrasaction="ignore")
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=EPOCH_METRIC_CSV_FIELDS,
+            extrasaction="ignore",
+            lineterminator="\n",
+        )
         if write_header:
             writer.writeheader()
         writer.writerow(flat_row)
@@ -801,8 +875,18 @@ def save_checkpoint_with_eval(
     epoch_train_loss_mean: float | None = None,
 ) -> dict[str, Any]:
     max_batches = None
-    if config.checkpoint_eval_samples > 0:
+    if not config.formal_eval_full_decode and config.checkpoint_eval_samples > 0:
         max_batches = math.ceil(config.checkpoint_eval_samples / config.per_device_eval_batch_size)
+    eval_sample_limit = (
+        full_decode_sample_limit(dataloader.dataset)
+        if config.formal_eval_full_decode
+        else config.checkpoint_eval_samples
+    )
+    decode_sample_limit = formal_eval_decode_sample_limit(
+        config,
+        dataloader.dataset,
+        config.checkpoint_eval_decode_samples,
+    )
     metrics, failed_cases, predictions = evaluate_restore(
         model=model,
         restore_head=restore_head,
@@ -811,8 +895,9 @@ def save_checkpoint_with_eval(
         config=config,
         device=device,
         max_batches=max_batches,
-        decode_sample_limit=config.checkpoint_eval_decode_samples,
+        decode_sample_limit=decode_sample_limit,
     )
+    metrics = add_strategy_aggregates(metrics, predictions, prefix="all_view")
     metrics = {
         **metrics,
         "checkpoint_name": checkpoint_name,
@@ -820,6 +905,8 @@ def save_checkpoint_with_eval(
         "checkpoint_optimizer_step": optimizer_step,
         "checkpoint_recent_train_loss": recent_train_loss,
         "checkpoint_epoch_train_loss_mean": epoch_train_loss_mean,
+        "formal_eval_full_decode": config.formal_eval_full_decode,
+        "full_epoch_decode": config.formal_eval_full_decode,
     }
     save_run_artifacts(
         output_dir=checkpoint_dir,
@@ -839,8 +926,9 @@ def save_checkpoint_with_eval(
                 "optimizer_step": optimizer_step,
                 "recent_train_loss": recent_train_loss,
                 "epoch_train_loss_mean": epoch_train_loss_mean,
-                "eval_sample_limit": config.checkpoint_eval_samples,
-                "eval_decode_sample_limit": config.checkpoint_eval_decode_samples,
+                "eval_sample_limit": eval_sample_limit,
+                "eval_decode_sample_limit": decode_sample_limit,
+                "formal_eval_full_decode": config.formal_eval_full_decode,
             },
             ensure_ascii=False,
             indent=2,
@@ -883,6 +971,65 @@ def early_stopping_is_improvement(current: float, best: float | None, *, mode: s
     if mode == "max":
         return current > best + min_delta
     raise ValueError("mode must be 'min' or 'max'")
+
+
+def update_early_stopping_state(
+    *,
+    config: StageBConfig,
+    checkpoint_metrics: dict[str, Any],
+    checkpoint_name: str,
+    epoch_index: int,
+    best_metric: float | None,
+    best_checkpoint: str | None,
+    wait: int,
+    stop_training: bool = False,
+    early_stop_reason: str | None = None,
+) -> tuple[dict[str, Any] | None, float | None, str | None, int, bool, str | None]:
+    if not config.early_stopping_enabled:
+        return None, best_metric, best_checkpoint, wait, stop_training, early_stop_reason
+
+    raw_metric = checkpoint_metrics.get(config.early_stopping_metric)
+    if not isinstance(raw_metric, (int, float)) or not math.isfinite(float(raw_metric)):
+        raise ValueError(f"early stopping metric is missing or non-finite: {config.early_stopping_metric}")
+    metric_value = float(raw_metric)
+    improved = early_stopping_is_improvement(
+        metric_value,
+        best_metric,
+        mode=config.early_stopping_mode,
+        min_delta=config.early_stopping_min_delta,
+    )
+    would_stop_training = False
+    monitor_reason: str | None = None
+    if improved:
+        best_metric = metric_value
+        best_checkpoint = checkpoint_name
+        wait = 0
+    elif epoch_index >= config.early_stopping_min_epochs:
+        wait += 1
+        if wait >= config.early_stopping_patience:
+            would_stop_training = True
+            monitor_reason = (
+                f"{config.early_stopping_metric} did not improve by "
+                f"{config.early_stopping_min_delta} for {wait} epoch checkpoints"
+            )
+            if not config.early_stopping_monitor_only:
+                early_stop_reason = monitor_reason
+                stop_training = True
+
+    state = {
+        "enabled": True,
+        "monitor_only": config.early_stopping_monitor_only,
+        "metric": config.early_stopping_metric,
+        "mode": config.early_stopping_mode,
+        "current": metric_value,
+        "best": best_metric,
+        "best_checkpoint": best_checkpoint,
+        "wait": wait,
+        "stop_training": stop_training,
+        "would_stop_training": would_stop_training,
+        "reason": monitor_reason if config.early_stopping_monitor_only else early_stop_reason,
+    }
+    return state, best_metric, best_checkpoint, wait, stop_training, early_stop_reason
 
 
 def run_reload_smoke(
@@ -1119,46 +1266,32 @@ def main() -> None:
             )
             copy_config_snapshot(args.config, output_dir / "checkpoints" / checkpoint_name)
             print(json.dumps({"checkpoint": checkpoint_name, "metrics": checkpoint_metrics}, ensure_ascii=False))
-            early_stopping_state: dict[str, Any] | None = None
-            if config.early_stopping_enabled:
-                raw_metric = checkpoint_metrics.get(config.early_stopping_metric)
-                if not isinstance(raw_metric, (int, float)) or not math.isfinite(float(raw_metric)):
-                    raise ValueError(f"early stopping metric is missing or non-finite: {config.early_stopping_metric}")
-                metric_value = float(raw_metric)
-                improved = early_stopping_is_improvement(
-                    metric_value,
-                    best_early_metric,
-                    mode=config.early_stopping_mode,
-                    min_delta=config.early_stopping_min_delta,
-                )
-                if improved:
-                    best_early_metric = metric_value
-                    best_early_checkpoint = checkpoint_name
-                    early_stop_wait = 0
-                elif epoch_index >= config.early_stopping_min_epochs:
-                    early_stop_wait += 1
-                    if early_stop_wait >= config.early_stopping_patience:
-                        early_stop_reason = (
-                            f"{config.early_stopping_metric} did not improve by "
-                            f"{config.early_stopping_min_delta} for {early_stop_wait} epoch checkpoints"
-                        )
-                        stop_training = True
-                early_stopping_state = {
-                    "enabled": True,
-                    "metric": config.early_stopping_metric,
-                    "mode": config.early_stopping_mode,
-                    "current": metric_value,
-                    "best": best_early_metric,
-                    "best_checkpoint": best_early_checkpoint,
-                    "wait": early_stop_wait,
-                    "stop_training": stop_training,
-                    "reason": early_stop_reason,
-                }
+            (
+                early_stopping_state,
+                best_early_metric,
+                best_early_checkpoint,
+                early_stop_wait,
+                stop_training,
+                early_stop_reason,
+            ) = update_early_stopping_state(
+                config=config,
+                checkpoint_metrics=checkpoint_metrics,
+                checkpoint_name=checkpoint_name,
+                epoch_index=epoch_index,
+                best_metric=best_early_metric,
+                best_checkpoint=best_early_checkpoint,
+                wait=early_stop_wait,
+                stop_training=stop_training,
+                early_stop_reason=early_stop_reason,
+            )
+            if early_stopping_state is not None:
                 print(json.dumps({"early_stopping": early_stopping_state}, ensure_ascii=False))
             append_epoch_metrics(output_dir, checkpoint_metrics, early_stopping=early_stopping_state)
         if stop_training:
             break
 
+    valid_decode_sample_limit = formal_eval_decode_sample_limit(config, valid_dataset, config.eval_decode_samples)
+    test_decode_sample_limit = formal_eval_decode_sample_limit(config, test_dataset, config.eval_decode_samples)
     metrics, failed_cases, predictions = evaluate_restore(
         model=model,
         restore_head=restore_head,
@@ -1166,7 +1299,7 @@ def main() -> None:
         tokenizer=tokenizer,
         config=config,
         device=device,
-        decode_sample_limit=config.eval_decode_samples,
+        decode_sample_limit=valid_decode_sample_limit,
     )
     test_metrics, test_failed_cases, test_predictions = evaluate_restore(
         model=model,
@@ -1175,8 +1308,10 @@ def main() -> None:
         tokenizer=tokenizer,
         config=config,
         device=device,
-        decode_sample_limit=config.eval_decode_samples,
+        decode_sample_limit=test_decode_sample_limit,
     )
+    metrics = add_strategy_aggregates(metrics, predictions, prefix="all_view")
+    test_metrics = add_strategy_aggregates(test_metrics, test_predictions, prefix="all_view")
     first_window = train_losses[: max(1, len(train_losses) // 5)]
     last_window = train_losses[-max(1, len(train_losses) // 5) :]
     if first_window and last_window:
@@ -1190,10 +1325,20 @@ def main() -> None:
     metrics["test_sample_count"] = len(test_dataset)
     metrics["early_stopped"] = stop_training
     metrics["early_stop_reason"] = early_stop_reason
+    metrics["early_stopping_monitor_only"] = config.early_stopping_monitor_only
     metrics["best_early_stopping_metric"] = best_early_metric
     metrics["best_early_stopping_checkpoint"] = best_early_checkpoint
+    metrics["formal_eval_full_decode"] = config.formal_eval_full_decode
+    metrics["full_final_decode"] = config.formal_eval_full_decode
+    metrics["all_view_test_loss"] = test_metrics.get("loss")
+    metrics["all_view_test_canonical_match"] = test_metrics.get("canonical_match")
     metrics["identity_test_loss"] = test_metrics.get("loss")
     metrics["identity_test_canonical_match"] = test_metrics.get("canonical_match")
+    test_metrics = {
+        **test_metrics,
+        "formal_eval_full_decode": config.formal_eval_full_decode,
+        "full_final_decode": config.formal_eval_full_decode,
+    }
     save_run_artifacts(
         output_dir=output_dir,
         model=model,

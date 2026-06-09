@@ -1,0 +1,85 @@
+{
+  "all_view_by_strategy": {
+    "attachment_rooted_smiles": {
+      "canonical_match": 0.6174438687392055,
+      "exact_string_match": 0.613126079447323,
+      "failed_count": 443,
+      "rdkit_validity": 0.802245250431779,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7996545768566494
+    },
+    "direction_flip": {
+      "canonical_match": 0.4533678756476684,
+      "exact_string_match": 0.45077720207253885,
+      "failed_count": 633,
+      "rdkit_validity": 0.7487046632124352,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7452504317789291
+    },
+    "identity": {
+      "canonical_match": 0.7409326424870466,
+      "exact_string_match": 0.7400690846286702,
+      "failed_count": 300,
+      "rdkit_validity": 0.8773747841105354,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.8765112262521589
+    },
+    "light_denoise": {
+      "canonical_match": 0.4835924006908463,
+      "exact_string_match": 0.4835924006908463,
+      "failed_count": 598,
+      "rdkit_validity": 0.7677029360967185,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7642487046632125
+    },
+    "rdkit_random_smiles": {
+      "canonical_match": 0.43436960276338515,
+      "exact_string_match": 0.4317789291882556,
+      "failed_count": 655,
+      "rdkit_validity": 0.7322970639032815,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7219343696027634
+    }
+  },
+  "all_view_strategy_macro_avg": {
+    "canonical_match": 0.5459412780656304,
+    "exact_string_match": 0.5438687392055268,
+    "rdkit_validity": 0.7856649395509498,
+    "strategies": [
+      "attachment_rooted_smiles",
+      "direction_flip",
+      "identity",
+      "light_denoise",
+      "rdkit_random_smiles"
+    ],
+    "strategy_count": 5,
+    "two_attachment_validity": 0.7815198618307427
+  },
+  "all_view_test_canonical_match": 0.5385146804835924,
+  "all_view_test_loss": 0.1954279164021967,
+  "best_early_stopping_checkpoint": "epoch_040",
+  "best_early_stopping_metric": 0.5459412780656304,
+  "canonical_match": 0.5459412780656304,
+  "completed_epochs": 40,
+  "decoded_sample_count": 5790,
+  "early_stop_reason": null,
+  "early_stopped": false,
+  "early_stopping_monitor_only": true,
+  "exact_string_match": 0.5438687392055268,
+  "formal_eval_full_decode": true,
+  "full_final_decode": true,
+  "identity_test_canonical_match": 0.5385146804835924,
+  "identity_test_loss": 0.1954279164021967,
+  "loss": 0.19286947233593507,
+  "optimizer_steps": 115800,
+  "rdkit_validity": 0.78566493955095,
+  "sample_count": 5790,
+  "test_sample_count": 5790,
+  "token_accuracy": 0.965566658577359,
+  "train_loss_decreased": true,
+  "train_loss_first_window": 0.250613576484571,
+  "train_loss_last_window": 0.00944009794755536,
+  "train_sample_count": 46320,
+  "two_attachment_validity": 0.7815198618307426,
+  "valid_sample_count": 5790
+}

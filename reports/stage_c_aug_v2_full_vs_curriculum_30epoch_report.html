@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stage C v2 Full vs Curriculum Comparison</title>
+<style>
+:root { --bg:#f5f7fb; --panel:#fff; --ink:#172033; --muted:#647084; --line:#dbe3ee; --soft:#eef3f8; --navy:#101827; --blue:#2563eb; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
+header { background:var(--navy); color:#fff; padding:34px 40px 30px; }
+header h1 { margin:0 0 8px; font-size:28px; letter-spacing:0; }
+header p { margin:0; color:#cbd5e1; max-width:1100px; }
+main { max-width:1260px; margin:0 auto; padding:28px 24px 54px; }
+section { margin:0 0 24px; }
+h2 { font-size:19px; margin:0 0 13px; letter-spacing:0; }
+h3 { font-size:15px; margin:0 0 11px; letter-spacing:0; }
+.card,.chart-card,.bar-card,.metric,.mini-chart { background:var(--panel); border:1px solid var(--line); border-radius:8px; box-shadow:0 1px 2px rgba(15,23,42,.035); }
+.card { padding:18px; }
+.grid { display:grid; gap:14px; }
+.grid.metrics { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.grid.two { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.metric { padding:14px 16px; min-height:96px; }
+.metric-label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.06em; }
+.metric-value { font-size:27px; font-weight:740; margin:4px 0 2px; letter-spacing:0; }
+.metric-note { color:var(--muted); font-size:12px; }
+.strategy-box { display:grid; grid-template-columns:1.05fr .95fr; gap:16px; align-items:start; }
+.callout { border-left:4px solid var(--blue); background:#eff6ff; border-radius:0 8px 8px 0; padding:12px 14px; }
+.table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:8px; background:#fff; }
+table { width:100%; border-collapse:collapse; min-width:760px; }
+th,td { padding:9px 11px; border-bottom:1px solid var(--line); vertical-align:top; text-align:left; }
+th { background:#f8fafc; color:#475569; font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+tr:last-child td { border-bottom:0; }
+code { background:#eef2f7; border:1px solid #d9e2ec; padding:1px 5px; border-radius:5px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12px; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-weight:680; font-size:12px; }
+.pill.ok { background:#d9f5ef; color:#075e54; }
+.pill.warn { background:#fff2cc; color:#92400e; }
+.pill.good { background:#dbeafe; color:#1d4ed8; }
+.dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:7px; vertical-align:middle; }
+.chart-card { padding:13px; }
+.chart-title { display:flex; justify-content:space-between; gap:12px; align-items:baseline; font-weight:730; margin:0 0 8px; }
+.chart-title em { color:var(--muted); font-style:normal; font-weight:500; }
+svg { display:block; width:100%; height:auto; }
+.gridline { stroke:#e6ebf2; stroke-width:1; }
+.axis { fill:#64748b; font-size:11px; }
+.axis-line { stroke:#94a3b8; stroke-width:1; }
+.legend { display:flex; gap:14px; flex-wrap:wrap; margin-top:8px; color:#475569; }
+.legend-item { display:inline-flex; align-items:center; gap:6px; }
+.swatch { width:12px; height:12px; border-radius:3px; display:inline-block; }
+.mini-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.mini-chart { padding:12px; }
+.mini-head { display:flex; justify-content:space-between; gap:10px; font-weight:730; }
+.mini-head b { font-size:17px; }
+.mini-desc { color:var(--muted); font-size:12px; margin:3px 0 6px; }
+.bar-card { padding:15px; }
+.bar-row { display:grid; grid-template-columns:220px 1fr 76px; grid-template-areas:"name track num" "extra track num"; gap:3px 12px; align-items:center; padding:8px 0; border-bottom:1px solid #edf1f6; }
+.bar-row:last-child { border-bottom:0; }
+.bar-name { grid-area:name; min-width:0; }
+.bar-name b { display:block; font-size:13px; color:#1e293b; overflow-wrap:anywhere; }
+.bar-name span { display:block; color:var(--muted); font-size:12px; }
+.bar-track { grid-area:track; height:18px; background:#eef2f7; border-radius:999px; overflow:hidden; border:1px solid #e2e8f0; }
+.bar-fill { height:100%; border-radius:999px; }
+.bar-num { grid-area:num; font-weight:760; font-size:14px; text-align:right; color:#111827; }
+.bar-extra { grid-area:extra; color:var(--muted); font-size:12px; }
+.bar-note,.note { color:var(--muted); font-size:12px; margin-top:8px; }
+.cmp-row{display:grid;grid-template-columns:190px 1fr 82px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #edf1f6}
+.cmp-row:last-child{border-bottom:0}.cmp-label{font-weight:700}.cmp-line{display:grid;grid-template-columns:42px 1fr 70px;gap:8px;align-items:center;margin:3px 0}.cmp-line span{color:var(--muted);font-size:12px}.cmp-track{height:13px;border-radius:999px;background:#eef2f7;overflow:hidden}.cmp-track i{display:block;height:100%;border-radius:999px}.cmp-line b{font-size:12px;text-align:right}.cmp-delta{font-weight:760;text-align:right}.cmp-delta.pos{color:#047857}.cmp-delta.neg{color:#b91c1c}
+.delta{font-size:16px;margin-left:8px}.delta.pos{color:#047857}.delta.neg{color:#b91c1c}
+footer { color:var(--muted); font-size:12px; margin-top:30px; }
+@media (max-width:900px) {
+  header { padding:26px 20px; } main { padding:20px 14px 40px; }
+  .grid.metrics,.grid.two,.mini-grid,.strategy-box { grid-template-columns:1fr; }
+  .bar-row { grid-template-columns:1fr 64px; grid-template-areas:"name num" "track track" "extra extra"; }
+  .cmp-row{grid-template-columns:1fr}.cmp-delta{text-align:left}
+  table { min-width:720px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Stage C v2 Full vs Curriculum Comparison</h1>
+  <p>本报告并排比较 Stage C v2 的 static full all-view 与 progressive curriculum 两组 30 epoch 全量训练结果，所有正式指标均采用 full decode 口径。</p>
+</header>
+<main>
+
+  <section class="grid metrics"><div class="metric"><div class="metric-label">Final valid canonical</div><div class="metric-value">56.72% <span class="delta pos">+0.86 pp</span></div><div class="metric-note">Full 55.85% · Curriculum vs Full</div></div><div class="metric"><div class="metric-label">Final test canonical</div><div class="metric-value">57.60% <span class="delta pos">+1.35 pp</span></div><div class="metric-note">Full 56.25% · Curriculum vs Full</div></div><div class="metric"><div class="metric-label">Robust valid canonical</div><div class="metric-value">51.06% <span class="delta neg">-0.13 pp</span></div><div class="metric-note">Full 51.19% · Curriculum vs Full</div></div><div class="metric"><div class="metric-label">Robust test canonical</div><div class="metric-value">51.86% <span class="delta pos">+0.63 pp</span></div><div class="metric-note">Full 51.23% · Curriculum vs Full</div></div><div class="metric"><div class="metric-label">Valid restore loss</div><div class="metric-value">0.1594 <span class="delta pos">-0.0147</span></div><div class="metric-note">Full 0.1741 · Curriculum vs Full</div></div><div class="metric"><div class="metric-label">Test restore loss</div><div class="metric-value">0.1677 <span class="delta pos">-0.0108</span></div><div class="metric-note">Full 0.1786 · Curriculum vs Full</div></div></section>
+
+  <section class="card">
+    <h2>Strategy Definitions</h2>
+    <div class="table-wrap"><table><thead><tr><th>Item</th><th>Description</th></tr></thead><tbody><tr><td>Full strategy</td><td>Stage C static full all-view：每个 epoch 直接使用 v2 train 全量 46,320 行，五种策略等量覆盖，并优化 L_restore + 0.2 * L_align。</td></tr><tr><td>Curriculum strategy</td><td>Stage C progressive curriculum：每个 epoch 仍采样 46,320 行，但从 identity/random 偏重逐步过渡到 random/direction/rooted/denoise 权重。</td></tr><tr><td>Shared dataset</td><td><code>data/baselite_smiles_aug_v2/training_template_preview.jsonl</code></td></tr><tr><td>Graph source</td><td><code>data/processed/repeat_unit_graphs.jsonl</code></td></tr><tr><td>Formal eval rule</td><td>checkpoint valid 5,790、final valid/test 5,790、robustness valid/test 4,632，均为 full decode；retrieval 对 valid/test 使用 graph 去重口径。</td></tr><tr><td>Artifacts</td><td>full: <code>reports/stage_c_non_vocab_aug_v2_full_30epoch_artifacts</code><br>curriculum: <code>reports/stage_c_non_vocab_aug_v2_curriculum_full_30epoch_artifacts</code></td></tr></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <h2>Headline Metric Comparison</h2>
+    <div class="table-wrap"><table><thead><tr><th>Metric</th><th>Full</th><th>Curriculum</th><th>Delta</th><th>Winner</th></tr></thead><tbody><tr><td>Valid restore loss</td><td>0.1741</td><td>0.1594</td><td><span class="delta pos">-0.0147</span></td><td><span class="pill good">curriculum better</span></td></tr><tr><td>Valid canonical</td><td>55.85%</td><td>56.72%</td><td><span class="delta pos">+0.86 pp</span></td><td><span class="pill good">curriculum better</span></td></tr><tr><td>Valid exact</td><td>55.73%</td><td>56.30%</td><td><span class="delta pos">+0.57 pp</span></td><td><span class="pill good">curriculum better</span></td></tr><tr><td>Valid RDKit validity</td><td>77.31%</td><td>77.05%</td><td><span class="delta neg">-0.26 pp</span></td><td><span class="pill warn">full better</span></td></tr><tr><td>Valid two attachment</td><td>77.10%</td><td>76.79%</td><td><span class="delta neg">-0.31 pp</span></td><td><span class="pill warn">full better</span></td></tr><tr><td>Test restore loss</td><td>0.1786</td><td>0.1677</td><td><span class="delta pos">-0.0108</span></td><td><span class="pill good">curriculum better</span></td></tr><tr><td>Test canonical</td><td>56.25%</td><td>57.60%</td><td><span class="delta pos">+1.35 pp</span></td><td><span class="pill good">curriculum better</span></td></tr><tr><td>Robust valid canonical</td><td>51.19%</td><td>51.06%</td><td><span class="delta neg">-0.13 pp</span></td><td><span class="pill warn">full better</span></td></tr><tr><td>Robust test canonical</td><td>51.23%</td><td>51.86%</td><td><span class="delta pos">+0.63 pp</span></td><td><span class="pill good">curriculum better</span></td></tr><tr><td>Token accuracy valid</td><td>96.72%</td><td>96.83%</td><td><span class="delta pos">+0.11 pp</span></td><td><span class="pill good">curriculum better</span></td></tr><tr><td>RDKit validity valid</td><td>77.31%</td><td>77.05%</td><td><span class="delta neg">-0.26 pp</span></td><td><span class="pill warn">full better</span></td></tr></tbody></table></div>
+  </section>
+
+  <section class="grid two">
+    <div class="bar-card"><h3>Final Checkpoint Metrics</h3>
+      <div class="cmp-row">
+        <div class="cmp-label">Canonical Match</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:98.48%;background:#475569"></i></div><b>55.85%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>56.72%</b></div>
+        </div>
+        <div class="cmp-delta pos">+0.86 pp</div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-label">Exact String Match</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:98.99%;background:#475569"></i></div><b>55.73%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>56.30%</b></div>
+        </div>
+        <div class="cmp-delta pos">+0.57 pp</div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-label">RDKit Validity</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:100.00%;background:#475569"></i></div><b>77.31%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:99.66%;background:#2563eb"></i></div><b>77.05%</b></div>
+        </div>
+        <div class="cmp-delta neg">-0.26 pp</div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-label">Two Attachment Validity</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:100.00%;background:#475569"></i></div><b>77.10%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:99.60%;background:#2563eb"></i></div><b>76.79%</b></div>
+        </div>
+        <div class="cmp-delta neg">-0.31 pp</div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-label">Restore Loss</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:100.00%;background:#475569"></i></div><b>0.1741</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:91.55%;background:#2563eb"></i></div><b>0.1594</b></div>
+        </div>
+        <div class="cmp-delta pos">-0.0147</div>
+      </div></div>
+    <div class="card">
+      <h2>Full-Decode Parity Check</h2>
+      <div class="table-wrap"><table><thead><tr><th>Run</th><th>Epochs</th><th>Valid Decode</th><th>Test Decode</th><th>Robust Valid</th><th>Robust Test</th><th>Early Stop</th></tr></thead><tbody><tr><td>Full</td><td>30</td><td>5,790/5,790</td><td>5,790/5,790</td><td>4,632/4,632</td><td>4,632/4,632</td><td>monitor_only=True, stopped=False</td></tr><tr><td>Curriculum</td><td>30</td><td>5,790/5,790</td><td>5,790/5,790</td><td>4,632/4,632</td><td>4,632/4,632</td><td>monitor_only=True, stopped=False</td></tr></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Final Valid Strategy Comparison</h2>
+    <div class="table-wrap"><table><thead><tr><th>Strategy</th><th>Meaning</th><th>Full</th><th>Curriculum</th><th>Delta</th><th>Visual</th></tr></thead><tbody><tr><td><span class="dot" style="background:#0891b2"></span><b>attachment_rooted_smiles</b></td><td>attachment-rooted 视图</td><td>62.09%</td><td>61.49%</td><td>-0.60 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">attachment_rooted_smiles</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:100.00%;background:#475569"></i></div><b>62.09%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:99.03%;background:#2563eb"></i></div><b>61.49%</b></div>
+        </div>
+        <div class="cmp-delta neg">-0.60 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#9333ea"></span><b>direction_flip</b></td><td>方向翻转视图</td><td>46.98%</td><td>46.89%</td><td>-0.09 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">direction_flip</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:100.00%;background:#475569"></i></div><b>46.98%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:99.82%;background:#2563eb"></i></div><b>46.89%</b></div>
+        </div>
+        <div class="cmp-delta neg">-0.09 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#16a34a"></span><b>identity</b></td><td>原始规范视图</td><td>74.53%</td><td>79.45%</td><td>+4.92 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">identity</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:93.80%;background:#475569"></i></div><b>74.53%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>79.45%</b></div>
+        </div>
+        <div class="cmp-delta pos">+4.92 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#eab308"></span><b>light_denoise</b></td><td>轻量去噪视图</td><td>50.09%</td><td>50.26%</td><td>+0.17 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">light_denoise</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:99.66%;background:#475569"></i></div><b>50.09%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>50.26%</b></div>
+        </div>
+        <div class="cmp-delta pos">+0.17 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#f97316"></span><b>rdkit_random_smiles</b></td><td>RDKit random SMILES 视图</td><td>45.60%</td><td>45.51%</td><td>-0.09 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">rdkit_random_smiles</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:100.00%;background:#475569"></i></div><b>45.60%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:99.81%;background:#2563eb"></i></div><b>45.51%</b></div>
+        </div>
+        <div class="cmp-delta neg">-0.09 pp</div>
+      </div></td></tr></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <h2>Robustness Test Strategy Comparison</h2>
+    <div class="table-wrap"><table><thead><tr><th>Strategy</th><th>Full</th><th>Curriculum</th><th>Delta</th><th>Visual</th></tr></thead><tbody><tr><td><span class="dot" style="background:#0891b2"></span><b>attachment_rooted_smiles</b></td><td>61.83%</td><td>62.09%</td><td>+0.26 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">attachment_rooted_smiles</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:99.58%;background:#475569"></i></div><b>61.83%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>62.09%</b></div>
+        </div>
+        <div class="cmp-delta pos">+0.26 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#9333ea"></span><b>direction_flip</b></td><td>46.55%</td><td>46.20%</td><td>-0.35 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">direction_flip</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:100.00%;background:#475569"></i></div><b>46.55%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:99.26%;background:#2563eb"></i></div><b>46.20%</b></div>
+        </div>
+        <div class="cmp-delta neg">-0.35 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#eab308"></span><b>light_denoise</b></td><td>50.95%</td><td>53.63%</td><td>+2.68 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">light_denoise</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:95.01%;background:#475569"></i></div><b>50.95%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>53.63%</b></div>
+        </div>
+        <div class="cmp-delta pos">+2.68 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#f97316"></span><b>rdkit_random_smiles</b></td><td>45.60%</td><td>45.51%</td><td>-0.09 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">rdkit_random_smiles</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>full</span><div class="cmp-track"><i style="width:100.00%;background:#475569"></i></div><b>45.60%</b></div>
+          <div class="cmp-line"><span>curr</span><div class="cmp-track"><i style="width:99.81%;background:#2563eb"></i></div><b>45.51%</b></div>
+        </div>
+        <div class="cmp-delta neg">-0.09 pp</div>
+      </div></td></tr></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <h2>Checkpoint Comparison</h2>
+    <div class="table-wrap"><table><thead><tr><th>Point</th><th>Checkpoint</th><th>Restore Loss</th><th>Canonical</th></tr></thead><tbody><tr><td>Full best restore-loss checkpoint</td><td>epoch_015</td><td>0.1724</td><td>51.83%</td></tr><tr><td>Curriculum best restore-loss checkpoint</td><td>epoch_018</td><td>0.1461</td><td>56.51%</td></tr><tr><td>Full final checkpoint</td><td>epoch_030</td><td>0.1741</td><td>55.85%</td></tr><tr><td>Curriculum final checkpoint</td><td>epoch_030</td><td>0.1594</td><td>56.72%</td></tr></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <h2>Retrieval Comparison</h2>
+    <div class="table-wrap"><table><thead><tr><th>Metric</th><th>Full</th><th>Curriculum</th><th>Delta</th></tr></thead><tbody><tr><td>Valid text-&gt;graph top1</td><td>81.09%</td><td>82.82%</td><td><span class="delta pos">+1.73 pp</span></td></tr><tr><td>Valid graph-&gt;text top1</td><td>82.56%</td><td>83.33%</td><td><span class="delta pos">+0.78 pp</span></td></tr><tr><td>Test text-&gt;graph top1</td><td>81.69%</td><td>84.54%</td><td><span class="delta pos">+2.85 pp</span></td></tr><tr><td>Test graph-&gt;text top1</td><td>80.83%</td><td>82.38%</td><td><span class="delta pos">+1.55 pp</span></td></tr><tr><td>Valid text-&gt;graph top5</td><td>99.40%</td><td>99.57%</td><td><span class="delta pos">+0.17 pp</span></td></tr><tr><td>Valid graph-&gt;text top5</td><td>99.48%</td><td>99.57%</td><td><span class="delta pos">+0.09 pp</span></td></tr></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <h2>Interpretation</h2>
+    <div class="callout">Curriculum 在 final valid/test canonical 与 final restore loss 上均高于 static full，test canonical 提升更明显（+1.35 pp）。Robustness valid 基本持平略低（-0.13 pp），robustness test 略高（+0.63 pp）。两组都跑满 30 epoch，formal decode 口径一致，因此可以直接作为 Stage C 内部策略对照。</div>
+  </section>
+
+  <section class="card">
+    <h2>Artifacts Included Locally</h2>
+    <div class="table-wrap"><table><thead><tr><th>Curriculum File</th><th>Size</th></tr></thead><tbody><tr><td><code>all_view_test_eval_metrics.json</code></td><td>2.7 KB</td></tr><tr><td><code>all_view_test_eval_report.md</code></td><td>2.8 KB</td></tr><tr><td><code>all_view_test_failed_cases.jsonl</code></td><td>1.7 MB</td></tr><tr><td><code>all_view_test_predictions.jsonl</code></td><td>3.9 MB</td></tr><tr><td><code>all_view_test_retrieval_predictions.jsonl</code></td><td>262.8 KB</td></tr><tr><td><code>epoch_metrics.csv</code></td><td>16.1 KB</td></tr><tr><td><code>epoch_metrics.jsonl</code></td><td>121.4 KB</td></tr><tr><td><code>eval_metrics.json</code></td><td>4.1 KB</td></tr><tr><td><code>eval_report.md</code></td><td>4.1 KB</td></tr><tr><td><code>failed_cases.jsonl</code></td><td>1.8 MB</td></tr><tr><td><code>predictions.jsonl</code></td><td>3.9 MB</td></tr><tr><td><code>reload_check.json</code></td><td>141 B</td></tr><tr><td><code>retrieval_predictions.jsonl</code></td><td>262.8 KB</td></tr><tr><td><code>robustness_test_eval_metrics.json</code></td><td>2.3 KB</td></tr><tr><td><code>robustness_test_eval_report.md</code></td><td>2.5 KB</td></tr><tr><td><code>robustness_test_failed_cases.jsonl</code></td><td>1.6 MB</td></tr><tr><td><code>robustness_test_predictions.jsonl</code></td><td>3.2 MB</td></tr><tr><td><code>robustness_test_retrieval_predictions.jsonl</code></td><td>0 B</td></tr><tr><td><code>robustness_valid_eval_metrics.json</code></td><td>2.3 KB</td></tr><tr><td><code>robustness_valid_eval_report.md</code></td><td>2.5 KB</td></tr><tr><td><code>robustness_valid_failed_cases.jsonl</code></td><td>1.6 MB</td></tr><tr><td><code>robustness_valid_predictions.jsonl</code></td><td>3.1 MB</td></tr><tr><td><code>robustness_valid_retrieval_predictions.jsonl</code></td><td>0 B</td></tr><tr><td><code>stage_c_non_vocab_aug_v2_curriculum_full_20epoch_bf16.yaml</code></td><td>1.8 KB</td></tr><tr><td><code>train_input_label_conflicts.jsonl</code></td><td>0 B</td></tr><tr><td><code>training_config.json</code></td><td>1.9 KB</td></tr></tbody></table></div>
+  </section>
+
+  <footer>Generated locally at 2026-06-08 10:54:43 from <code>reports/stage_c_non_vocab_aug_v2_full_30epoch_artifacts</code> and <code>reports/stage_c_non_vocab_aug_v2_curriculum_full_30epoch_artifacts</code>. Report file: <code>reports/stage_c_aug_v2_full_vs_curriculum_30epoch_report.html</code>.</footer>
+
+</main>
+</body>
+</html>

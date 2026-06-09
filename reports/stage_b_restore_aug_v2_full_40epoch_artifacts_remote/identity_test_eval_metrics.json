@@ -1,0 +1,68 @@
+{
+  "all_view_by_strategy": {
+    "attachment_rooted_smiles": {
+      "canonical_match": 0.5975820379965457,
+      "exact_string_match": 0.5949913644214162,
+      "failed_count": 466,
+      "rdkit_validity": 0.7841105354058722,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7815198618307426
+    },
+    "direction_flip": {
+      "canonical_match": 0.43609671848013815,
+      "exact_string_match": 0.43350604490500866,
+      "failed_count": 653,
+      "rdkit_validity": 0.7089810017271158,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7037996545768567
+    },
+    "identity": {
+      "canonical_match": 0.7452504317789291,
+      "exact_string_match": 0.7443868739205527,
+      "failed_count": 295,
+      "rdkit_validity": 0.8609671848013817,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.8592400690846287
+    },
+    "light_denoise": {
+      "canonical_match": 0.48100172711571676,
+      "exact_string_match": 0.4792746113989637,
+      "failed_count": 601,
+      "rdkit_validity": 0.7625215889464594,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7599309153713298
+    },
+    "rdkit_random_smiles": {
+      "canonical_match": 0.4326424870466321,
+      "exact_string_match": 0.4317789291882556,
+      "failed_count": 657,
+      "rdkit_validity": 0.7219343696027634,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7167530224525043
+    }
+  },
+  "all_view_strategy_macro_avg": {
+    "canonical_match": 0.5385146804835924,
+    "exact_string_match": 0.5367875647668393,
+    "rdkit_validity": 0.7677029360967185,
+    "strategies": [
+      "attachment_rooted_smiles",
+      "direction_flip",
+      "identity",
+      "light_denoise",
+      "rdkit_random_smiles"
+    ],
+    "strategy_count": 5,
+    "two_attachment_validity": 0.7642487046632124
+  },
+  "canonical_match": 0.5385146804835924,
+  "decoded_sample_count": 5790,
+  "exact_string_match": 0.5367875647668394,
+  "formal_eval_full_decode": true,
+  "full_final_decode": true,
+  "loss": 0.1954279164021967,
+  "rdkit_validity": 0.7677029360967185,
+  "sample_count": 5790,
+  "token_accuracy": 0.9642562674374572,
+  "two_attachment_validity": 0.7642487046632125
+}

@@ -1,0 +1,51 @@
+{
+  "chart_dir": "reports/stage_b_restore_aug_v2_full_20_vs_40epoch_charts",
+  "embedded_generated_at": "2026-06-08 11:23:59",
+  "embedded_images": [
+    "stage_b_restore_aug_v2_full_20_vs_40epoch_charts/overall_valid_metric_trends_20_vs_40.png",
+    "stage_b_restore_aug_v2_full_20_vs_40epoch_charts/formal_split_canonical_20_vs_40.png",
+    "stage_b_restore_aug_v2_full_20_vs_40epoch_charts/final_strategy_canonical_20_vs_40.png",
+    "stage_b_restore_aug_v2_full_20_vs_40epoch_charts/full40_epoch20_to40_strategy_delta.png",
+    "stage_b_restore_aug_v2_full_20_vs_40epoch_charts/strategy_canonical_trends_20_vs_40.png"
+  ],
+  "embedded_missing_images": [],
+  "embedded_report": "reports/stage_b_restore_aug_v2_full_20_vs_40epoch_report_embedded.html",
+  "full_decode_checks": {
+    "formal_eval_full_decode": [
+      true,
+      true
+    ],
+    "full20_checkpoint_eval_decode_samples": 0,
+    "full20_epoch_count": 20,
+    "full20_eval_decode_samples": 0,
+    "full20_final_decoded_sample_count": 5790,
+    "full20_final_sample_count": 5790,
+    "full40_checkpoint_eval_decode_samples": 0,
+    "full40_epoch_count": 40,
+    "full40_eval_decode_samples": 0,
+    "full40_final_decoded_sample_count": 5790,
+    "full40_final_sample_count": 5790
+  },
+  "generated_at": "2026-06-08 11:19:03",
+  "headline": {
+    "final_valid_delta": 0.03799654576856648,
+    "full20_best_canonical": 0.5170984455958549,
+    "full20_best_epoch": 19,
+    "full20_final_valid_canonical": 0.5079447322970639,
+    "full40_best_canonical": 0.5459412780656304,
+    "full40_best_epoch": 40,
+    "full40_epoch20_to_epoch40_delta": 0.033678756476683946,
+    "full40_final_valid_canonical": 0.5459412780656304
+  },
+  "input_files": {
+    "full20_epoch_metrics": "reports/stage_b_restore_aug_v2_full_20epoch_artifacts/epoch_metrics.jsonl",
+    "full20_eval_metrics": "reports/stage_b_restore_aug_v2_full_20epoch_artifacts/eval_metrics.json",
+    "full40_epoch_metrics": "reports/stage_b_restore_aug_v2_full_40epoch_artifacts_remote/epoch_metrics.jsonl",
+    "full40_eval_metrics": "reports/stage_b_restore_aug_v2_full_40epoch_artifacts_remote/eval_metrics.json"
+  },
+  "report": "reports/stage_b_restore_aug_v2_full_20_vs_40epoch_report.html",
+  "sources": {
+    "full20": "reports/stage_b_restore_aug_v2_full_20epoch_artifacts",
+    "full40_remote_copy": "reports/stage_b_restore_aug_v2_full_40epoch_artifacts_remote"
+  }
+}

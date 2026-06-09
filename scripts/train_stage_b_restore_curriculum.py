@@ -19,10 +19,10 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.train_stage_b_restore_full import (
-    DEFAULT_CONFIG_PATH,
     RestoreCrossAttentionHead,
     StageAPreviewDataset,
     StageBConfig,
+    add_strategy_aggregates,
     append_epoch_metrics,
     append_quick_eval_metrics,
     build_optimizer,
@@ -31,6 +31,7 @@ from scripts.train_stage_b_restore_full import (
     early_stopping_is_improvement,
     evaluate_restore,
     forward_encoder_hidden,
+    full_decode_sample_limit,
     load_yaml_config,
     masked_cross_entropy,
     reset_training_metric_files,
@@ -44,21 +45,23 @@ from scripts.train_stage_b_restore_full import (
 )
 
 
-DEFAULT_CURRICULUM_OUTPUT_DIR = ROOT / "outputs" / "stage_b_restore_aug_curriculum_full_20epoch"
+DEFAULT_CURRICULUM_CONFIG_PATH = ROOT / "configs" / "stage_b_restore_aug_v2_curriculum_full_20epoch_bf16.yaml"
+DEFAULT_CURRICULUM_OUTPUT_DIR = ROOT / "outputs" / "stage_b_restore_aug_v2_curriculum_full_20epoch"
 CURRICULUM_STRATEGIES = (
     "identity",
     "rdkit_random_smiles",
+    "direction_flip",
     "attachment_rooted_smiles",
     "light_denoise",
 )
-ROBUSTNESS_STRATEGIES = ("rdkit_random_smiles", "light_denoise")
+ROBUSTNESS_STRATEGIES = ("rdkit_random_smiles", "direction_flip", "attachment_rooted_smiles", "light_denoise")
 TRAIN_CONFLICT_FILTER_POLICY = "prefer_self_label_else_drop_all"
 TRAIN_CONFLICT_AUDIT_JSONL = "train_input_label_conflicts.jsonl"
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train Stage B restore with curriculum augmentation and full eval.")
-    parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG_PATH)
+    parser.add_argument("--config", type=Path, default=DEFAULT_CURRICULUM_CONFIG_PATH)
     parser.add_argument("--model-name-or-path", required=True)
     parser.add_argument("--output-dir", type=Path, default=None)
     parser.add_argument("--preview-path", type=Path, default=None)
@@ -74,6 +77,7 @@ def curriculum_weights_for_epoch(epoch_index: int) -> dict[str, float]:
         return {
             "identity": 1.0,
             "rdkit_random_smiles": 0.0,
+            "direction_flip": 0.0,
             "attachment_rooted_smiles": 0.0,
             "light_denoise": 0.0,
         }
@@ -81,35 +85,40 @@ def curriculum_weights_for_epoch(epoch_index: int) -> dict[str, float]:
         return {
             "identity": 0.80,
             "rdkit_random_smiles": 0.20,
+            "direction_flip": 0.0,
             "attachment_rooted_smiles": 0.0,
             "light_denoise": 0.0,
         }
     if epoch_index <= 6:
         return {
-            "identity": 0.60,
+            "identity": 0.55,
             "rdkit_random_smiles": 0.25,
-            "attachment_rooted_smiles": 0.15,
+            "direction_flip": 0.20,
+            "attachment_rooted_smiles": 0.0,
             "light_denoise": 0.0,
         }
     if epoch_index <= 9:
         return {
             "identity": 0.40,
-            "rdkit_random_smiles": 0.25,
-            "attachment_rooted_smiles": 0.25,
-            "light_denoise": 0.10,
+            "rdkit_random_smiles": 0.20,
+            "direction_flip": 0.20,
+            "attachment_rooted_smiles": 0.15,
+            "light_denoise": 0.05,
         }
     if epoch_index <= 12:
         return {
             "identity": 0.30,
-            "rdkit_random_smiles": 0.25,
-            "attachment_rooted_smiles": 0.25,
-            "light_denoise": 0.20,
+            "rdkit_random_smiles": 0.20,
+            "direction_flip": 0.20,
+            "attachment_rooted_smiles": 0.20,
+            "light_denoise": 0.10,
         }
     return {
         "identity": 0.20,
-        "rdkit_random_smiles": 0.20,
-        "attachment_rooted_smiles": 0.25,
-        "light_denoise": 0.35,
+        "rdkit_random_smiles": 0.15,
+        "direction_flip": 0.20,
+        "attachment_rooted_smiles": 0.20,
+        "light_denoise": 0.25,
     }
 
 
@@ -332,10 +341,6 @@ def build_curriculum_epoch_rows(
         "curriculum_epoch_row_count": len(epoch_rows),
         "curriculum_epoch_target_row_count": target_row_count,
     }
-
-
-def full_decode_sample_limit(dataset: Any) -> int:
-    return len(dataset)
 
 
 def rate(count: int, total: int) -> float:
@@ -602,6 +607,7 @@ def save_curriculum_checkpoint_with_full_eval(
         max_batches=None,
         decode_sample_limit=decode_sample_limit,
     )
+    metrics = add_strategy_aggregates(metrics, predictions, prefix="all_view")
     metrics = {
         **metrics,
         "checkpoint_name": checkpoint_name,
@@ -706,8 +712,8 @@ def main() -> None:
 
     args = parse_args()
     config = load_yaml_config(args.config)
-    output_dir_override = args.output_dir or DEFAULT_CURRICULUM_OUTPUT_DIR
-    config = StageBConfig(**{**asdict(config), "output_dir": str(output_dir_override)})
+    if args.output_dir is not None:
+        config = StageBConfig(**{**asdict(config), "output_dir": str(args.output_dir)})
     if args.preview_path is not None:
         config = StageBConfig(**{**asdict(config), "preview_path": str(args.preview_path)})
 
@@ -918,6 +924,8 @@ def main() -> None:
         device=device,
         decode_sample_limit=full_decode_sample_limit(test_dataset),
     )
+    metrics = add_strategy_aggregates(metrics, predictions, prefix="all_view")
+    test_metrics = add_strategy_aggregates(test_metrics, test_predictions, prefix="all_view")
     first_window = train_losses[: max(1, len(train_losses) // 5)]
     last_window = train_losses[-max(1, len(train_losses) // 5) :]
     if first_window and last_window:
@@ -935,6 +943,9 @@ def main() -> None:
     metrics["early_stopping_monitor_only"] = True
     metrics["best_early_stopping_metric"] = best_early_metric
     metrics["best_early_stopping_checkpoint"] = best_early_checkpoint
+    metrics["formal_eval_full_decode"] = config.formal_eval_full_decode
+    metrics["all_view_test_loss"] = test_metrics.get("loss")
+    metrics["all_view_test_canonical_match"] = test_metrics.get("canonical_match")
     metrics["identity_test_loss"] = test_metrics.get("loss")
     metrics["identity_test_canonical_match"] = test_metrics.get("canonical_match")
     metrics["full_final_decode"] = True
@@ -953,7 +964,11 @@ def main() -> None:
         output_dir=output_dir,
         prefix="identity",
         split="test",
-        metrics={**test_metrics, "full_final_decode": True},
+        metrics={
+            **test_metrics,
+            "formal_eval_full_decode": config.formal_eval_full_decode,
+            "full_final_decode": True,
+        },
         failed_cases=test_failed_cases,
         predictions=test_predictions,
         config=config,

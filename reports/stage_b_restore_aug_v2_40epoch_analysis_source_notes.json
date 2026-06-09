@@ -1,0 +1,37 @@
+{
+  "charts": [
+    "reports/stage_b_restore_aug_v2_40epoch_analysis_charts/curriculum40_final_strategy_canonical.png",
+    "reports/stage_b_restore_aug_v2_40epoch_analysis_charts/curriculum40_formal_split_canonical.png",
+    "reports/stage_b_restore_aug_v2_40epoch_analysis_charts/curriculum40_sampling_weights.png",
+    "reports/stage_b_restore_aug_v2_40epoch_analysis_charts/curriculum40_strategy_canonical_trends.png",
+    "reports/stage_b_restore_aug_v2_40epoch_analysis_charts/curriculum40_valid_metric_trends.png",
+    "reports/stage_b_restore_aug_v2_40epoch_analysis_charts/four_run_epoch20_to40_strategy_delta.png",
+    "reports/stage_b_restore_aug_v2_40epoch_analysis_charts/four_run_final_strategy_canonical.png",
+    "reports/stage_b_restore_aug_v2_40epoch_analysis_charts/four_run_formal_split_canonical.png",
+    "reports/stage_b_restore_aug_v2_40epoch_analysis_charts/four_run_identity_vs_nonidentity.png",
+    "reports/stage_b_restore_aug_v2_40epoch_analysis_charts/four_run_valid_metric_trends.png"
+  ],
+  "csv": {
+    "curriculum40_detail": "reports/stage_b_restore_aug_v2_curriculum_full_40epoch_epoch_strategy_metrics_detail.csv",
+    "four_final": "reports/stage_b_restore_aug_v2_four_strategy_final_metrics.csv"
+  },
+  "generated_at": "2026-06-09 08:57:25",
+  "headline": {
+    "curr40_minus_curr20_valid_delta": 0.022452504317789224,
+    "curr40_minus_full40_valid_delta": 0.022970639032815154,
+    "curriculum40_robustness_test": 0.501727115716753,
+    "curriculum40_robustness_valid": 0.5127374784110535,
+    "curriculum40_test_canonical": 0.56286701208981,
+    "curriculum40_valid_canonical": 0.5689119170984456
+  },
+  "reports": {
+    "curriculum40": "reports/stage_b_restore_aug_v2_curriculum_full_40epoch_report_embedded.html",
+    "four_way": "reports/stage_b_restore_aug_v2_four_strategy_20_40_comparison_report_embedded.html"
+  },
+  "sources": {
+    "curr20": "reports/stage_b_restore_aug_v2_curriculum_full_20epoch_artifacts",
+    "curr40": "reports/stage_b_restore_aug_v2_curriculum_full_40epoch_artifacts_remote",
+    "full20": "reports/stage_b_restore_aug_v2_full_20epoch_artifacts",
+    "full40": "reports/stage_b_restore_aug_v2_full_40epoch_artifacts_remote"
+  }
+}

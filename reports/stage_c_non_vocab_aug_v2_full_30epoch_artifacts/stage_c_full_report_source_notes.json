@@ -1,0 +1,251 @@
+{
+  "caveats": [
+    "Stage C loss is not directly comparable to Stage B restore-only loss.",
+    "Stage B full has 20 epochs while Stage C full has 30 epochs.",
+    "Robustness retrieval metrics are skipped by design for duplicate graph views.",
+    "The YAML artifact file name contains 20epoch, but its content and training_config specify max_epochs=30."
+  ],
+  "chart_map": [
+    {
+      "artifact": "reports/stage_c_non_vocab_aug_v2_full_30epoch_charts/epoch_restore_metric_trends.png",
+      "chart_type": "multi-series line",
+      "family": "Trend",
+      "fields": [
+        "checkpoint_epoch",
+        "canonical_match",
+        "exact_string_match",
+        "rdkit_validity",
+        "two_attachment_validity"
+      ],
+      "question": "How did formal restore metrics move over checkpoints?",
+      "section": "Epoch restore metrics"
+    },
+    {
+      "artifact": "reports/stage_c_non_vocab_aug_v2_full_30epoch_charts/loss_components_over_epochs.png",
+      "chart_type": "multi-series line",
+      "family": "Trend",
+      "fields": [
+        "checkpoint_epoch",
+        "loss",
+        "restore_loss",
+        "weighted_align_loss"
+      ],
+      "question": "How did restore and weighted align loss contribute to total objective?",
+      "section": "Loss components"
+    },
+    {
+      "artifact": "reports/stage_c_non_vocab_aug_v2_full_30epoch_charts/retrieval_quality_over_epochs.png",
+      "chart_type": "small-multiple line",
+      "family": "Trend",
+      "fields": [
+        "checkpoint_epoch",
+        "text_to_graph_top1",
+        "text_to_graph_top5",
+        "graph_to_text_top1",
+        "graph_to_text_top5"
+      ],
+      "question": "How stable were text->graph and graph->text retrieval metrics?",
+      "section": "Retrieval alignment"
+    },
+    {
+      "artifact": "reports/stage_c_non_vocab_aug_v2_full_30epoch_charts/canonical_match_by_strategy.png",
+      "chart_type": "grouped horizontal bar",
+      "family": "Comparison & Ranking",
+      "fields": [
+        "strategy",
+        "split",
+        "canonical_match"
+      ],
+      "question": "Which augmentation strategies are bottlenecks?",
+      "section": "Strategy comparison"
+    },
+    {
+      "artifact": "reports/stage_c_non_vocab_aug_v2_full_30epoch_charts/failure_mix_by_split.png",
+      "chart_type": "stacked horizontal bar",
+      "family": "Composition",
+      "fields": [
+        "split",
+        "failure_category",
+        "count"
+      ],
+      "question": "What type of canonical non-match dominates failures?",
+      "section": "Failure taxonomy"
+    },
+    {
+      "artifact": "reports/stage_c_non_vocab_aug_v2_full_30epoch_charts/stage_b_vs_stage_c_restore_metrics.png",
+      "chart_type": "grouped horizontal bar",
+      "family": "Comparison & Ranking",
+      "fields": [
+        "metric",
+        "stage",
+        "rate"
+      ],
+      "question": "How does Stage C full compare to local Stage B full on restore metrics only?",
+      "section": "Stage B restore-only reference"
+    }
+  ],
+  "executive_structure_map": {
+    "Caveats and assumptions": "Caveats And Assumptions",
+    "Executive summary": "Executive Summary",
+    "Further questions": "Further Questions",
+    "Key findings with visual evidence": [
+      "Epoch restore metrics",
+      "Retrieval Alignment Is Strong And Stable",
+      "Identity Is Strong; Random And Flip Views Remain The Bottleneck",
+      "Stage B Restore-Only Reference",
+      "Failure Mix Shows Two Different Problems"
+    ],
+    "Recommended next steps": "Recommended Next Steps",
+    "Title": "Stage C Full Detailed Report"
+  },
+  "failure_summaries": {
+    "all_view_test_failed_cases.jsonl": {
+      "category_counts": {
+        "attachment_count_not_two": 21,
+        "invalid_smiles": 1358,
+        "valid_two_attachment_wrong_canonical": 1154
+      },
+      "failed_count": 2533,
+      "file": "all_view_test_failed_cases.jsonl",
+      "reason_counts": {
+        "None": 1154,
+        "attachment_count_not_two": 21,
+        "rdkit_parse_failed": 1358
+      },
+      "strategy_counts": {
+        "attachment_rooted_smiles": 439,
+        "direction_flip": 619,
+        "identity": 277,
+        "light_denoise": 569,
+        "rdkit_random_smiles": 629
+      }
+    },
+    "failed_cases.jsonl": {
+      "category_counts": {
+        "attachment_count_not_two": 12,
+        "invalid_smiles": 1314,
+        "valid_two_attachment_wrong_canonical": 1230
+      },
+      "failed_count": 2556,
+      "file": "failed_cases.jsonl",
+      "reason_counts": {
+        "None": 1230,
+        "attachment_count_not_two": 12,
+        "rdkit_parse_failed": 1314
+      },
+      "strategy_counts": {
+        "attachment_rooted_smiles": 439,
+        "direction_flip": 614,
+        "identity": 295,
+        "light_denoise": 578,
+        "rdkit_random_smiles": 630
+      }
+    },
+    "robustness_test_failed_cases.jsonl": {
+      "category_counts": {
+        "attachment_count_not_two": 18,
+        "invalid_smiles": 1193,
+        "valid_two_attachment_wrong_canonical": 1048
+      },
+      "failed_count": 2259,
+      "file": "robustness_test_failed_cases.jsonl",
+      "reason_counts": {
+        "None": 1048,
+        "attachment_count_not_two": 18,
+        "rdkit_parse_failed": 1193
+      },
+      "strategy_counts": {
+        "attachment_rooted_smiles": 442,
+        "direction_flip": 619,
+        "light_denoise": 568,
+        "rdkit_random_smiles": 630
+      }
+    },
+    "robustness_valid_failed_cases.jsonl": {
+      "category_counts": {
+        "attachment_count_not_two": 11,
+        "invalid_smiles": 1138,
+        "valid_two_attachment_wrong_canonical": 1112
+      },
+      "failed_count": 2261,
+      "file": "robustness_valid_failed_cases.jsonl",
+      "reason_counts": {
+        "None": 1112,
+        "attachment_count_not_two": 11,
+        "rdkit_parse_failed": 1138
+      },
+      "strategy_counts": {
+        "attachment_rooted_smiles": 439,
+        "direction_flip": 614,
+        "light_denoise": 578,
+        "rdkit_random_smiles": 630
+      }
+    }
+  },
+  "generated_at": "2026-06-05 09:15:54",
+  "report": "reports/stage_c_non_vocab_aug_v2_full_30epoch_report.html",
+  "retrieval_summaries": {
+    "test": {
+      "file": "all_view_test_retrieval_predictions.jsonl",
+      "mean_top1_margin": 0.06344324690072647,
+      "mean_top_score": 0.9141562874453055,
+      "rank_counts": {
+        "1": 946,
+        "2": 152,
+        "3": 41,
+        "4": 13,
+        "5": 3,
+        "miss": 3
+      },
+      "sample_count": 1158,
+      "top1": 0.8169257340241797,
+      "top5": 0.9974093264248705
+    },
+    "valid": {
+      "file": "retrieval_predictions.jsonl",
+      "mean_top1_margin": 0.062354141103171314,
+      "mean_top_score": 0.9136028462226321,
+      "rank_counts": {
+        "1": 939,
+        "2": 153,
+        "3": 35,
+        "4": 17,
+        "5": 7,
+        "miss": 7
+      },
+      "sample_count": 1158,
+      "top1": 0.810880829015544,
+      "top5": 0.9939550949913645
+    }
+  },
+  "source_files": [
+    "all_view_test_eval_metrics.json",
+    "all_view_test_eval_report.md",
+    "all_view_test_failed_cases.jsonl",
+    "all_view_test_predictions.jsonl",
+    "all_view_test_retrieval_predictions.jsonl",
+    "epoch_metrics.csv",
+    "epoch_metrics.jsonl",
+    "eval_metrics.json",
+    "eval_report.md",
+    "failed_cases.jsonl",
+    "predictions.jsonl",
+    "reload_check.json",
+    "retrieval_predictions.jsonl",
+    "robustness_test_eval_metrics.json",
+    "robustness_test_eval_report.md",
+    "robustness_test_failed_cases.jsonl",
+    "robustness_test_predictions.jsonl",
+    "robustness_test_retrieval_predictions.jsonl",
+    "robustness_valid_eval_metrics.json",
+    "robustness_valid_eval_report.md",
+    "robustness_valid_failed_cases.jsonl",
+    "robustness_valid_predictions.jsonl",
+    "robustness_valid_retrieval_predictions.jsonl",
+    "stage_c_full_report_source_notes.json",
+    "stage_c_non_vocab_aug_v2_full_20epoch_bf16.yaml",
+    "training_config.json"
+  ],
+  "stage_b_artifacts": "reports/stage_b_restore_aug_v2_full_20epoch_artifacts",
+  "stage_c_artifacts": "reports/stage_c_non_vocab_aug_v2_full_30epoch_artifacts"
+}

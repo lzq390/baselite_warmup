@@ -1,0 +1,73 @@
+data:
+  preview_path: data/baselite_smiles_aug_v2/training_template_preview.jsonl
+  graph_path: data/processed/repeat_unit_graphs.jsonl
+  graph_feature_schema_path: data/baselite_stage_c_v1/graph_feature_schema.json
+  max_seq_len_restore_label: 512
+  max_train_samples: null
+  max_valid_samples: null
+
+output:
+  output_dir: outputs/stage_c_non_vocab_aug_v2_curriculum_full_30epoch
+
+train:
+  max_epochs: 30
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 8
+  quick_eval_every_steps: 1000
+  quick_eval_samples: 256
+  quick_eval_decode_samples: 32
+  quick_eval_retrieval_samples: 256
+  checkpoint_at_epoch_end: true
+  checkpoint_every_steps: 0
+  checkpoint_eval_samples: 0
+  checkpoint_eval_decode_samples: 0
+  checkpoint_eval_retrieval_samples: 0
+  early_stopping_enabled: true
+  early_stopping_monitor_only: true
+  early_stopping_metric: restore_loss
+  early_stopping_mode: min
+  early_stopping_patience: 5
+  early_stopping_min_delta: 0.001
+  early_stopping_min_epochs: 10
+  eval_decode_samples: 0
+  eval_retrieval_samples: 0
+  formal_eval_full_decode: true
+  formal_eval_dedup_retrieval: true
+  precision: bf16
+  seed: 42
+  max_grad_norm: 1.0
+
+optimizer:
+  learning_rate_lora: 1.0e-4
+  learning_rate_restore_head: 5.0e-5
+  learning_rate_graph_encoder: 1.0e-4
+  learning_rate_projectors: 1.0e-4
+  weight_decay: 0.01
+
+lora:
+  lora_rank: 8
+  lora_alpha: 16
+  lora_dropout: 0.05
+  lora_target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+
+restore_head:
+  restore_hidden_size: 512
+  restore_num_layers: 2
+  restore_num_attention_heads: 8
+  restore_dropout: 0.05
+
+graph_encoder:
+  graph_hidden_size: 256
+  graph_num_layers: 3
+  graph_dropout: 0.05
+
+align:
+  align_dim: 256
+  align_temperature: 0.07
+  restore_loss_weight: 1.0
+  align_loss_weight: 0.2

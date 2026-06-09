@@ -1,0 +1,90 @@
+{
+  "canonical_match": 0.501727115716753,
+  "decoded_sample_count": 4632,
+  "exact_string_match": 0.4993523316062176,
+  "loss": 0.22144306210856263,
+  "rdkit_validity": 0.7463298791018999,
+  "robustness_by_strategy": {
+    "attachment_rooted_smiles": {
+      "canonical_match": 0.6217616580310881,
+      "exact_string_match": 0.6200345423143351,
+      "failed_count": 438,
+      "rdkit_validity": 0.7892918825561313,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7832469775474957
+    },
+    "direction_flip": {
+      "canonical_match": 0.4533678756476684,
+      "exact_string_match": 0.44991364421416236,
+      "failed_count": 633,
+      "rdkit_validity": 0.7245250431778929,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7184801381692574
+    },
+    "light_denoise": {
+      "canonical_match": 0.49568221070811747,
+      "exact_string_match": 0.49568221070811747,
+      "failed_count": 584,
+      "rdkit_validity": 0.7374784110535406,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7348877374784111
+    },
+    "rdkit_random_smiles": {
+      "canonical_match": 0.43609671848013815,
+      "exact_string_match": 0.4317789291882556,
+      "failed_count": 653,
+      "rdkit_validity": 0.7340241796200345,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7288428324697754
+    }
+  },
+  "robustness_record_all_views_success": {
+    "rate": 0.2392055267702936,
+    "record_count": 1158,
+    "strategies": [
+      "rdkit_random_smiles",
+      "direction_flip",
+      "attachment_rooted_smiles",
+      "light_denoise"
+    ],
+    "success_count": 277
+  },
+  "robustness_record_any_view_success": {
+    "rate": 0.727979274611399,
+    "record_count": 1158,
+    "strategies": [
+      "rdkit_random_smiles",
+      "direction_flip",
+      "attachment_rooted_smiles",
+      "light_denoise"
+    ],
+    "success_count": 843
+  },
+  "robustness_record_partial_success": {
+    "rate": 0.48877374784110533,
+    "record_count": 1158,
+    "strategies": [
+      "rdkit_random_smiles",
+      "direction_flip",
+      "attachment_rooted_smiles",
+      "light_denoise"
+    ],
+    "success_count": 566
+  },
+  "robustness_strategy_macro_avg": {
+    "canonical_match": 0.501727115716753,
+    "exact_string_match": 0.4993523316062176,
+    "rdkit_validity": 0.7463298791018999,
+    "strategies": [
+      "rdkit_random_smiles",
+      "direction_flip",
+      "attachment_rooted_smiles",
+      "light_denoise"
+    ],
+    "strategy_count": 4,
+    "two_attachment_validity": 0.7413644214162349
+  },
+  "sample_count": 4632,
+  "token_accuracy": 0.9602920595936104,
+  "two_attachment_validity": 0.7413644214162349
+}

@@ -1,0 +1,70 @@
+{
+  "align_loss": 0.7157986034126068,
+  "align_to_restore_ratio": 0.7649426415102214,
+  "canonical_match": 0.5105785837651122,
+  "decoded_sample_count": 4632,
+  "exact_string_match": 0.5062607944732297,
+  "formal_eval_full_decode": true,
+  "graph_to_text_top1": 0.0,
+  "graph_to_text_top5": 0.0,
+  "loss": 0.3303106460327826,
+  "mean_negative_similarity": 0.0,
+  "mean_positive_similarity": 0.0,
+  "rdkit_validity": 0.7435233160621761,
+  "restore_loss": 0.18715092206113917,
+  "retrieval_sample_count": 0,
+  "retrieval_skipped_for_duplicate_graph_views": true,
+  "robustness_by_strategy": {
+    "attachment_rooted_smiles": {
+      "canonical_match": 0.614853195164076,
+      "exact_string_match": 0.6062176165803109,
+      "failed_count": 446,
+      "rdkit_validity": 0.7772020725388601,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7763385146804835
+    },
+    "direction_flip": {
+      "canonical_match": 0.46632124352331605,
+      "exact_string_match": 0.46113989637305697,
+      "failed_count": 618,
+      "rdkit_validity": 0.7322970639032815,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.727979274611399
+    },
+    "light_denoise": {
+      "canonical_match": 0.5051813471502591,
+      "exact_string_match": 0.5034542314335061,
+      "failed_count": 573,
+      "rdkit_validity": 0.7538860103626943,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7530224525043178
+    },
+    "rdkit_random_smiles": {
+      "canonical_match": 0.45595854922279794,
+      "exact_string_match": 0.4542314335060449,
+      "failed_count": 630,
+      "rdkit_validity": 0.7107081174438687,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7055267702936097
+    }
+  },
+  "robustness_strategy_macro_avg": {
+    "canonical_match": 0.5105785837651122,
+    "exact_string_match": 0.5062607944732297,
+    "rdkit_validity": 0.7435233160621761,
+    "strategies": [
+      "attachment_rooted_smiles",
+      "direction_flip",
+      "light_denoise",
+      "rdkit_random_smiles"
+    ],
+    "strategy_count": 4,
+    "two_attachment_validity": 0.7407167530224525
+  },
+  "sample_count": 4632,
+  "text_to_graph_top1": 0.0,
+  "text_to_graph_top5": 0.0,
+  "token_accuracy": 0.9629653710518065,
+  "two_attachment_validity": 0.7407167530224525,
+  "weighted_align_loss": 0.14315972068252136
+}

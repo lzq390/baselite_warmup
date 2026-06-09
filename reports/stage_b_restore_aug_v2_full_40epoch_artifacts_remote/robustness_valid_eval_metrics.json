@@ -1,0 +1,58 @@
+{
+  "canonical_match": 0.49719343696027635,
+  "decoded_sample_count": 4632,
+  "exact_string_match": 0.4948186528497409,
+  "formal_eval_full_decode": true,
+  "loss": 0.21987846115959342,
+  "rdkit_validity": 0.7627374784110535,
+  "robustness_by_strategy": {
+    "attachment_rooted_smiles": {
+      "canonical_match": 0.6174438687392055,
+      "exact_string_match": 0.613126079447323,
+      "failed_count": 443,
+      "rdkit_validity": 0.802245250431779,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7996545768566494
+    },
+    "direction_flip": {
+      "canonical_match": 0.4533678756476684,
+      "exact_string_match": 0.45077720207253885,
+      "failed_count": 633,
+      "rdkit_validity": 0.7487046632124352,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7452504317789291
+    },
+    "light_denoise": {
+      "canonical_match": 0.4835924006908463,
+      "exact_string_match": 0.4835924006908463,
+      "failed_count": 598,
+      "rdkit_validity": 0.7677029360967185,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7642487046632125
+    },
+    "rdkit_random_smiles": {
+      "canonical_match": 0.43436960276338515,
+      "exact_string_match": 0.4317789291882556,
+      "failed_count": 655,
+      "rdkit_validity": 0.7322970639032815,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7219343696027634
+    }
+  },
+  "robustness_strategy_macro_avg": {
+    "canonical_match": 0.49719343696027635,
+    "exact_string_match": 0.4948186528497409,
+    "rdkit_validity": 0.7627374784110535,
+    "strategies": [
+      "attachment_rooted_smiles",
+      "direction_flip",
+      "light_denoise",
+      "rdkit_random_smiles"
+    ],
+    "strategy_count": 4,
+    "two_attachment_validity": 0.7577720207253886
+  },
+  "sample_count": 4632,
+  "token_accuracy": 0.9611368368288087,
+  "two_attachment_validity": 0.7577720207253886
+}

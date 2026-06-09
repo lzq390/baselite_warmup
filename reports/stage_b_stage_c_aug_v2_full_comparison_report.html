@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stage B v2 Full vs Stage C v2 Full Comparison</title>
+<style>
+:root { --bg:#f5f7fb; --panel:#fff; --ink:#172033; --muted:#647084; --line:#dbe3ee; --soft:#eef3f8; --navy:#101827; --blue:#2563eb; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
+header { background:var(--navy); color:#fff; padding:34px 40px 30px; }
+header h1 { margin:0 0 8px; font-size:28px; letter-spacing:0; }
+header p { margin:0; color:#cbd5e1; max-width:1100px; }
+main { max-width:1260px; margin:0 auto; padding:28px 24px 54px; }
+section { margin:0 0 24px; }
+h2 { font-size:19px; margin:0 0 13px; letter-spacing:0; }
+h3 { font-size:15px; margin:0 0 11px; letter-spacing:0; }
+.card,.chart-card,.bar-card,.metric,.mini-chart { background:var(--panel); border:1px solid var(--line); border-radius:8px; box-shadow:0 1px 2px rgba(15,23,42,.035); }
+.card { padding:18px; }
+.grid { display:grid; gap:14px; }
+.grid.metrics { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.grid.two { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.metric { padding:14px 16px; min-height:96px; }
+.metric-label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.06em; }
+.metric-value { font-size:27px; font-weight:740; margin:4px 0 2px; letter-spacing:0; }
+.metric-note { color:var(--muted); font-size:12px; }
+.strategy-box { display:grid; grid-template-columns:1.05fr .95fr; gap:16px; align-items:start; }
+.callout { border-left:4px solid var(--blue); background:#eff6ff; border-radius:0 8px 8px 0; padding:12px 14px; }
+.table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:8px; background:#fff; }
+table { width:100%; border-collapse:collapse; min-width:760px; }
+th,td { padding:9px 11px; border-bottom:1px solid var(--line); vertical-align:top; text-align:left; }
+th { background:#f8fafc; color:#475569; font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+tr:last-child td { border-bottom:0; }
+code { background:#eef2f7; border:1px solid #d9e2ec; padding:1px 5px; border-radius:5px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12px; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-weight:680; font-size:12px; }
+.pill.ok { background:#d9f5ef; color:#075e54; }
+.pill.warn { background:#fff2cc; color:#92400e; }
+.pill.good { background:#dbeafe; color:#1d4ed8; }
+.dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:7px; vertical-align:middle; }
+.chart-card { padding:13px; }
+.chart-title { display:flex; justify-content:space-between; gap:12px; align-items:baseline; font-weight:730; margin:0 0 8px; }
+.chart-title em { color:var(--muted); font-style:normal; font-weight:500; }
+svg { display:block; width:100%; height:auto; }
+.gridline { stroke:#e6ebf2; stroke-width:1; }
+.axis { fill:#64748b; font-size:11px; }
+.axis-line { stroke:#94a3b8; stroke-width:1; }
+.legend { display:flex; gap:14px; flex-wrap:wrap; margin-top:8px; color:#475569; }
+.legend-item { display:inline-flex; align-items:center; gap:6px; }
+.swatch { width:12px; height:12px; border-radius:3px; display:inline-block; }
+.mini-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.mini-chart { padding:12px; }
+.mini-head { display:flex; justify-content:space-between; gap:10px; font-weight:730; }
+.mini-head b { font-size:17px; }
+.mini-desc { color:var(--muted); font-size:12px; margin:3px 0 6px; }
+.bar-card { padding:15px; }
+.bar-row { display:grid; grid-template-columns:220px 1fr 76px; grid-template-areas:"name track num" "extra track num"; gap:3px 12px; align-items:center; padding:8px 0; border-bottom:1px solid #edf1f6; }
+.bar-row:last-child { border-bottom:0; }
+.bar-name { grid-area:name; min-width:0; }
+.bar-name b { display:block; font-size:13px; color:#1e293b; overflow-wrap:anywhere; }
+.bar-name span { display:block; color:var(--muted); font-size:12px; }
+.bar-track { grid-area:track; height:18px; background:#eef2f7; border-radius:999px; overflow:hidden; border:1px solid #e2e8f0; }
+.bar-fill { height:100%; border-radius:999px; }
+.bar-num { grid-area:num; font-weight:760; font-size:14px; text-align:right; color:#111827; }
+.bar-extra { grid-area:extra; color:var(--muted); font-size:12px; }
+.bar-note,.note { color:var(--muted); font-size:12px; margin-top:8px; }
+.cmp-row{display:grid;grid-template-columns:190px 1fr 82px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #edf1f6}
+.cmp-row:last-child{border-bottom:0}.cmp-label{font-weight:700}.cmp-line{display:grid;grid-template-columns:42px 1fr 70px;gap:8px;align-items:center;margin:3px 0}.cmp-line span{color:var(--muted);font-size:12px}.cmp-track{height:13px;border-radius:999px;background:#eef2f7;overflow:hidden}.cmp-track i{display:block;height:100%;border-radius:999px}.cmp-line b{font-size:12px;text-align:right}.cmp-delta{font-weight:760;text-align:right}.cmp-delta.pos{color:#047857}.cmp-delta.neg{color:#b91c1c}
+.delta{font-size:16px;margin-left:8px}.delta.pos{color:#047857}.delta.neg{color:#b91c1c}
+footer { color:var(--muted); font-size:12px; margin-top:30px; }
+@media (max-width:900px) {
+  header { padding:26px 20px; } main { padding:20px 14px 40px; }
+  .grid.metrics,.grid.two,.mini-grid,.strategy-box { grid-template-columns:1fr; }
+  .bar-row { grid-template-columns:1fr 64px; grid-template-areas:"name num" "track track" "extra extra"; }
+  .cmp-row{grid-template-columns:1fr}.cmp-delta{text-align:left}
+  table { min-width:720px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Stage B v2 Full vs Stage C v2 Full Comparison</h1>
+  <p>本报告并排比较 Stage B v2 full restore-only 与 Stage C v2 full restore+graph+align 的最终产物；所有横比只使用 restore 相关正式指标。</p>
+</header>
+<main>
+
+  <section class="grid metrics"><div class="metric"><div class="metric-label">Final valid canonical</div><div class="metric-value">55.85% <span class="delta pos">+5.06 pp</span></div><div class="metric-note">Stage B 50.79% · Stage C vs B</div></div><div class="metric"><div class="metric-label">Final test canonical</div><div class="metric-value">56.25% <span class="delta pos">+4.37 pp</span></div><div class="metric-note">Stage B 51.88% · Stage C vs B</div></div><div class="metric"><div class="metric-label">Robustness valid canonical</div><div class="metric-value">51.19% <span class="delta pos">+5.87 pp</span></div><div class="metric-note">Stage B 45.32% · Stage C vs B</div></div><div class="metric"><div class="metric-label">Robustness test canonical</div><div class="metric-value">51.23% <span class="delta pos">+5.27 pp</span></div><div class="metric-note">Stage B 45.96% · Stage C vs B</div></div><div class="metric"><div class="metric-label">Final valid restore loss</div><div class="metric-value">0.1741 <span class="delta pos">-0.0256</span></div><div class="metric-note">Stage B 0.1998 · Stage C vs B</div></div><div class="metric"><div class="metric-label">Final test restore loss</div><div class="metric-value">0.1786 <span class="delta pos">-0.0151</span></div><div class="metric-note">Stage B 0.1936 · Stage C vs B</div></div></section>
+
+  <section class="card">
+    <h2>Strategy Definitions</h2>
+    <div class="table-wrap"><table><thead><tr><th>Run</th><th>Description</th></tr></thead><tbody><tr><td>Stage B full</td><td>restore-only, static full all-view；每个 epoch 使用 v2 train 全量 46,320 行。</td></tr><tr><td>Stage C full</td><td>restore + graph + align, static full all-view；每个 epoch 使用同一 v2 train 全量 46,320 行，并优化 L_restore + 0.2 * L_align。</td></tr><tr><td>Main comparison rule</td><td>只直接横比 restore 指标：restore_loss、canonical/exact、RDKit validity、two-attachment validity 和 strategy aggregates。</td></tr><tr><td>Not directly comparable</td><td>Stage B 的 loss 是 restore-only；Stage C 的 total loss 是 joint loss，因此对比表使用 Stage C restore_loss。</td></tr><tr><td>Epoch budget caveat</td><td>Stage B max_epochs=20，Stage C max_epochs=30；本报告对比最终产物，不单独归因到架构或 epoch 数。</td></tr></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <h2>Headline Metric Comparison</h2>
+    <div class="table-wrap"><table><thead><tr><th>Metric</th><th>Stage B full</th><th>Stage C full</th><th>Delta</th><th>Winner</th></tr></thead><tbody><tr><td>Final valid restore loss</td><td>0.1998</td><td>0.1741</td><td>-0.0256</td><td><span class="pill good">Stage C better</span></td></tr><tr><td>Final valid canonical</td><td>50.79%</td><td>55.85%</td><td>+5.06 pp</td><td><span class="pill good">Stage C better</span></td></tr><tr><td>Final test restore loss</td><td>0.1936</td><td>0.1786</td><td>-0.0151</td><td><span class="pill good">Stage C better</span></td></tr><tr><td>Final test canonical</td><td>51.88%</td><td>56.25%</td><td>+4.37 pp</td><td><span class="pill good">Stage C better</span></td></tr><tr><td>Robustness valid canonical</td><td>45.32%</td><td>51.19%</td><td>+5.87 pp</td><td><span class="pill good">Stage C better</span></td></tr><tr><td>Robustness test canonical</td><td>45.96%</td><td>51.23%</td><td>+5.27 pp</td><td><span class="pill good">Stage C better</span></td></tr><tr><td>Token accuracy valid</td><td>96.08%</td><td>96.72%</td><td>+0.65 pp</td><td><span class="pill good">Stage C better</span></td></tr><tr><td>RDKit validity valid</td><td>74.49%</td><td>77.31%</td><td>+2.82 pp</td><td><span class="pill good">Stage C better</span></td></tr></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <h2>Same-Epoch Valid Comparison</h2>
+    <div class="table-wrap"><table><thead><tr><th>Metric</th><th>Stage B epoch 20</th><th>Stage C epoch 20</th><th>Delta</th><th>Winner</th></tr></thead><tbody><tr><td>Valid restore loss</td><td>0.1998</td><td>0.1824</td><td>-0.0173</td><td><span class="pill good">Stage C better</span></td></tr><tr><td>Valid canonical</td><td>50.79%</td><td>52.44%</td><td>+1.64 pp</td><td><span class="pill good">Stage C better</span></td></tr><tr><td>Valid exact</td><td>50.45%</td><td>52.21%</td><td>+1.76 pp</td><td><span class="pill good">Stage C better</span></td></tr><tr><td>Valid RDKit validity</td><td>74.49%</td><td>74.78%</td><td>+0.29 pp</td><td><span class="pill good">Stage C better</span></td></tr><tr><td>Valid two attachment</td><td>74.13%</td><td>74.51%</td><td>+0.38 pp</td><td><span class="pill good">Stage C better</span></td></tr><tr><td>Valid token accuracy</td><td>96.08%</td><td>96.35%</td><td>+0.27 pp</td><td><span class="pill good">Stage C better</span></td></tr></tbody></table></div>
+    <p class="note">Same-epoch 口径只比较 checkpoint validation 全量 decode 指标；当前本地 artifacts 没有 Stage C epoch 20 的 test/robustness final eval。</p>
+  </section>
+
+  <section class="grid two">
+    <div class="card">
+      <h2>Same-Epoch Strategy Comparison</h2>
+      <div class="table-wrap"><table><thead><tr><th>Strategy</th><th>Stage B epoch 20</th><th>Stage C epoch 20</th><th>Delta</th></tr></thead><tbody><tr><td><span class="dot" style="background:#0891b2"></span><b>attachment_rooted_smiles</b></td><td>58.38%</td><td>58.89%</td><td>+0.52 pp</td></tr><tr><td><span class="dot" style="background:#9333ea"></span><b>direction_flip</b></td><td>40.33%</td><td>42.83%</td><td>+2.50 pp</td></tr><tr><td><span class="dot" style="background:#16a34a"></span><b>identity</b></td><td>72.71%</td><td>72.28%</td><td>-0.43 pp</td></tr><tr><td><span class="dot" style="background:#eab308"></span><b>light_denoise</b></td><td>42.75%</td><td>46.37%</td><td>+3.63 pp</td></tr><tr><td><span class="dot" style="background:#f97316"></span><b>rdkit_random_smiles</b></td><td>39.81%</td><td>41.80%</td><td>+1.99 pp</td></tr></tbody></table></div>
+    </div>
+    <div class="card">
+      <h2>Stage C Extra-Epoch Gain</h2>
+      <div class="table-wrap"><table><thead><tr><th>Metric</th><th>Stage C epoch 20</th><th>Stage C final</th><th>Delta</th></tr></thead><tbody><tr><td>Valid restore loss</td><td>0.1824</td><td>0.1741</td><td>-0.0083</td></tr><tr><td>Valid canonical</td><td>52.44%</td><td>55.85%</td><td>+3.42 pp</td></tr><tr><td>Valid exact</td><td>52.21%</td><td>55.73%</td><td>+3.52 pp</td></tr><tr><td>Valid RDKit validity</td><td>74.78%</td><td>77.31%</td><td>+2.52 pp</td></tr><tr><td>Valid two attachment</td><td>74.51%</td><td>77.10%</td><td>+2.59 pp</td></tr><tr><td>Valid token accuracy</td><td>96.35%</td><td>96.72%</td><td>+0.37 pp</td></tr></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="grid two">
+    <div class="bar-card"><h3>Final Valid Restore Metrics</h3>
+      <div class="cmp-row">
+        <div class="cmp-label">Canonical Match</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:90.94%;background:#475569"></i></div><b>50.79%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>55.85%</b></div>
+        </div>
+        <div class="cmp-delta pos">+5.06 pp</div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-label">Exact String Match</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:90.52%;background:#475569"></i></div><b>50.45%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>55.73%</b></div>
+        </div>
+        <div class="cmp-delta pos">+5.28 pp</div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-label">RDKit Validity</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:96.36%;background:#475569"></i></div><b>74.49%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>77.31%</b></div>
+        </div>
+        <div class="cmp-delta pos">+2.82 pp</div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-label">Two Attachment Validity</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:96.15%;background:#475569"></i></div><b>74.13%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>77.10%</b></div>
+        </div>
+        <div class="cmp-delta pos">+2.97 pp</div>
+      </div>
+      <div class="cmp-row">
+        <div class="cmp-label">Restore Loss</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:100.00%;background:#475569"></i></div><b>0.1998</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:87.17%;background:#2563eb"></i></div><b>0.1741</b></div>
+        </div>
+        <div class="cmp-delta pos">-0.0256</div>
+      </div></div>
+    <div class="card">
+      <h2>Full-Decode Parity Check</h2>
+      <div class="table-wrap"><table><thead><tr><th>Run</th><th>Epochs</th><th>Valid Decode</th><th>Test Decode</th><th>Robust Valid</th><th>Robust Test</th><th>Objective</th></tr></thead><tbody><tr><td>Stage B full</td><td>20</td><td>5,790/5,790</td><td>5,790/5,790</td><td>4,632/4,632</td><td>4,632/4,632</td><td>restore-only</td></tr><tr><td>Stage C full</td><td>30</td><td>5,790/5,790</td><td>5,790/5,790</td><td>4,632/4,632</td><td>4,632/4,632</td><td>restore + graph + align</td></tr></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Final Valid Strategy Comparison</h2>
+    <div class="table-wrap"><table><thead><tr><th>Strategy</th><th>Stage B full</th><th>Stage C full</th><th>Delta</th><th>Visual</th></tr></thead><tbody><tr><td><span class="dot" style="background:#0891b2"></span><b>attachment_rooted_smiles</b></td><td>58.38%</td><td>62.09%</td><td>+3.71 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">attachment_rooted_smiles</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:94.02%;background:#475569"></i></div><b>58.38%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>62.09%</b></div>
+        </div>
+        <div class="cmp-delta pos">+3.71 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#16a34a"></span><b>identity</b></td><td>72.71%</td><td>74.53%</td><td>+1.81 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">identity</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:97.57%;background:#475569"></i></div><b>72.71%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>74.53%</b></div>
+        </div>
+        <div class="cmp-delta pos">+1.81 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#9333ea"></span><b>direction_flip</b></td><td>40.33%</td><td>46.98%</td><td>+6.65 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">direction_flip</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:85.85%;background:#475569"></i></div><b>40.33%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>46.98%</b></div>
+        </div>
+        <div class="cmp-delta pos">+6.65 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#eab308"></span><b>light_denoise</b></td><td>42.75%</td><td>50.09%</td><td>+7.34 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">light_denoise</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:85.34%;background:#475569"></i></div><b>42.75%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>50.09%</b></div>
+        </div>
+        <div class="cmp-delta pos">+7.34 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#f97316"></span><b>rdkit_random_smiles</b></td><td>39.81%</td><td>45.60%</td><td>+5.79 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">rdkit_random_smiles</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:87.31%;background:#475569"></i></div><b>39.81%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>45.60%</b></div>
+        </div>
+        <div class="cmp-delta pos">+5.79 pp</div>
+      </div></td></tr></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <h2>Robustness Test Strategy Comparison</h2>
+    <div class="table-wrap"><table><thead><tr><th>Strategy</th><th>Stage B full</th><th>Stage C full</th><th>Delta</th><th>Visual</th></tr></thead><tbody><tr><td><span class="dot" style="background:#0891b2"></span><b>attachment_rooted_smiles</b></td><td>59.93%</td><td>61.83%</td><td>+1.90 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">attachment_rooted_smiles</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:96.93%;background:#475569"></i></div><b>59.93%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>61.83%</b></div>
+        </div>
+        <div class="cmp-delta pos">+1.90 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#9333ea"></span><b>direction_flip</b></td><td>38.95%</td><td>46.55%</td><td>+7.60 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">direction_flip</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:83.67%;background:#475569"></i></div><b>38.95%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>46.55%</b></div>
+        </div>
+        <div class="cmp-delta pos">+7.60 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#eab308"></span><b>light_denoise</b></td><td>45.08%</td><td>50.95%</td><td>+5.87 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">light_denoise</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:88.47%;background:#475569"></i></div><b>45.08%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>50.95%</b></div>
+        </div>
+        <div class="cmp-delta pos">+5.87 pp</div>
+      </div></td></tr><tr><td><span class="dot" style="background:#f97316"></span><b>rdkit_random_smiles</b></td><td>39.90%</td><td>45.60%</td><td>+5.70 pp</td><td>
+      <div class="cmp-row">
+        <div class="cmp-label">rdkit_random_smiles</div>
+        <div class="cmp-bars">
+          <div class="cmp-line"><span>B</span><div class="cmp-track"><i style="width:87.50%;background:#475569"></i></div><b>39.90%</b></div>
+          <div class="cmp-line"><span>C</span><div class="cmp-track"><i style="width:100.00%;background:#2563eb"></i></div><b>45.60%</b></div>
+        </div>
+        <div class="cmp-delta pos">+5.70 pp</div>
+      </div></td></tr></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <h2>Stage C-only Alignment Metrics</h2>
+    <div class="table-wrap"><table><thead><tr><th>Metric</th><th>Value</th></tr></thead><tbody><tr><td>Valid text→graph top1/top5</td><td>81.09% / 99.40%</td></tr><tr><td>Valid graph→text top1/top5</td><td>82.56% / 99.48%</td></tr><tr><td>Test text→graph top1/top5</td><td>81.69% / 99.74%</td></tr><tr><td>Test graph→text top1/top5</td><td>80.83% / 99.48%</td></tr><tr><td>Final weighted align loss</td><td>0.1171</td></tr><tr><td>Final align-to-restore ratio</td><td>0.6724</td></tr></tbody></table></div>
+  </section>
+
+  <section class="card">
+    <h2>Interpretation</h2>
+    <div class="callout">Stage C full 在 final valid/test canonical、robustness valid/test canonical、token accuracy 与 RDKit validity 上均高于本地 Stage B full；restore loss 也更低。由于 Stage C 使用 30 epoch 且加入 graph/align 分支，这个结果说明当前 Stage C full 产物更强，但不能单独作为架构 ablation 归因。</div>
+  </section>
+
+  <section class="card">
+    <h2>Caveats</h2>
+    <ul>
+      <li>Stage B full 为 20 epoch，Stage C full 为 30 epoch。</li>
+      <li>同 epoch 比较目前只覆盖 valid checkpoint；test/robustness 的同 epoch 严格横比需要补跑 Stage C epoch 20 checkpoint 的对应评测。</li>
+      <li>Stage C 的 total loss 不和 Stage B loss 直接比较；所有 loss 横比使用 restore_loss 口径。</li>
+      <li>Stage C retrieval / align 指标只用于分析多任务训练效果，不能和 Stage B restore-only 直接横比。</li>
+    </ul>
+  </section>
+
+  <footer>Generated locally at 2026-06-05 09:41:08 from <code>reports/stage_b_restore_aug_v2_full_20epoch_artifacts</code> and <code>reports/stage_c_non_vocab_aug_v2_full_30epoch_artifacts</code>. Report file: <code>reports/stage_b_stage_c_aug_v2_full_comparison_report.html</code>.</footer>
+
+</main>
+</body>
+</html>

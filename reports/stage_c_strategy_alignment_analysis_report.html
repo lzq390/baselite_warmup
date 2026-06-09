@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stage C Full/Curri 策略与 Align 共同训练分析报告</title>
+<style>
+:root{--bg:#f6f8fb;--panel:#fff;--ink:#142033;--muted:#647084;--line:#dbe3ee;--blue:#2563eb;--green:#047857;--red:#b91c1c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+header{background:#101827;color:white;padding:36px 42px 32px}header h1{margin:0 0 10px;font-size:28px;letter-spacing:0}header p{margin:0;color:#cbd5e1;max-width:1160px}
+main{max-width:1180px;margin:0 auto;padding:28px 22px 58px}section{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;margin:0 0 22px;box-shadow:0 1px 2px rgba(15,23,42,.035)}
+h2{margin:0 0 12px;font-size:20px}h3{margin:18px 0 8px;font-size:16px}.summary{background:#eff6ff;border-left:5px solid var(--blue)}.summary ul{margin:8px 0 0;padding-left:20px}.summary li{margin:7px 0}
+.grid{display:grid;gap:14px}.metrics{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:22px}.metric{background:white;border:1px solid var(--line);border-radius:8px;padding:14px;min-height:98px}.metric-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.metric-value{font-size:24px;font-weight:760;margin:5px 0}.metric-note{font-size:12px;color:var(--muted)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:8px;margin-top:12px}table{border-collapse:separate;border-spacing:0;width:100%;min-width:760px}th,td{padding:9px 11px;border-bottom:1px solid var(--line);border-right:1px solid #eef2f7;text-align:left;vertical-align:top}th{background:#f8fafc;color:#475569;font-size:12px;text-transform:uppercase;letter-spacing:.04em}tr:last-child td{border-bottom:0}
+.pos{color:var(--green);font-weight:760}.neg{color:var(--red);font-weight:760}.flat{color:#64748b;font-weight:760}.note{color:var(--muted);font-size:13px}.chart{width:100%;border:1px solid var(--line);border-radius:8px;background:#fff;margin:12px 0 8px}code{background:#eef2f7;border:1px solid #d9e2ec;padding:1px 5px;border-radius:5px;font-size:12px}footer{color:var(--muted);font-size:12px;margin-top:28px}
+@media(max-width:900px){header{padding:28px 20px}main{padding:18px 12px 42px}.metrics{grid-template-columns:1fr}table{min-width:900px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Stage C Full/Curri 策略与 Align 共同训练分析报告</h1>
+  <p>基于本地四组 artifact：Stage B full、Stage B curriculum、Stage C full、Stage C curriculum。报告重点判断 Stage C 两种策略差异，以及 align 共同训练是否帮助字符串恢复和 SMILES 视图理解。</p>
+</header>
+<main>
+  <section class="summary">
+    <h2>Technical Summary</h2>
+    <ul>
+      <li><b>Align 共同训练总体值得保留。</b>Stage C full 相比 Stage B full，在 final valid canonical 上提升 +5.06 pp，test canonical 提升 +4.37 pp，robust test canonical 提升 +5.27 pp；Stage C curri 相比 Stage B curri 也分别提升 +2.07 pp、+3.23 pp、+5.31 pp。</li>
+      <li><b>同 epoch 20 下仍有提升。</b>Stage C full 对 Stage B full 的 valid canonical 提升 +1.64 pp，Stage C curri 对 Stage B curri 提升 +1.30 pp，说明收益不是单纯来自 Stage C 多跑到 30 epoch。</li>
+      <li><b>Stage C curriculum 的边际收益小于 Stage B。</b>Stage B curri 相比 full 的 valid canonical 是 +3.85 pp，Stage C curri 相比 full 只有 +0.86 pp；align 共同训练已经把 full baseline 抬高，压缩了 curriculum 的额外空间。</li>
+      <li><b>Stage C curri 更像提升 final/test 恢复，不是全面提升结构合法性。</b>它比 Stage C full 的 valid/test canonical 更高，但 valid RDKit 为 -0.26 pp，robust valid canonical 为 -0.13 pp，说明部分增强视图和合法性指标没有同步提高。</li>
+    </ul>
+  </section>
+
+  <div class="grid metrics"><div class="metric "><div class="metric-label">Stage C full vs B full</div><div class="metric-value"><span class="pos">+5.06 pp</span></div><div class="metric-note">valid canonical, final checkpoints</div></div><div class="metric "><div class="metric-label">Stage C curri vs B curri</div><div class="metric-value"><span class="pos">+2.07 pp</span></div><div class="metric-note">valid canonical, final checkpoints</div></div><div class="metric "><div class="metric-label">Stage C curri vs full</div><div class="metric-value"><span class="pos">+0.86 pp</span></div><div class="metric-note">valid canonical, smaller than Stage B curri gain</div></div><div class="metric "><div class="metric-label">Epoch 20 C-B gain</div><div class="metric-value">+1.64 / +1.30 pp</div><div class="metric-note">full / curri valid canonical at same epoch</div></div></div>
+
+  <section>
+    <h2>Align 共同训练提升了 restore 指标，尤其体现在 robust 和非 identity 视图</h2>
+    <p>Stage C 在 full 和 curriculum 两条策略线上都优于对应的 Stage B。这个结论同时成立于 final checkpoint 与共同 epoch 20 的 checkpoint，因此可以把收益主要归因于 Stage C 的 restore + graph/align 共同训练，而不是训练轮数差异。</p>
+    <img class="chart" src="stage_c_strategy_analysis_assets/stage_c_vs_stage_b_delta.png" alt="Stage C versus Stage B delta chart">
+    <div class="table-wrap "><table><thead><tr><th>Comparison</th><th>Valid canonical</th><th>Valid exact</th><th>Test canonical</th><th>Robust valid</th><th>Robust test</th><th>Valid loss</th></tr></thead><tbody><tr><td>Stage C full - Stage B full</td><td><span class="pos">+5.06 pp</span></td><td><span class="pos">+5.28 pp</span></td><td><span class="pos">+4.37 pp</span></td><td><span class="pos">+5.87 pp</span></td><td><span class="pos">+5.27 pp</span></td><td><span class="pos">-0.0256</span></td></tr><tr><td>Stage C curri - Stage B curri</td><td><span class="pos">+2.07 pp</span></td><td><span class="pos">+1.99 pp</span></td><td><span class="pos">+3.23 pp</span></td><td><span class="pos">+3.97 pp</span></td><td><span class="pos">+5.31 pp</span></td><td><span class="pos">-0.0119</span></td></tr><tr><td>Stage B curri - Stage B full</td><td><span class="pos">+3.85 pp</span></td><td><span class="pos">+3.87 pp</span></td><td><span class="pos">+2.49 pp</span></td><td><span class="pos">+1.77 pp</span></td><td><span class="pos">+0.58 pp</span></td><td><span class="pos">-0.0284</span></td></tr><tr><td>Stage C curri - Stage C full</td><td><span class="pos">+0.86 pp</span></td><td><span class="pos">+0.57 pp</span></td><td><span class="pos">+1.35 pp</span></td><td><span class="neg">-0.13 pp</span></td><td><span class="pos">+0.63 pp</span></td><td><span class="pos">-0.0147</span></td></tr></tbody></table></div>
+    <p class="note">口径：Stage B test 使用 identity test metrics；Stage C test 使用 all-view test metrics。Stage C 的 loss 使用 restore_loss 与 Stage B loss 对齐。</p>
+  </section>
+
+  <section>
+    <h2>Stage C curriculum 提升 final/test canonical，但收益集中在 identity</h2>
+    <p>Stage C curri 相比 Stage C full 的总体 valid canonical 提升 +0.86 pp，test canonical 提升 +1.35 pp，但 final valid 的逐策略分解显示，主要增益来自 identity；attachment-rooted、random、direction 的 canonical 基本持平或略降。</p>
+    <img class="chart" src="stage_c_strategy_analysis_assets/stage_c_curri_vs_full_strategy_delta.png" alt="Stage C curriculum versus full strategy delta chart">
+    <div class="table-wrap "><table><thead><tr><th>Strategy</th><th>Canonical Δ</th><th>Exact Δ</th><th>RDKit Δ</th><th>2-attach Δ</th></tr></thead><tbody><tr><td>identity</td><td><span class="pos">+4.92 pp</span></td><td><span class="pos">+4.66 pp</span></td><td><span class="pos">+3.45 pp</span></td><td><span class="pos">+3.37 pp</span></td></tr><tr><td>attachment_rooted_smiles</td><td><span class="neg">-0.60 pp</span></td><td><span class="neg">-1.21 pp</span></td><td><span class="neg">-1.90 pp</span></td><td><span class="neg">-1.73 pp</span></td></tr><tr><td>rdkit_random_smiles</td><td><span class="neg">-0.09 pp</span></td><td><span class="neg">-0.17 pp</span></td><td><span class="neg">-1.90 pp</span></td><td><span class="neg">-1.99 pp</span></td></tr><tr><td>direction_flip</td><td><span class="neg">-0.09 pp</span></td><td><span class="neg">-0.52 pp</span></td><td><span class="neg">-0.78 pp</span></td><td><span class="neg">-1.04 pp</span></td></tr><tr><td>light_denoise</td><td><span class="pos">+0.17 pp</span></td><td><span class="pos">+0.09 pp</span></td><td><span class="neg">-0.17 pp</span></td><td><span class="neg">-0.17 pp</span></td></tr></tbody></table></div>
+  </section>
+
+  <section>
+    <h2>非 identity 视图显示 align 更像是在提升 SMILES 视图理解</h2>
+    <p>Stage C full 对 Stage B full 的 final valid 分项提升集中在增强视图：rdkit_random +5.79 pp、direction_flip +6.65 pp、light_denoise +7.34 pp，而 identity 只提升 +1.81 pp。这说明共同训练不是只让模型更会复现规范字符串，而是提高了对不同 SMILES 表达视图的恢复稳定性。</p>
+    <div class="table-wrap "><table><thead><tr><th>Strategy</th><th>Canonical Δ</th><th>Exact Δ</th><th>RDKit Δ</th><th>2-attach Δ</th></tr></thead><tbody><tr><td>identity</td><td><span class="pos">+1.81 pp</span></td><td><span class="pos">+1.99 pp</span></td><td><span class="neg">-0.95 pp</span></td><td><span class="neg">-0.69 pp</span></td></tr><tr><td>attachment_rooted_smiles</td><td><span class="pos">+3.71 pp</span></td><td><span class="pos">+3.89 pp</span></td><td><span class="pos">+2.85 pp</span></td><td><span class="pos">+2.76 pp</span></td></tr><tr><td>rdkit_random_smiles</td><td><span class="pos">+5.79 pp</span></td><td><span class="pos">+6.13 pp</span></td><td><span class="pos">+4.58 pp</span></td><td><span class="pos">+4.40 pp</span></td></tr><tr><td>direction_flip</td><td><span class="pos">+6.65 pp</span></td><td><span class="pos">+6.91 pp</span></td><td><span class="pos">+3.54 pp</span></td><td><span class="pos">+4.06 pp</span></td></tr><tr><td>light_denoise</td><td><span class="pos">+7.34 pp</span></td><td><span class="pos">+7.51 pp</span></td><td><span class="pos">+4.06 pp</span></td><td><span class="pos">+4.32 pp</span></td></tr></tbody></table></div>
+  </section>
+
+  <section>
+    <h2>Retrieval 指标支持“字符串-图结构表征对齐”确实发生了</h2>
+    <p>Stage C 才有 retrieval 指标，因此不能和 Stage B 直接横向比较 retrieval；但 Stage C 的 restore 指标没有被 retrieval/align 任务拖垮，同时 test text-to-graph top1 从 full 的 81.69% 到 curri 的 84.54%，说明字符串和图结构之间的表征对齐具备可观质量。</p>
+    <div class="table-wrap "><table><thead><tr><th>Run</th><th>Valid text-&gt;graph top1</th><th>Valid graph-&gt;text top1</th><th>Test text-&gt;graph top1</th><th>Test graph-&gt;text top1</th><th>Test text-&gt;graph top5</th><th>Test graph-&gt;text top5</th></tr></thead><tbody><tr><td>Stage C full</td><td>81.09%</td><td>82.56%</td><td>81.69%</td><td>80.83%</td><td>99.74%</td><td>99.48%</td></tr><tr><td>Stage C curri</td><td>82.82%</td><td>83.33%</td><td>84.54%</td><td>82.38%</td><td>99.74%</td><td>99.22%</td></tr></tbody></table></div>
+  </section>
+
+  <section>
+    <h2>同 epoch 20 对照排除了“只因多训练”这一解释</h2>
+    <p>Stage C final 30 epoch 确实比 Stage B 20 epoch多训练，但共同 epoch 20 下 Stage C 仍然高于 Stage B。这是判断 align 共同训练有效性的关键稳健性检查。</p>
+    <div class="table-wrap "><table><thead><tr><th>Comparison</th><th>Canonical pair</th><th>Canonical Δ</th><th>Exact Δ</th><th>RDKit Δ</th><th>Loss Δ</th></tr></thead><tbody><tr><td>full: Stage C - Stage B</td><td>50.79% -> 52.44%</td><td><span class="pos">+1.64 pp</span></td><td><span class="pos">+1.76 pp</span></td><td><span class="pos">+0.29 pp</span></td><td><span class="pos">-0.0173</span></td></tr><tr><td>curri: Stage C - Stage B</td><td>54.65% -> 55.94%</td><td><span class="pos">+1.30 pp</span></td><td><span class="pos">+1.35 pp</span></td><td><span class="neg">-1.14 pp</span></td><td><span class="pos">-0.0165</span></td></tr></tbody></table></div>
+  </section>
+
+  <section>
+    <h2>Scope, Definitions, and Caveats</h2>
+    <p><b>比较对象。</b>Stage B 是 restore-only；Stage C 是 restore + align/retrieval 共同训练。Full 是静态 all-view；curriculum 是按 epoch 改变 strategy 权重但保持每 epoch 46,320 行训练量。</p>
+    <p><b>主要指标。</b>Canonical/exact 衡量字符串恢复；RDKit validity 和 two-attachment validity 衡量结构合法性；robust valid/test 衡量增强/扰动视图上的泛化；retrieval 指标只存在于 Stage C，用于判断字符串和图结构表征对齐。</p>
+    <p><b>限制。</b>Stage B final 是 20 epoch，Stage C final 是 30 epoch，因此 final-level B/C 对比包含训练轮数差异；本报告用 epoch 20 检查做了补充。Stage B 没有 retrieval 指标，所以 retrieval 只能作为 Stage C 内部证据，不能直接证明 B/C retrieval 差异。</p>
+  </section>
+
+  <section>
+    <h2>Recommended Next Steps</h2>
+    <ul>
+      <li>保留 Stage C align 共同训练，因为它对 restore 没有负迁移，并且显著提升 robust 与增强视图表现。</li>
+      <li>如果目标是最高 final/test canonical，优先 Stage C curriculum；如果目标是增强视图均衡和结构合法性，Stage C full 更稳。</li>
+      <li>下一轮建议跑 Stage B 40 epoch 或 Stage C 20 epoch controlled ablation，以进一步隔离训练轮数、align loss 权重和 curriculum 的影响。</li>
+      <li>建议单独扫描 random/direction/rooted 的 failure cases，看 Stage C curri 为什么 final valid 合法性略低于 full。</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Headline Metrics Audit Table</h2>
+    <div class="table-wrap "><table><thead><tr><th>Run</th><th>Valid canonical</th><th>Valid exact</th><th>Test canonical</th><th>Robust valid</th><th>Robust test</th><th>Valid loss</th></tr></thead><tbody><tr><td>Stage B full</td><td>50.79%</td><td>50.45%</td><td>51.88%</td><td>45.32%</td><td>45.96%</td><td>0.1998</td></tr><tr><td>Stage B curri</td><td>54.65%</td><td>54.32%</td><td>54.37%</td><td>47.09%</td><td>46.55%</td><td>0.1713</td></tr><tr><td>Stage C full</td><td>55.85%</td><td>55.73%</td><td>56.25%</td><td>51.19%</td><td>51.23%</td><td>0.1741</td></tr><tr><td>Stage C curri</td><td>56.72%</td><td>56.30%</td><td>57.60%</td><td>51.06%</td><td>51.86%</td><td>0.1594</td></tr></tbody></table></div>
+  </section>
+
+  <footer>Generated locally at 2026-06-08 16:07:10. Source artifacts are under <code>reports/*_artifacts</code>; charts are static PNG assets in <code>reports/stage_c_strategy_analysis_assets</code>.</footer>
+</main>
+</body>
+</html>

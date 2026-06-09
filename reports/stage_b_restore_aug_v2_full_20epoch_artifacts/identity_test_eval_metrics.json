@@ -1,0 +1,68 @@
+{
+  "all_view_by_strategy": {
+    "attachment_rooted_smiles": {
+      "canonical_match": 0.5993091537132987,
+      "exact_string_match": 0.5967184801381693,
+      "failed_count": 464,
+      "rdkit_validity": 0.7607944732297064,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7607944732297064
+    },
+    "direction_flip": {
+      "canonical_match": 0.38946459412780654,
+      "exact_string_match": 0.38773747841105355,
+      "failed_count": 707,
+      "rdkit_validity": 0.6735751295336787,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.6709844559585493
+    },
+    "identity": {
+      "canonical_match": 0.7556131260794473,
+      "exact_string_match": 0.7530224525043178,
+      "failed_count": 283,
+      "rdkit_validity": 0.8540587219343696,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.8514680483592401
+    },
+    "light_denoise": {
+      "canonical_match": 0.45077720207253885,
+      "exact_string_match": 0.44991364421416236,
+      "failed_count": 636,
+      "rdkit_validity": 0.7443868739205527,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7409326424870466
+    },
+    "rdkit_random_smiles": {
+      "canonical_match": 0.39896373056994816,
+      "exact_string_match": 0.39291882556131263,
+      "failed_count": 696,
+      "rdkit_validity": 0.6666666666666666,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.6640759930915371
+    }
+  },
+  "all_view_strategy_macro_avg": {
+    "canonical_match": 0.5188255613126079,
+    "exact_string_match": 0.5160621761658032,
+    "rdkit_validity": 0.7398963730569947,
+    "strategies": [
+      "attachment_rooted_smiles",
+      "direction_flip",
+      "identity",
+      "light_denoise",
+      "rdkit_random_smiles"
+    ],
+    "strategy_count": 5,
+    "two_attachment_validity": 0.7376511226252159
+  },
+  "canonical_match": 0.5188255613126079,
+  "decoded_sample_count": 5790,
+  "exact_string_match": 0.5160621761658031,
+  "formal_eval_full_decode": true,
+  "full_final_decode": true,
+  "loss": 0.19364622525406813,
+  "rdkit_validity": 0.7398963730569948,
+  "sample_count": 5790,
+  "token_accuracy": 0.9614744796962935,
+  "two_attachment_validity": 0.7376511226252159
+}

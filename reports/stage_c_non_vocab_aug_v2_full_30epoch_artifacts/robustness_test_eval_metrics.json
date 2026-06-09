@@ -1,0 +1,70 @@
+{
+  "align_loss": 0.7154211659299688,
+  "align_to_restore_ratio": 0.7043875183815427,
+  "canonical_match": 0.5123056994818653,
+  "decoded_sample_count": 4632,
+  "exact_string_match": 0.5071243523316062,
+  "formal_eval_full_decode": true,
+  "graph_to_text_top1": 0.0,
+  "graph_to_text_top5": 0.0,
+  "loss": 0.34621707117747974,
+  "mean_negative_similarity": 0.0,
+  "mean_positive_similarity": 0.0,
+  "rdkit_validity": 0.7424438687392055,
+  "restore_loss": 0.20313283448683986,
+  "retrieval_sample_count": 0,
+  "retrieval_skipped_for_duplicate_graph_views": true,
+  "robustness_by_strategy": {
+    "attachment_rooted_smiles": {
+      "canonical_match": 0.6183074265975821,
+      "exact_string_match": 0.613126079447323,
+      "failed_count": 442,
+      "rdkit_validity": 0.7772020725388601,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7728842832469776
+    },
+    "direction_flip": {
+      "canonical_match": 0.46545768566493956,
+      "exact_string_match": 0.4585492227979275,
+      "failed_count": 619,
+      "rdkit_validity": 0.7107081174438687,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7081174438687392
+    },
+    "light_denoise": {
+      "canonical_match": 0.5094991364421416,
+      "exact_string_match": 0.5060449050086355,
+      "failed_count": 568,
+      "rdkit_validity": 0.7582037996545768,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7564766839378239
+    },
+    "rdkit_random_smiles": {
+      "canonical_match": 0.45595854922279794,
+      "exact_string_match": 0.45077720207253885,
+      "failed_count": 630,
+      "rdkit_validity": 0.7236614853195165,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7167530224525043
+    }
+  },
+  "robustness_strategy_macro_avg": {
+    "canonical_match": 0.5123056994818653,
+    "exact_string_match": 0.5071243523316062,
+    "rdkit_validity": 0.7424438687392055,
+    "strategies": [
+      "attachment_rooted_smiles",
+      "direction_flip",
+      "light_denoise",
+      "rdkit_random_smiles"
+    ],
+    "strategy_count": 4,
+    "two_attachment_validity": 0.7385578583765112
+  },
+  "sample_count": 4632,
+  "text_to_graph_top1": 0.0,
+  "text_to_graph_top5": 0.0,
+  "token_accuracy": 0.9616388398414037,
+  "two_attachment_validity": 0.7385578583765112,
+  "weighted_align_loss": 0.14308423318599378
+}

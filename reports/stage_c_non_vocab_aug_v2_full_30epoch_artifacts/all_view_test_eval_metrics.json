@@ -1,0 +1,81 @@
+{
+  "align_loss": 0.5838038093038782,
+  "align_to_restore_ratio": 0.6538762413884535,
+  "all_view_by_strategy": {
+    "attachment_rooted_smiles": {
+      "canonical_match": 0.6208981001727115,
+      "exact_string_match": 0.6157167530224525,
+      "failed_count": 439,
+      "rdkit_validity": 0.7772020725388601,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7728842832469776
+    },
+    "direction_flip": {
+      "canonical_match": 0.46545768566493956,
+      "exact_string_match": 0.4585492227979275,
+      "failed_count": 619,
+      "rdkit_validity": 0.7089810017271158,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7063903281519862
+    },
+    "identity": {
+      "canonical_match": 0.7607944732297064,
+      "exact_string_match": 0.7590673575129534,
+      "failed_count": 277,
+      "rdkit_validity": 0.8609671848013817,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.8592400690846287
+    },
+    "light_denoise": {
+      "canonical_match": 0.5086355785837651,
+      "exact_string_match": 0.5051813471502591,
+      "failed_count": 569,
+      "rdkit_validity": 0.7573402417962003,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7547495682210709
+    },
+    "rdkit_random_smiles": {
+      "canonical_match": 0.45682210708117443,
+      "exact_string_match": 0.45164075993091535,
+      "failed_count": 629,
+      "rdkit_validity": 0.7227979274611399,
+      "sample_count": 1158,
+      "two_attachment_validity": 0.7158894645941278
+    }
+  },
+  "all_view_strategy_macro_avg": {
+    "canonical_match": 0.5625215889464594,
+    "exact_string_match": 0.5580310880829016,
+    "rdkit_validity": 0.7654576856649395,
+    "strategies": [
+      "attachment_rooted_smiles",
+      "direction_flip",
+      "identity",
+      "light_denoise",
+      "rdkit_random_smiles"
+    ],
+    "strategy_count": 5,
+    "two_attachment_validity": 0.7618307426597581
+  },
+  "canonical_match": 0.5625215889464594,
+  "decoded_sample_count": 5790,
+  "dedup_final_retrieval": true,
+  "exact_string_match": 0.5580310880829016,
+  "formal_eval_dedup_retrieval": true,
+  "formal_eval_full_decode": true,
+  "full_final_decode": true,
+  "graph_to_text_top1": 0.8082901835441589,
+  "graph_to_text_top5": 0.9948186278343201,
+  "loss": 0.2953278300356064,
+  "mean_negative_similarity": -0.0042730411514639854,
+  "mean_positive_similarity": 0.9112328290939331,
+  "rdkit_validity": 0.7654576856649395,
+  "restore_loss": 0.17856706586072554,
+  "retrieval_sample_count": 1158,
+  "sample_count": 5790,
+  "text_to_graph_top1": 0.8169257044792175,
+  "text_to_graph_top5": 0.9974093437194824,
+  "token_accuracy": 0.9662820704242726,
+  "two_attachment_validity": 0.7618307426597583,
+  "weighted_align_loss": 0.11676076186077565
+}

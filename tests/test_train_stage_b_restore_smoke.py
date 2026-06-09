@@ -15,12 +15,16 @@ from scripts.train_stage_b_restore_full import (
     collate_restore_records,
     early_stopping_is_improvement,
     evaluate_restore,
+    formal_eval_decode_sample_limit,
+    full_decode_sample_limit,
     get_model_backbone,
     greedy_decode_restore,
+    load_yaml_config,
     masked_cross_entropy,
     reset_training_metric_files,
     save_restore_checkpoint,
     shift_restore_labels_right,
+    update_early_stopping_state,
     validate_preview_tokenizer_compatibility,
     validate_decoded_smiles,
 )
@@ -164,6 +168,80 @@ def test_early_stopping_improvement_modes() -> None:
     assert early_stopping_is_improvement(0.9, 1.0, mode="min", min_delta=0.05)
     assert not early_stopping_is_improvement(0.98, 1.0, mode="min", min_delta=0.05)
     assert early_stopping_is_improvement(0.8, 0.7, mode="max", min_delta=0.05)
+
+
+def test_full_early_stopping_monitor_only_never_stops() -> None:
+    config = StageBConfig(
+        early_stopping_enabled=True,
+        early_stopping_monitor_only=True,
+        early_stopping_metric="loss",
+        early_stopping_mode="min",
+        early_stopping_patience=2,
+        early_stopping_min_epochs=1,
+        early_stopping_min_delta=0.001,
+    )
+    best = None
+    checkpoint = None
+    wait = 0
+    state = None
+    for epoch_index in range(1, 4):
+        state, best, checkpoint, wait, stop_training, reason = update_early_stopping_state(
+            config=config,
+            checkpoint_metrics={"loss": 1.0},
+            checkpoint_name=f"epoch_{epoch_index:03d}",
+            epoch_index=epoch_index,
+            best_metric=best,
+            best_checkpoint=checkpoint,
+            wait=wait,
+        )
+
+    assert state is not None
+    assert state["monitor_only"] is True
+    assert state["would_stop_training"] is True
+    assert state["stop_training"] is False
+    assert stop_training is False
+    assert reason is None
+    assert best == 1.0
+    assert checkpoint == "epoch_001"
+    assert wait == 2
+
+
+def test_formal_eval_full_decode_uses_dataset_length() -> None:
+    dataset = [object(), object(), object()]
+
+    assert full_decode_sample_limit(dataset) == 3
+    assert formal_eval_decode_sample_limit(
+        StageBConfig(formal_eval_full_decode=True),
+        dataset,
+        configured_limit=128,
+    ) == 3
+    assert formal_eval_decode_sample_limit(
+        StageBConfig(formal_eval_full_decode=False),
+        dataset,
+        configured_limit=128,
+    ) == 128
+
+
+def test_v2_full_configs_use_full_decode_and_monitor_only() -> None:
+    root = Path(__file__).resolve().parents[1]
+    for config_name, output_dir in (
+        ("stage_b_restore_aug_v2_full_20epoch_bf16.yaml", "outputs/stage_b_restore_aug_v2_full_20epoch"),
+        (
+            "stage_b_restore_aug_v2_curriculum_full_20epoch_bf16.yaml",
+            "outputs/stage_b_restore_aug_v2_curriculum_full_20epoch",
+        ),
+    ):
+        config = load_yaml_config(root / "configs" / config_name)
+
+        assert config.preview_path == "data/baselite_smiles_aug_v2/training_template_preview.jsonl"
+        assert config.output_dir == output_dir
+        assert config.max_epochs == 20
+        assert config.checkpoint_eval_samples == 0
+        assert config.checkpoint_eval_decode_samples == 0
+        assert config.eval_decode_samples == 0
+        assert config.formal_eval_full_decode is True
+        assert config.early_stopping_enabled is True
+        assert config.early_stopping_monitor_only is True
 
 
 def test_greedy_decode_restore_stops_at_eos() -> None:

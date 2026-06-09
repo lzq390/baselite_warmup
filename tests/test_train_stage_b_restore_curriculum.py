@@ -16,7 +16,7 @@ from scripts.train_stage_b_restore_full import StageBConfig
 
 def make_curriculum_rows(per_strategy: int = 9264) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
-    for strategy in ("identity", "rdkit_random_smiles", "attachment_rooted_smiles", "light_denoise"):
+    for strategy in ("identity", "rdkit_random_smiles", "direction_flip", "attachment_rooted_smiles", "light_denoise"):
         for index in range(per_strategy):
             rows.append(
                 {
@@ -98,12 +98,13 @@ def test_curriculum_epoch_one_oversamples_identity_to_full_epoch_size() -> None:
 
     epoch_rows, metadata = build_curriculum_epoch_rows(rows, epoch_index=1, seed=42)
 
-    assert len(epoch_rows) == 37056
-    assert strategy_counts(epoch_rows) == Counter({"identity": 37056})
+    assert len(epoch_rows) == 46320
+    assert strategy_counts(epoch_rows) == Counter({"identity": 46320})
     assert metadata["curriculum_enabled"] is True
     assert metadata["curriculum_strategy_counts"] == {
-        "identity": 37056,
+        "identity": 46320,
         "rdkit_random_smiles": 0,
+        "direction_flip": 0,
         "attachment_rooted_smiles": 0,
         "light_denoise": 0,
     }
@@ -115,21 +116,39 @@ def test_curriculum_epoch_four_uses_only_identity_and_random() -> None:
     epoch_rows, metadata = build_curriculum_epoch_rows(rows, epoch_index=4, seed=42)
     counts = strategy_counts(epoch_rows)
 
-    assert len(epoch_rows) == 37056
+    assert len(epoch_rows) == 46320
     assert set(counts) == {"identity", "rdkit_random_smiles"}
-    assert counts == Counter(allocate_strategy_counts(37056, metadata["curriculum_strategy_weights"]))
+    assert counts == Counter(allocate_strategy_counts(46320, metadata["curriculum_strategy_weights"]))
 
 
-def test_curriculum_epoch_thirteen_contains_all_strategies_with_high_denoise_share() -> None:
+def test_curriculum_epoch_five_introduces_direction_flip() -> None:
+    rows = make_curriculum_rows()
+
+    epoch_rows, metadata = build_curriculum_epoch_rows(rows, epoch_index=5, seed=42)
+    counts = strategy_counts(epoch_rows)
+
+    assert len(epoch_rows) == 46320
+    assert set(counts) == {"identity", "rdkit_random_smiles", "direction_flip"}
+    assert counts == Counter(allocate_strategy_counts(46320, metadata["curriculum_strategy_weights"]))
+    assert abs(counts["direction_flip"] / 46320 - 0.20) < 0.001
+
+
+def test_curriculum_epoch_thirteen_contains_all_v2_strategies_with_high_denoise_share() -> None:
     rows = make_curriculum_rows()
 
     epoch_rows, metadata = build_curriculum_epoch_rows(rows, epoch_index=13, seed=42)
     counts = strategy_counts(epoch_rows)
 
-    assert len(epoch_rows) == 37056
-    assert set(counts) == {"identity", "rdkit_random_smiles", "attachment_rooted_smiles", "light_denoise"}
-    assert counts == Counter(allocate_strategy_counts(37056, metadata["curriculum_strategy_weights"]))
-    assert abs(counts["light_denoise"] / 37056 - 0.35) < 0.001
+    assert len(epoch_rows) == 46320
+    assert set(counts) == {
+        "identity",
+        "rdkit_random_smiles",
+        "direction_flip",
+        "attachment_rooted_smiles",
+        "light_denoise",
+    }
+    assert counts == Counter(allocate_strategy_counts(46320, metadata["curriculum_strategy_weights"]))
+    assert abs(counts["light_denoise"] / 46320 - 0.25) < 0.001
 
 
 def test_curriculum_sampling_is_deterministic_for_same_seed_and_epoch() -> None:
@@ -158,10 +177,10 @@ def test_curriculum_uses_original_epoch_target_after_clean_pool_shrinks() -> Non
     )
     counts = strategy_counts(epoch_rows)
 
-    assert len(clean_rows) == 33
-    assert len(epoch_rows) == 40
-    assert metadata["curriculum_epoch_target_row_count"] == 40
-    assert counts == Counter(allocate_strategy_counts(40, metadata["curriculum_strategy_weights"]))
+    assert len(clean_rows) == 43
+    assert len(epoch_rows) == 50
+    assert metadata["curriculum_epoch_target_row_count"] == 50
+    assert counts == Counter(allocate_strategy_counts(50, metadata["curriculum_strategy_weights"]))
     assert counts["light_denoise"] > 3
 
 
