@@ -1,0 +1,300 @@
+{
+  "audit": {
+    "counters": {
+      "csv_rows": 12886131,
+      "rows_skipped_current_overlap": 888
+    },
+    "graph_duplicate_drop_count": 57,
+    "graph_duplicate_examples": [
+      {
+        "canonical_hash": "42dd00f555a3a596d44f2447db610d17454fa91feec3703a01f1d15412fe2b4c",
+        "canonical_smiles": "*Nc1n[nH]c(NC(=O)C(=O)NC(C(*)=O)c2ccccc2)n1",
+        "graph_hash": "980c6e8be248a787f903c6db2070e970c413c30ee6694c7ef4abd5d76a19378e",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "1e312ac363565db8f09f288785d2dd899ca5bc8d4ce8ff7fd985332fc76b4fd0",
+        "canonical_smiles": "*Nc1cc(=O)[nH]c(NC(=O)C(CS)NCCNC(CS)C(*)=O)n1",
+        "graph_hash": "d4fa3301b77ae9c9dbd58df895d5aa06dd8b1b3cc7585319241d45130c480e3f",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "bf3ba51d55d76919a534e50a873062e4057f7c7de47df4ee4af078ef0d5ad1a9",
+        "canonical_smiles": "*Nc1[nH]cnc(=S)c1NC(=O)CCCCCCCCCCCCCCCCCCCCCCC(*)=O",
+        "graph_hash": "26375a5f7ffe2d56dabf4f742c88e77ffef4753eb77705499a593c64b77f67a7",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "c9aa639067034b9e31e660cad663e3e588f5847c8f11ef2e9ec0350fec58f882",
+        "canonical_smiles": "*Nc1n[nH]c(NC(=O)c2c(C)sc(C)c2C(*)=O)n1",
+        "graph_hash": "781b9442717d38fa0233b9a864469fffed78fcdfadab254ab24c3e057e4350eb",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "74500df3f2a8234e1400446029b21229638102fd5980648ef2766511b4ef6cce",
+        "canonical_smiles": "*Nc1nc[nH]c(=S)c1NC(=O)CSc1ccc(C(*)=O)cc1",
+        "graph_hash": "22d142ef45d3d7989b4e5542aca8686af74dd4bfb4de23caffa97ed7b10829ef",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "10ee7776cf8bea65474dffa9b1b92488267f3916680d6b447d2ba6ada1aff313",
+        "canonical_smiles": "*Nc1c[nH]nc1NC(=O)C12CC3CC(CC(C(*)=O)(C1)C3=O)C2=O",
+        "graph_hash": "c3b2f27e94e49e3899a03400839d1824dc69e3f3d1593cd63e76666aa3e00d81",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "5c6f7a5cfa47c21869f3ccec2905ecf2484031ec742f30f0f29e59a987c2e843",
+        "canonical_smiles": "*Nc1n[nH]c(NC(=O)C2COC3C(C(*)=O)COC23)n1",
+        "graph_hash": "a4db012d64abefe1e90a555d9cb7f4de963ad35902555690e633979212fd3334",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "5e3a6ab23848a0524aa4d703ca4a028b518427786e14d62aa7c841b537047673",
+        "canonical_smiles": "*Nc1cc(=O)[nH]c(NC(=O)c2ccnc(C(*)=O)c2N)n1",
+        "graph_hash": "350284da1d8ee96926eb319bdde0163ed9af47bc8a5c396b28ab744bbfc285d1",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "f093654c14e0f2021b46f32a5d6f560dada08aeababa228fafebbf9d4e14b7a5",
+        "canonical_smiles": "*Nc1n[nH]c(NC(=O)c2cccc(NC(=O)c3ccccc3Br)c2C(*)=O)n1",
+        "graph_hash": "7fa3721395d60b79005db764a5a916d5f6b4416a5c0fdb9c160288dbc12d8233",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "80602d31ebe8339d0980a2b34bb6204584e42420f0ff8b0c3b757cb5d87153a3",
+        "canonical_smiles": "*Nc1c[nH]nc1NC(=O)C1(C(*)=O)CC2(CC(OC)(OC)C2)C1",
+        "graph_hash": "5f3cc07d1452a289d6a34dfafb6bc58f8eb1b8eba2c5ac98736d61be2c848bcb",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "a7f5341a4cbe2d236ae4cb384ebbc07cbc7f1a419564d4623c6e64cb64b5d4c6",
+        "canonical_smiles": "*Nc1[nH]cnc(=S)c1NC(=O)COc1ccc(OCC(*)=O)c(Cl)c1",
+        "graph_hash": "f11f9da98e85dbdae0cc06cf123eca402ba21800a3c7ac5844318bae8a1a2e4c",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "542841887cd9bf19df3570b47bf7e5d66e2aafbf065b904304c8d8c92c3cc4a4",
+        "canonical_smiles": "*Nc1cc(=O)nc(NC(=O)C(C)(CC)C(*)=O)[nH]1",
+        "graph_hash": "b111bd90c42fc4506124292af55e005688e31fda875ced8d66beb8eea5b3ad44",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "020974320a22dac8706e583e56e4e9379d8ca7a7bd9b3fa0b0fc2751af46291b",
+        "canonical_smiles": "*Nc1cn[nH]c1NC(=O)C1CC=C(C)CC1C(*)=O",
+        "graph_hash": "9d4feea3618bb2410c90f0cf56a9c5b8e74b5339289775632725680ce72d73d2",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "b452ffca242d610d2efc256e98bf85a356f184ad5d7265fc448b3b91a892a827",
+        "canonical_smiles": "*Nc1c[nH]nc1NC(=O)CC(NC(=O)C(Cl)Cl)C(*)=O",
+        "graph_hash": "0d784994ecb7720a1289ba8b5a6c3ea1a32b684a8c5c540c6f404dfec4867df3",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "c4d0815b9303392593185037df483c14f88e6f4e80e2e2e0939ead9dfa4b9df6",
+        "canonical_smiles": "*Nc1[nH]cnc(=S)c1NC(=O)C1CSC(c2ccc(C3NC(C(*)=O)CS3)cc2)N1",
+        "graph_hash": "2ecfe7c8819548771a6a7c72117f4bcab3b4f60c0ff96228110ee735987c5fa9",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "37597193d6f91866ab74077f9ed95ee08dd7842df6c8cb41d5d303ebe759a820",
+        "canonical_smiles": "*Nc1n[nH]c(NC(=O)c2cc(N)cc(C(*)=O)c2)n1",
+        "graph_hash": "eb0f0600a00cc0db33b9fd8f91e250c240b91bc42ac9b6ecd1744c4057c91e31",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "37dca54e188cf258744864c46bece7abb9f6bef07e6263ac65ad7898ea6e6e68",
+        "canonical_smiles": "*Nc1cc(=O)nc(NC(=O)c2nn(C)nc2C(*)=O)[nH]1",
+        "graph_hash": "18acfc81eda393383b74fc717651d780c4d71d47f004c2bfb3769e4c637ffae8",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "e25900745d55bd79c163a6c76c538aba2bbb0bd1f3d45bc35689a78a245405be",
+        "canonical_smiles": "*Nc1[nH]cnc(=S)c1NC(=O)c1cc(NC(=O)c2ccccc2C(*)=O)ccc1Cl",
+        "graph_hash": "b197d1f4328f07517963c473284f3b0bc7ae319ae209925b906a555c1dc6f12b",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "c5091aad87cc5be8a7fa03a425f8c4bc5001a7f7bef9d391a5f31a23e0ef92df",
+        "canonical_smiles": "*Nc1cn[nH]c1NC(=O)Cc1cc(F)ccc1C(*)=O",
+        "graph_hash": "38729aa14dd18ecba9d3c52c54a89985d54a8f00c3c06e800c78764801e9f8d4",
+        "source_reaction_idx": "1"
+      },
+      {
+        "canonical_hash": "6f2c2fd6f5203c173842e7d25940b882c0bd7a4d784ab079e0d0ec8c7b4ec1c8",
+        "canonical_smiles": "*Nc1nnc(NC(=O)CCSCCOCC(*)=O)[nH]1",
+        "graph_hash": "6aec18e6eb02232a29ee95c439eabccd88d366b03701613973507a5125817d1c",
+        "source_reaction_idx": "1"
+      }
+    ],
+    "graph_replacement_count": 57,
+    "graph_replacement_reaction_counts": {
+      "3": 57
+    },
+    "invalid_examples": [],
+    "invalid_reasons": {},
+    "quota_shortfalls_after_filtering": {
+      "10": 3,
+      "11": 17,
+      "13": 8,
+      "14": 3,
+      "15": 5,
+      "16": 12
+    },
+    "reaction_valid_unique_counts": {
+      "1": 3810087,
+      "10": 873,
+      "11": 720,
+      "12": 1244,
+      "13": 446,
+      "14": 40,
+      "15": 181,
+      "16": 732,
+      "17": 7686,
+      "2": 274359,
+      "3": 8404039,
+      "4": 195532,
+      "5": 45925,
+      "6": 100584,
+      "7": 4307,
+      "8": 29257,
+      "9": 9231
+    },
+    "replacement_count": 48,
+    "replacement_reaction_counts": {
+      "3": 48
+    },
+    "selected_reaction_counts": {
+      "1": 292740,
+      "10": 873,
+      "11": 720,
+      "12": 1021,
+      "13": 446,
+      "14": 40,
+      "15": 181,
+      "16": 732,
+      "17": 1515,
+      "2": 21934,
+      "3": 644751,
+      "4": 15904,
+      "5": 4441,
+      "6": 8628,
+      "7": 1254,
+      "8": 3188,
+      "9": 1632
+    }
+  },
+  "dataset_name": "baselite_smiles_v3",
+  "generated_at_utc": "2026-06-10T07:38:32.249854+00:00",
+  "outputs": {
+    "dataset_manifest": "data/baselite_smiles_v3/dataset_manifest.json",
+    "split_report": "data/baselite_smiles_v3/split_report.md",
+    "test": "data/baselite_smiles_v3/test.jsonl",
+    "train": "data/baselite_smiles_v3/train.jsonl",
+    "valid": "data/baselite_smiles_v3/valid.jsonl"
+  },
+  "quality_checks": {
+    "canonical_hash_leakage": {
+      "field": "canonical_hash",
+      "total_pairwise_leakage": 0,
+      "train_test": 0,
+      "train_valid": 0,
+      "valid_test": 0
+    },
+    "current_dataset_overlap_by_canonical_hash": 0,
+    "graph_hash_leakage": {
+      "field": "graph_hash",
+      "total_pairwise_leakage": 0,
+      "train_test": 0,
+      "train_valid": 0,
+      "valid_test": 0
+    },
+    "total_records": 1000000,
+    "unique_canonical_hash": 1000000,
+    "unique_graph_hash": 1000000,
+    "unique_record_id": 1000000
+  },
+  "selection": {
+    "floor_per_reaction": 1000,
+    "raw_reaction_counts": {
+      "1": 3810102,
+      "10": 876,
+      "11": 737,
+      "12": 1280,
+      "13": 454,
+      "14": 43,
+      "15": 186,
+      "16": 744,
+      "17": 7718,
+      "2": 274432,
+      "3": 8404330,
+      "4": 195580,
+      "5": 45935,
+      "6": 100584,
+      "7": 4311,
+      "8": 29565,
+      "9": 9254
+    },
+    "sample_seed": "baselite_smiles_v3_omg_sample_seed_2026_06_09",
+    "selected_reaction_counts": {
+      "1": 292740,
+      "10": 873,
+      "11": 720,
+      "12": 1021,
+      "13": 446,
+      "14": 40,
+      "15": 181,
+      "16": 732,
+      "17": 1515,
+      "2": 21934,
+      "3": 644751,
+      "4": 15904,
+      "5": 4441,
+      "6": 8628,
+      "7": 1254,
+      "8": 3188,
+      "9": 1632
+    },
+    "target_count": 1000000,
+    "target_reaction_quotas": {
+      "1": 292765,
+      "10": 876,
+      "11": 737,
+      "12": 1021,
+      "13": 454,
+      "14": 43,
+      "15": 186,
+      "16": 744,
+      "17": 1515,
+      "2": 21944,
+      "3": 644667,
+      "4": 15904,
+      "5": 4442,
+      "6": 8628,
+      "7": 1254,
+      "8": 3188,
+      "9": 1632
+    }
+  },
+  "source": {
+    "current_dataset_canonical_hash_count": 11580,
+    "current_dataset_dir": "data/baselite_smiles_v1",
+    "max_source_rows": null,
+    "omg_csv": "OMG_polymers.csv",
+    "omg_csv_sha256": "370b7c30f7d084d74213cb0c2c651956cdaa0d92bb421dda00e9b3cd49c175ab"
+  },
+  "split": {
+    "counts": {
+      "test": 100000,
+      "train": 800000,
+      "valid": 100000
+    },
+    "seed": "baselite_smiles_v3_split_seed_2026_06_09",
+    "target_ratios": {
+      "test": 0.09999999999999995,
+      "train": 0.8,
+      "valid": 0.1
+    },
+    "unit": "graph_hash"
+  }
+}

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>Stage B v3 Checkpoint 全量 Test Decode 报告</title>
+  <style>
+    body { margin: 0; background: #f5f7fb; color: #172033; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", Arial, sans-serif; }
+    main { max-width: 1320px; margin: 0 auto; padding: 34px 30px 60px; }
+    h1 { margin: 0 0 8px; font-size: 31px; letter-spacing: 0; }
+    h2 { margin: 34px 0 14px; padding-left: 11px; border-left: 4px solid #2563eb; font-size: 22px; }
+    h3 { margin: 24px 0 10px; font-size: 18px; }
+    h4 { margin: 18px 0 8px; font-size: 15px; }
+    p, li { line-height: 1.65; }
+    code { font-family: "SFMono-Regular", Consolas, monospace; font-size: 12px; word-break: break-all; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #d9deea; margin: 12px 0 22px; }
+    th, td { border-bottom: 1px solid #e7eaf2; padding: 9px 10px; text-align: left; vertical-align: top; font-size: 13px; }
+    th { background: #edf2f9; color: #2b3447; font-weight: 700; }
+    tr:last-child td { border-bottom: 0; }
+    .muted { color: #687386; font-size: 12px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 18px 0; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .card { background: #fff; border: 1px solid #d9deea; border-radius: 8px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+    .card .k { color: #687386; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+    .card .v { margin-top: 6px; font-size: 24px; font-weight: 750; }
+    .callout { background: #fff; border-left: 4px solid #22a06b; padding: 14px 16px; margin: 14px 0; border-radius: 6px; }
+    .warnbox { background: #fff; border-left: 4px solid #d97706; padding: 14px 16px; margin: 14px 0; border-radius: 6px; }
+    .bar { height: 8px; width: 130px; background: #e8edf5; border-radius: 999px; overflow: hidden; margin-bottom: 3px; }
+    .bar span { display: block; height: 100%; background: linear-gradient(90deg, #2563eb, #16a34a); }
+    .bar-label { font-size: 12px; color: #2b3447; }
+    .strategy-detail { margin-top: 22px; padding-top: 2px; }
+    .ok { color: #157347; font-weight: 700; }
+    .bad { color: #a15c00; font-weight: 700; }
+    @media (max-width: 960px) { .grid, .two-col { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Stage B v3 Checkpoint 全量 Test Decode 报告</h1>
+  <p class="muted">生成时间：2026-06-15 09:28:28 ｜ 输入目录：<code>reports/stage_b_restore_aug_v3_full_decode_eval_remote</code></p>
+
+  <div class="grid">
+    <div class="card"><div class="k">V3 full test canonical</div><div class="v ok">93.99%</div><div class="muted">500,000 decoded</div></div>
+    <div class="card"><div class="k">V2 curated transfer</div><div class="v bad">17.65%</div><div class="muted">5,790 decoded</div></div>
+    <div class="card"><div class="k">Canonical gap</div><div class="v">76.34%</div><div class="muted">V3 - V2</div></div>
+    <div class="card"><div class="k">RDKit gap</div><div class="v">54.09%</div><div class="muted">V3 - V2</div></div>
+  </div>
+
+  <div class="callout">
+    <strong>结论：</strong>当前 v3 checkpoint 在 OMG v3 test 上全量 decode 表现强，canonical_match=93.99%；
+    但迁移到 V2 curated test 明显失败，canonical_match=17.65%。
+    因此它适合作为大规模 OMG warmup，不应直接替代 curated Stage B；下一步应在 curated/V2 上继续 fine-tune。
+  </div>
+
+  <h2>1. 总体 full-decode 指标</h2>
+  <table class=""><thead><tr><th>eval set</th><th>decoded</th><th>loss</th><th>token acc</th><th>canonical</th><th>exact</th><th>RDKit valid</th><th>two attachment</th></tr></thead><tbody><tr><td><strong>V2 curated test</strong><div class="muted">当前 v3 checkpoint 在历史 curated/V2 test 模板上的迁移评估。</div></td><td>5,790</td><td>0.98203</td><td>83.336%</td><td><div class="bar"><span style="width:17.65%"></span></div><div class="bar-label">17.65%</div></td><td>16.61%</td><td>44.47%</td><td>42.56%</td></tr><tr><td><strong>V3 OMG test</strong><div class="muted">当前 v3 checkpoint 在 OMG v3 full 五视图 test 模板上的分布内泛化评估。</div></td><td>500,000</td><td>0.00607</td><td>99.796%</td><td><div class="bar"><span style="width:93.99%"></span></div><div class="bar-label">93.99%</div></td><td>93.88%</td><td>98.57%</td><td>98.54%</td></tr></tbody></table>
+
+  <h2>2. 每种模板/view 的结果</h2>
+  <h3>V3 OMG test 分模板结果</h3>
+  <table class=""><thead><tr><th>template/view</th><th>rows</th><th>canonical</th><th>exact</th><th>RDKit valid</th><th>two attachment</th><th>failed</th></tr></thead><tbody><tr><td><strong>identity</strong></td><td>100,000</td><td><div class="bar"><span style="width:99.43%"></span></div><div class="bar-label">99.43%</div></td><td>99.42%</td><td>99.85%</td><td>99.84%</td><td>568</td></tr><tr><td><strong>rdkit_random_smiles</strong></td><td>100,000</td><td><div class="bar"><span style="width:88.66%"></span></div><div class="bar-label">88.66%</div></td><td>88.21%</td><td>96.45%</td><td>96.36%</td><td>11,336</td></tr><tr><td><strong>direction_flip</strong></td><td>100,000</td><td><div class="bar"><span style="width:97.75%"></span></div><div class="bar-label">97.75%</div></td><td>97.69%</td><td>99.22%</td><td>99.19%</td><td>2,248</td></tr><tr><td><strong>attachment_rooted_smiles</strong></td><td>100,000</td><td><div class="bar"><span style="width:99.45%"></span></div><div class="bar-label">99.45%</div></td><td>99.45%</td><td>99.85%</td><td>99.84%</td><td>547</td></tr><tr><td><strong>light_denoise</strong></td><td>100,000</td><td><div class="bar"><span style="width:84.66%"></span></div><div class="bar-label">84.66%</div></td><td>84.63%</td><td>97.46%</td><td>97.45%</td><td>15,338</td></tr></tbody></table>
+  <h3>V2 curated test 分模板结果</h3>
+  <table class=""><thead><tr><th>template/view</th><th>rows</th><th>canonical</th><th>exact</th><th>RDKit valid</th><th>two attachment</th><th>failed</th></tr></thead><tbody><tr><td><strong>identity</strong></td><td>1,158</td><td><div class="bar"><span style="width:29.19%"></span></div><div class="bar-label">29.19%</div></td><td>28.67%</td><td>51.81%</td><td>50.09%</td><td>820</td></tr><tr><td><strong>rdkit_random_smiles</strong></td><td>1,158</td><td><div class="bar"><span style="width:13.64%"></span></div><div class="bar-label">13.64%</div></td><td>12.26%</td><td>43.44%</td><td>40.85%</td><td>1,000</td></tr><tr><td><strong>direction_flip</strong></td><td>1,158</td><td><div class="bar"><span style="width:12.09%"></span></div><div class="bar-label">12.09%</div></td><td>10.71%</td><td>41.62%</td><td>39.38%</td><td>1,018</td></tr><tr><td><strong>attachment_rooted_smiles</strong></td><td>1,158</td><td><div class="bar"><span style="width:18.74%"></span></div><div class="bar-label">18.74%</div></td><td>17.27%</td><td>42.92%</td><td>40.76%</td><td>941</td></tr><tr><td><strong>light_denoise</strong></td><td>1,158</td><td><div class="bar"><span style="width:14.59%"></span></div><div class="bar-label">14.59%</div></td><td>14.16%</td><td>42.57%</td><td>41.71%</td><td>989</td></tr></tbody></table>
+
+  <h2>3. 失败类型总体分布</h2>
+  <table class=""><thead><tr><th>eval set</th><th>correct</th><th>valid wrong canonical</th><th>invalid SMILES</th><th>attachment error</th></tr></thead><tbody><tr><td>V2 curated test</td><td>1,022<div class="muted">17.65%</div></td><td>1,442<div class="muted">24.91%</div></td><td>3,215<div class="muted">55.53%</div></td><td>111<div class="muted">1.92%</div></td></tr><tr><td>V3 OMG test</td><td>469,963<div class="muted">93.99%</div></td><td>22,730<div class="muted">4.55%</div></td><td>7,166<div class="muted">1.43%</div></td><td>141<div class="muted">0.03%</div></td></tr></tbody></table>
+
+  <h2>4. 每种模板的失败类型分布</h2>
+  <h3>V3 OMG test</h3>
+  <table class=""><thead><tr><th>template/view</th><th>failed</th><th>invalid SMILES</th><th>attachment error</th><th>valid wrong canonical</th><th>failure rate</th></tr></thead><tbody><tr><td><strong>identity</strong></td><td>568</td><td>154</td><td>4</td><td>410</td><td>0.57%</td></tr><tr><td><strong>rdkit_random_smiles</strong></td><td>11,336</td><td>3,547</td><td>92</td><td>7,697</td><td>11.34%</td></tr><tr><td><strong>direction_flip</strong></td><td>2,248</td><td>778</td><td>27</td><td>1,443</td><td>2.25%</td></tr><tr><td><strong>attachment_rooted_smiles</strong></td><td>547</td><td>151</td><td>4</td><td>392</td><td>0.55%</td></tr><tr><td><strong>light_denoise</strong></td><td>15,338</td><td>2,536</td><td>14</td><td>12,788</td><td>15.34%</td></tr></tbody></table>
+  <h3>V2 curated test</h3>
+  <table class=""><thead><tr><th>template/view</th><th>failed</th><th>invalid SMILES</th><th>attachment error</th><th>valid wrong canonical</th><th>failure rate</th></tr></thead><tbody><tr><td><strong>identity</strong></td><td>820</td><td>558</td><td>20</td><td>242</td><td>70.81%</td></tr><tr><td><strong>rdkit_random_smiles</strong></td><td>1,000</td><td>655</td><td>30</td><td>315</td><td>86.36%</td></tr><tr><td><strong>direction_flip</strong></td><td>1,018</td><td>676</td><td>26</td><td>316</td><td>87.91%</td></tr><tr><td><strong>attachment_rooted_smiles</strong></td><td>941</td><td>661</td><td>25</td><td>255</td><td>81.26%</td></tr><tr><td><strong>light_denoise</strong></td><td>989</td><td>665</td><td>10</td><td>314</td><td>85.41%</td></tr></tbody></table>
+
+  <h2>5. 每种模板的 V2/V3 对比与失败样例</h2>
+  <div class="warnbox">
+    <strong>读法：</strong>V3 的主要弱项是 <code>light_denoise</code> 和 <code>rdkit_random_smiles</code>；
+    V2 上五种模板都不理想，即使 identity 也只有约 29% canonical，说明这是分布迁移问题，不只是干扰模板问题。
+  </div>
+
+            <section class="strategy-detail">
+              <h3>identity</h3>
+              <table class=""><thead><tr><th>eval set</th><th>rows</th><th>canonical</th><th>RDKit valid</th><th>two attachment</th><th>invalid</th><th>valid wrong</th></tr></thead><tbody><tr><td>V2 curated test</td><td>1,158</td><td><div class="bar"><span style="width:29.19%"></span></div><div class="bar-label">29.19%</div></td><td>51.81%</td><td>50.09%</td><td>558</td><td>242</td></tr><tr><td>V3 OMG test</td><td>100,000</td><td><div class="bar"><span style="width:99.43%"></span></div><div class="bar-label">99.43%</div></td><td>99.85%</td><td>99.84%</td><td>154</td><td>410</td></tr></tbody></table>
+              <div class="two-col">
+                <div>
+                  <h4>V2 失败样例</h4>
+                  <table class=""><thead><tr><th>record_id</th><th>类型</th><th>input view</th><th>target</th><th>decoded</th></tr></thead><tbody><tr><td>ru_000011</td><td>合法但 canonical 错误</td><td><code>*/C(=C(/*)c1ccc([Si](C)(C)C)cc1)c1ccccc1</code></td><td><code>*/C(=C(/*)c1ccc([Si](C)(C)C)cc1)c1ccccc1</code></td><td><code>*C(=C(*)[Si](C)(C)C)c1ccc([Si](C)(C)C)cc1</code></td></tr><tr><td>ru_000023</td><td>RDKit 无法解析</td><td><code>*/C(=C(/*)c1ccc2c(c1)C(C)(C)CC2(C)C)c1ccc(F)cc1</code></td><td><code>*/C(=C(/*)c1ccc2c(c1)C(C)(C)CC2(C)C)c1ccc(F)cc1</code></td><td><code>*C(=C(*)C1(C)CC2(C)C)c1ccc(F)cc1)c1ccc(F)cc1</code></td></tr><tr><td>ru_000053</td><td>合法但 canonical 错误</td><td><code>*/C(C)=C(/*)[Si](C)(C)CC[Si](C)(C)C</code></td><td><code>*/C(C)=C(/*)[Si](C)(C)CC[Si](C)(C)C</code></td><td><code>*C(C)=C(*)[Si](C)(C)CC[Si](C)(C)C</code></td></tr><tr><td>ru_000057</td><td>合法但 canonical 错误</td><td><code>*/C(C)=C(/*)c1ccccc1</code></td><td><code>*/C(C)=C(/*)c1ccccc1</code></td><td><code>*C(C)=C(*)c1ccccc1</code></td></tr></tbody></table>
+                </div>
+                <div>
+                  <h4>V3 失败样例</h4>
+                  <table class=""><thead><tr><th>record_id</th><th>类型</th><th>input view</th><th>target</th><th>decoded</th></tr></thead><tbody><tr><td>omg_v3_0000122</td><td>合法但 canonical 错误</td><td><code>*NCCN(CCNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O)N=O</code></td><td><code>*NCCN(CCNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O)N=O</code></td><td><code>*NCCN(CCNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O)N=O</code></td></tr><tr><td>omg_v3_0002488</td><td>合法但 canonical 错误</td><td><code>*Nc1cc(S(=O)(=O)NC(=O)CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC(*)=O)ccc1Br</code></td><td><code>*Nc1cc(S(=O)(=O)NC(=O)CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC(*)=O)ccc1Br</code></td><td><code>*Nc1cc(S(=O)(=O)NC(=O)CCCCCCCCCCCCCCCCCCCCCCCCCCC(*)=O)ccc1Br</code></td></tr><tr><td>omg_v3_0005659</td><td>合法但 canonical 错误</td><td><code>*NCCCCCCNC(=O)COCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCC(*)=O</code></td><td><code>*NCCCCCCNC(=O)COCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCC(*)=O</code></td><td><code>*NCCCCCCNC(=O)COCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCC(*)=O</code></td></tr><tr><td>omg_v3_0007179</td><td>合法但 canonical 错误</td><td><code>*NCCNC(=O)CNC(=O)CNC(=O)CNC(=O)CNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O</code></td><td><code>*NCCNC(=O)CNC(=O)CNC(=O)CNC(=O)CNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O</code></td><td><code>*NCCNC(=O)CNC(=O)CNC(=O)CNC(=O)CNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O</code></td></tr></tbody></table>
+                </div>
+              </div>
+            </section>
+
+
+            <section class="strategy-detail">
+              <h3>rdkit_random_smiles</h3>
+              <table class=""><thead><tr><th>eval set</th><th>rows</th><th>canonical</th><th>RDKit valid</th><th>two attachment</th><th>invalid</th><th>valid wrong</th></tr></thead><tbody><tr><td>V2 curated test</td><td>1,158</td><td><div class="bar"><span style="width:13.64%"></span></div><div class="bar-label">13.64%</div></td><td>43.44%</td><td>40.85%</td><td>655</td><td>315</td></tr><tr><td>V3 OMG test</td><td>100,000</td><td><div class="bar"><span style="width:88.66%"></span></div><div class="bar-label">88.66%</div></td><td>96.45%</td><td>96.36%</td><td>3,547</td><td>7,697</td></tr></tbody></table>
+              <div class="two-col">
+                <div>
+                  <h4>V2 失败样例</h4>
+                  <table class=""><thead><tr><th>record_id</th><th>类型</th><th>input view</th><th>target</th><th>decoded</th></tr></thead><tbody><tr><td>ru_000011</td><td>合法但 canonical 错误</td><td><code>c1c(/C(=C(/c2ccc(cc2)[Si](C)(C)C)*)*)cccc1</code></td><td><code>*/C(=C(/*)c1ccc([Si](C)(C)C)cc1)c1ccccc1</code></td><td><code>*C(=C(*)[Si](C)(C)C)c1ccc([Si](C)(C)C)cc1</code></td></tr><tr><td>ru_000023</td><td>RDKit 无法解析</td><td><code>c1(ccc(F)cc1)/C(=C(/c1cc2c(cc1)C(C)(CC2(C)C)C)*)*</code></td><td><code>*/C(=C(/*)c1ccc2c(c1)C(C)(C)CC2(C)C)c1ccc(F)cc1</code></td><td><code>*C(=C(*)C1(C)CC(C)(C)c1ccc(F)cc1)=C(*)c1ccc(F)cc1</code></td></tr><tr><td>ru_000053</td><td>RDKit 无法解析</td><td><code>C([Si](C)(C)C)C[Si](C)(/C(*)=C(/C)*)C</code></td><td><code>*/C(C)=C(/*)[Si](C)(C)CC[Si](C)(C)C</code></td><td><code>*C(C[Si](C)(C)C)[[Si](C)(C)C)C(*)(C)C</code></td></tr><tr><td>ru_000057</td><td>RDKit 无法解析</td><td><code>c1c(/C(=C(\*)C)*)cccc1</code></td><td><code>*/C(C)=C(/*)c1ccccc1</code></td><td><code>*C=C(*)C(C)=C1ccccc1</code></td></tr></tbody></table>
+                </div>
+                <div>
+                  <h4>V3 失败样例</h4>
+                  <table class=""><thead><tr><th>record_id</th><th>类型</th><th>input view</th><th>target</th><th>decoded</th></tr></thead><tbody><tr><td>omg_v3_0000122</td><td>合法但 canonical 错误</td><td><code>C(COCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O)OCCC(=O)NCCN(N=O)CCN*</code></td><td><code>*NCCN(CCNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O)N=O</code></td><td><code>*NCCN(CCNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O)N=O</code></td></tr><tr><td>omg_v3_0000226</td><td>合法但 canonical 错误</td><td><code>O=C(c1c(cc(C(OCC)=O)cc1)C(=O)*)NC1SC(=C(C(c2c(Cl)cccc2Cl)C=1C#N)C#N)N*</code></td><td><code>*NC1=C(C#N)C(c2c(Cl)cccc2Cl)C(C#N)=C(NC(=O)c2ccc(C(=O)OCC)cc2C(*)=O)S1</code></td><td><code>*NC1=C(C#N)C(c2c(Cl)cccc2Cl)C(C#N)=C(NC(=O)c2cc(C(=O)OCC)ccc2C(*)=O)S1</code></td></tr><tr><td>omg_v3_0000351</td><td>attachment 数错误</td><td><code>*C(C(NC(=O)OCC1c2ccccc2-c2c1cccc2)CC(=O)Nc1c(c(ccc1C(=O)OCC)Br)N*)=O</code></td><td><code>*Nc1c(Br)ccc(C(=O)OCC)c1NC(=O)CC(NC(=O)OCC1c2ccccc2-c2ccccc21)C(*)=O</code></td><td><code>*Nc1c(Br)ccc(C(=O)OCC)c1NC(=O)CC(CC(=O)NC(CC(*)=O)C(*)=O)c1ccccc1-c1ccccc1</code></td></tr><tr><td>omg_v3_0000394</td><td>合法但 canonical 错误</td><td><code>c1(NC(=S)N*)c(cccc1)NC(CS(=O)(c1ccc(-c2ccc(cc2)S(=O)(=O)CC(=O)*)cc1)=O)=O</code></td><td><code>*NC(=S)Nc1ccccc1NC(=O)CS(=O)(=O)c1ccc(-c2ccc(S(=O)(=O)CC(*)=O)cc2)cc1</code></td><td><code>*NC(=S)Nc1ccccc1NC(=S)NS(=O)(=O)c1ccc(-c2ccc(S(=O)(=O)CC(*)=O)cc2)cc1</code></td></tr></tbody></table>
+                </div>
+              </div>
+            </section>
+
+
+            <section class="strategy-detail">
+              <h3>direction_flip</h3>
+              <table class=""><thead><tr><th>eval set</th><th>rows</th><th>canonical</th><th>RDKit valid</th><th>two attachment</th><th>invalid</th><th>valid wrong</th></tr></thead><tbody><tr><td>V2 curated test</td><td>1,158</td><td><div class="bar"><span style="width:12.09%"></span></div><div class="bar-label">12.09%</div></td><td>41.62%</td><td>39.38%</td><td>676</td><td>316</td></tr><tr><td>V3 OMG test</td><td>100,000</td><td><div class="bar"><span style="width:97.75%"></span></div><div class="bar-label">97.75%</div></td><td>99.22%</td><td>99.19%</td><td>778</td><td>1,443</td></tr></tbody></table>
+              <div class="two-col">
+                <div>
+                  <h4>V2 失败样例</h4>
+                  <table class=""><thead><tr><th>record_id</th><th>类型</th><th>input view</th><th>target</th><th>decoded</th></tr></thead><tbody><tr><td>ru_000011</td><td>RDKit 无法解析</td><td><code>c1c(ccc(c1)/C(=C(\*)c1ccccc1)*)[Si](C)(C)C</code></td><td><code>*/C(=C(/*)c1ccc([Si](C)(C)C)cc1)c1ccccc1</code></td><td><code>*C(=C(*)[Si](C)(C)C)c1ccccc1)c1ccc([Si](C)(C)C</code></td></tr><tr><td>ru_000023</td><td>RDKit 无法解析</td><td><code>C(=C(/c1ccc(cc1)F)*)(/*)c1cc2c(C(CC2(C)C)(C)C)cc1</code></td><td><code>*/C(=C(/*)c1ccc2c(c1)C(C)(C)CC2(C)C)c1ccc(F)cc1</code></td><td><code>*C(C)(C)c1ccc(F)cc1)=C(*)c1ccc2c(C)(C)CC2=O)cc1</code></td></tr><tr><td>ru_000053</td><td>合法但 canonical 错误</td><td><code>C(=C(\*)[Si](CC[Si](C)(C)C)(C)C)(/*)C</code></td><td><code>*/C(C)=C(/*)[Si](C)(C)CC[Si](C)(C)C</code></td><td><code>*C=C[Si](C)(C)CC[Si](C)(C)C(C)=C(*)[Si](C)(C)C</code></td></tr><tr><td>ru_000057</td><td>合法但 canonical 错误</td><td><code>C(/C)(*)=C(\c1ccccc1)*</code></td><td><code>*/C(C)=C(/*)c1ccccc1</code></td><td><code>*C(C)=C(*)c1ccccc1</code></td></tr></tbody></table>
+                </div>
+                <div>
+                  <h4>V3 失败样例</h4>
+                  <table class=""><thead><tr><th>record_id</th><th>类型</th><th>input view</th><th>target</th><th>decoded</th></tr></thead><tbody><tr><td>omg_v3_0000122</td><td>RDKit 无法解析</td><td><code>*C(CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(NCCN(CCN*)N=O)=O)=O</code></td><td><code>*NCCN(CCNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O)N=O</code></td><td><code>*NCCN(CCNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O</code></td></tr><tr><td>omg_v3_0000711</td><td>合法但 canonical 错误</td><td><code>*C(CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(Nc1c(N*)c(C(=O)O)cc(Cl)c1Br)=O)=O</code></td><td><code>*Nc1c(C(=O)O)cc(Cl)c(Br)c1NC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O</code></td><td><code>*Nc1c(C(=O)O)cc(Cl)c(Br)c1NC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O</code></td></tr><tr><td>omg_v3_0001969</td><td>合法但 canonical 错误</td><td><code>*C(CNC(C(NCC(NNC(COCCOCCOCC(NN*)=O)=O)=O)=S)=S)=O</code></td><td><code>*NNC(=O)COCCOCCOCC(=O)NNC(=O)CNC(=S)C(=S)NCC(*)=O</code></td><td><code>*NNC(=O)COCCOCCOCC(=O)NNC(=S)CNC(=S)C(=S)NCC(*)=O</code></td></tr><tr><td>omg_v3_0002233</td><td>RDKit 无法解析</td><td><code>*C(NC(CC(NC(C(N*)C)c1ccccc1)=O)C(=O)OC(C)(C)C)=O</code></td><td><code>*NC(C)C(NC(=O)CC(NC(*)=O)C(=O)OC(C)(C)C)c1ccccc1</code></td><td><code>*NC(C)C(NC(=O)CC(NC(*)=O)c1ccccc1)c1ccccc1)c1ccccc1</code></td></tr></tbody></table>
+                </div>
+              </div>
+            </section>
+
+
+            <section class="strategy-detail">
+              <h3>attachment_rooted_smiles</h3>
+              <table class=""><thead><tr><th>eval set</th><th>rows</th><th>canonical</th><th>RDKit valid</th><th>two attachment</th><th>invalid</th><th>valid wrong</th></tr></thead><tbody><tr><td>V2 curated test</td><td>1,158</td><td><div class="bar"><span style="width:18.74%"></span></div><div class="bar-label">18.74%</div></td><td>42.92%</td><td>40.76%</td><td>661</td><td>255</td></tr><tr><td>V3 OMG test</td><td>100,000</td><td><div class="bar"><span style="width:99.45%"></span></div><div class="bar-label">99.45%</div></td><td>99.85%</td><td>99.84%</td><td>151</td><td>392</td></tr></tbody></table>
+              <div class="two-col">
+                <div>
+                  <h4>V2 失败样例</h4>
+                  <table class=""><thead><tr><th>record_id</th><th>类型</th><th>input view</th><th>target</th><th>decoded</th></tr></thead><tbody><tr><td>ru_000011</td><td>合法但 canonical 错误</td><td><code>*/C(=C(/*)c1ccccc1)c1ccc([Si](C)(C)C)cc1</code></td><td><code>*/C(=C(/*)c1ccc([Si](C)(C)C)cc1)c1ccccc1</code></td><td><code>*C(=C(*)[Si](C)(C)C)c1ccc([Si](C)(C)C)cc1</code></td></tr><tr><td>ru_000023</td><td>RDKit 无法解析</td><td><code>*/C(=C(/*)c1ccc(F)cc1)c1ccc2c(c1)C(C)(C)CC2(C)C</code></td><td><code>*/C(=C(/*)c1ccc2c(c1)C(C)(C)CC2(C)C)c1ccc(F)cc1</code></td><td><code>*C(=C(*)C1(C)CC(C)(C)c1ccc(F)cc1)c1ccc2c(c1)C(C)(C)CC2</code></td></tr><tr><td>ru_000053</td><td>RDKit 无法解析</td><td><code>*/C(=C(/*)C)[Si](C)(C)CC[Si](C)(C)C</code></td><td><code>*/C(C)=C(/*)[Si](C)(C)CC[Si](C)(C)C</code></td><td><code>*C(C[Si](C)(C)CC[Si](C)(C)C(C)(C)C(*)[Si]1</code></td></tr><tr><td>ru_000057</td><td>合法但 canonical 错误</td><td><code>*/C(=C(/*)C)c1ccccc1</code></td><td><code>*/C(C)=C(/*)c1ccccc1</code></td><td><code>*C(=C(*)C(C)=C)c1ccccc1</code></td></tr></tbody></table>
+                </div>
+                <div>
+                  <h4>V3 失败样例</h4>
+                  <table class=""><thead><tr><th>record_id</th><th>类型</th><th>input view</th><th>target</th><th>decoded</th></tr></thead><tbody><tr><td>omg_v3_0000122</td><td>合法但 canonical 错误</td><td><code>N(*)CCN(CCNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O)N=O</code></td><td><code>*NCCN(CCNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O)N=O</code></td><td><code>*NCCN(CCNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O)N=O</code></td></tr><tr><td>omg_v3_0002488</td><td>合法但 canonical 错误</td><td><code>N(*)c1cc(S(=O)(=O)NC(=O)CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC(*)=O)ccc1Br</code></td><td><code>*Nc1cc(S(=O)(=O)NC(=O)CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC(*)=O)ccc1Br</code></td><td><code>*Nc1cc(S(=O)(=O)NC(=O)CCCCCCCCCCCCCCCCCCCCCCCCCCC(*)=O)ccc1Br</code></td></tr><tr><td>omg_v3_0005659</td><td>合法但 canonical 错误</td><td><code>N(*)CCCCCCNC(=O)COCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCC(*)=O</code></td><td><code>*NCCCCCCNC(=O)COCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCC(*)=O</code></td><td><code>*NCCCCCCNC(=O)COCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCC(*)=O</code></td></tr><tr><td>omg_v3_0007179</td><td>合法但 canonical 错误</td><td><code>N(*)CCNC(=O)CNC(=O)CNC(=O)CNC(=O)CNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O</code></td><td><code>*NCCNC(=O)CNC(=O)CNC(=O)CNC(=O)CNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O</code></td><td><code>*NCCNC(=O)CNC(=O)CNC(=O)CNC(=O)CNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O</code></td></tr></tbody></table>
+                </div>
+              </div>
+            </section>
+
+
+            <section class="strategy-detail">
+              <h3>light_denoise</h3>
+              <table class=""><thead><tr><th>eval set</th><th>rows</th><th>canonical</th><th>RDKit valid</th><th>two attachment</th><th>invalid</th><th>valid wrong</th></tr></thead><tbody><tr><td>V2 curated test</td><td>1,158</td><td><div class="bar"><span style="width:14.59%"></span></div><div class="bar-label">14.59%</div></td><td>42.57%</td><td>41.71%</td><td>665</td><td>314</td></tr><tr><td>V3 OMG test</td><td>100,000</td><td><div class="bar"><span style="width:84.66%"></span></div><div class="bar-label">84.66%</div></td><td>97.46%</td><td>97.45%</td><td>2,536</td><td>12,788</td></tr></tbody></table>
+              <div class="two-col">
+                <div>
+                  <h4>V2 失败样例</h4>
+                  <table class=""><thead><tr><th>record_id</th><th>类型</th><th>input view</th><th>target</th><th>decoded</th></tr></thead><tbody><tr><td>ru_000011</td><td>合法但 canonical 错误</td><td><code>*/C(=C(/*)c1ccc([Si](C)(C&lt;mask&gt;&lt;mask&gt;)cc1)c1cc&lt;mask&gt;cc1</code></td><td><code>*/C(=C(/*)c1ccc([Si](C)(C)C)cc1)c1ccccc1</code></td><td><code>*C(=C(*)[Si](C)(C)c1ccccc1)c1ccccc1</code></td></tr><tr><td>ru_000023</td><td>RDKit 无法解析</td><td><code>*/C(=C/*)c1ccc2c(c1)C(C)(C)CC2(C)C)c1ccc(F)cc1</code></td><td><code>*/C(=C(/*)c1ccc2c(c1)C(C)(C)CC2(C)C)c1ccc(F)cc1</code></td><td><code>*C(=C(*)C1(C)CC(C)(C)c1ccc(F)cc1)c1ccc(F)cc1</code></td></tr><tr><td>ru_000053</td><td>合法但 canonical 错误</td><td><code>*/C(C)=C(/*)&lt;mask&gt;(&lt;mask&gt;)(C)CC[Si](C)(C)C</code></td><td><code>*/C(C)=C(/*)[Si](C)(C)CC[Si](C)(C)C</code></td><td><code>*C(C)=C(*)[Si](C)(C)C(C)(C)CC[Si](C)(C)C</code></td></tr><tr><td>ru_000057</td><td>合法但 canonical 错误</td><td><code>*/C(C)=C(/*)c1cccc&lt;mask&gt;1</code></td><td><code>*/C(C)=C(/*)c1ccccc1</code></td><td><code>*C(C)=C(*)c1ccccc1</code></td></tr></tbody></table>
+                </div>
+                <div>
+                  <h4>V3 失败样例</h4>
+                  <table class=""><thead><tr><th>record_id</th><th>类型</th><th>input view</th><th>target</th><th>decoded</th></tr></thead><tbody><tr><td>omg_v3_0000108</td><td>合法但 canonical 错误</td><td><code>*Nc1nc&lt;mask&gt;-c2ccc(-c3ccc(-c4csc(NC(=O)C(CC&lt;mask&gt;5ccccc&lt;mask&gt;Br)C(*)=O)n4)cc3&lt;mask&gt;cc2)cs&lt;mask&gt;</code></td><td><code>*Nc1nc(-c2ccc(-c3ccc(-c4csc(NC(=O)C(CCc5ccccc5Br)C(*)=O)n4)cc3)cc2)cs1</code></td><td><code>*Nc1nc(-c2ccc(-c3ccc(-c4csc(NC(=O)C(CCCc5ccccc5Br)C(*)=O)n4)cc3)cc2)cs1</code></td></tr><tr><td>omg_v3_0000122</td><td>合法但 canonical 错误</td><td><code>*NCCN(CC&lt;mask&gt;C(=O)CCOCCOCCOCCO&lt;mask&gt;COCC&lt;mask&gt;&lt;mask&gt;COCCOCCOCCOC&lt;mask&gt;OCCOCCOCCOCCO&lt;mask&gt;COCCOCCOC&lt;mask&gt;OCCOCCOCCC(*)=O)N=O</code></td><td><code>*NCCN(CCNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O)N=O</code></td><td><code>*NCCN(CCNC(=O)CCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCOCCC(*)=O)N=O</code></td></tr><tr><td>omg_v3_0000188</td><td>合法但 canonical 错误</td><td><code>*Nc1c(Br)ccc(S&lt;mask&gt;)c1NC(=O)c1cc&lt;mask&gt;c(C(*)=O)c&lt;mask&gt;</code></td><td><code>*Nc1c(Br)ccc(SC)c1NC(=O)c1ccnc(C(*)=O)c1</code></td><td><code>*Nc1c(Br)ccc(SC)c1NC(=O)c1cccc(C(*)=O)c1</code></td></tr><tr><td>omg_v3_0000216</td><td>合法但 canonical 错误</td><td><code>*N&lt;mask&gt;1cc(OC)c(&lt;mask&gt;C(=O)C&lt;mask&gt;CCC(N)C(*)=O)cc1C(=O)O</code></td><td><code>*Nc1cc(OC)c(NC(=O)CCCCC(N)C(*)=O)cc1C(=O)O</code></td><td><code>*Nc1cc(OC)c(NC(=O)CSCC(N)C(*)=O)cc1C(=O)O</code></td></tr></tbody></table>
+                </div>
+              </div>
+            </section>
+
+
+  <h2>6. 文件清单</h2>
+  <table class=""><thead><tr><th>file</th><th>size</th></tr></thead><tbody><tr><td><code>v2_test/test_candidate_eval_summary.json</code></td><td>692 B</td></tr><tr><td><code>v2_test/v3_epoch001/test_eval_metrics.json</code></td><td>656 B</td></tr><tr><td><code>v2_test/v3_epoch001/test_eval_report.md</code></td><td>982 B</td></tr><tr><td><code>v2_test/v3_epoch001/test_failed_cases.jsonl</code></td><td>3.3 MiB</td></tr><tr><td><code>v2_test/v3_epoch001/test_predictions.jsonl</code></td><td>3.8 MiB</td></tr><tr><td><code>v3_test/test_candidate_eval_summary.json</code></td><td>649 B</td></tr><tr><td><code>v3_test/v3_epoch001/test_eval_metrics.json</code></td><td>613 B</td></tr><tr><td><code>v3_test/v3_epoch001/test_eval_report.md</code></td><td>930 B</td></tr><tr><td><code>v3_test/v3_epoch001/test_failed_cases.jsonl</code></td><td>20.9 MiB</td></tr><tr><td><code>v3_test/v3_epoch001/test_predictions.jsonl</code></td><td>338.1 MiB</td></tr></tbody></table>
+</main>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{
+  "all_view_by_strategy": {
+    "attachment_rooted_smiles": {
+      "canonical_match": 1.0,
+      "exact_string_match": 1.0,
+      "failed_count": 0,
+      "rdkit_validity": 1.0,
+      "sample_count": 25,
+      "two_attachment_validity": 1.0
+    },
+    "direction_flip": {
+      "canonical_match": 1.0,
+      "exact_string_match": 1.0,
+      "failed_count": 0,
+      "rdkit_validity": 1.0,
+      "sample_count": 26,
+      "two_attachment_validity": 1.0
+    },
+    "identity": {
+      "canonical_match": 1.0,
+      "exact_string_match": 1.0,
+      "failed_count": 0,
+      "rdkit_validity": 1.0,
+      "sample_count": 26,
+      "two_attachment_validity": 1.0
+    },
+    "light_denoise": {
+      "canonical_match": 0.92,
+      "exact_string_match": 0.92,
+      "failed_count": 2,
+      "rdkit_validity": 1.0,
+      "sample_count": 25,
+      "two_attachment_validity": 1.0
+    },
+    "rdkit_random_smiles": {
+      "canonical_match": 0.9230769230769231,
+      "exact_string_match": 0.9230769230769231,
+      "failed_count": 2,
+      "rdkit_validity": 1.0,
+      "sample_count": 26,
+      "two_attachment_validity": 1.0
+    }
+  },
+  "all_view_strategy_macro_avg": {
+    "canonical_match": 0.9686153846153847,
+    "exact_string_match": 0.9686153846153847,
+    "rdkit_validity": 1.0,
+    "strategies": [
+      "attachment_rooted_smiles",
+      "direction_flip",
+      "identity",
+      "light_denoise",
+      "rdkit_random_smiles"
+    ],
+    "strategy_count": 5,
+    "two_attachment_validity": 1.0
+  },
+  "all_view_test_canonical_match": 0.90625,
+  "all_view_test_loss": 0.006055140897246442,
+  "best_early_stopping_checkpoint": null,
+  "best_early_stopping_metric": null,
+  "canonical_match": 0.96875,
+  "completed_epochs": 1,
+  "decoded_sample_count": 128,
+  "early_stop_reason": null,
+  "early_stopped": false,
+  "early_stopping_monitor_only": true,
+  "exact_string_match": 0.96875,
+  "formal_eval_full_decode": false,
+  "full_final_decode": false,
+  "identity_test_canonical_match": 0.90625,
+  "identity_test_loss": 0.006055140897246442,
+  "loss": 0.006177950955105677,
+  "optimizer_steps": 250000,
+  "rdkit_validity": 1.0,
+  "sample_count": 500000,
+  "test_sample_count": 500000,
+  "token_accuracy": 0.9979487998590469,
+  "train_loss_decreased": true,
+  "train_loss_first_window": 0.10176681501556442,
+  "train_loss_last_window": 0.008207843565674302,
+  "train_sample_count": 4000000,
+  "two_attachment_validity": 1.0,
+  "valid_sample_count": 500000
+}

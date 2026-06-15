@@ -1,0 +1,413 @@
+{
+  "augmentation_failures": {
+    "count": 0,
+    "examples": []
+  },
+  "dataset_dir": "data/baselite_smiles_v3",
+  "distinct_views": {
+    "distinct_view_audit_examples": [
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000002",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)c1nc(NC(=O)CN(CC(*)=O)C(=O)OCc2ccccc2)nc(OC)n1"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000004",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)C1CC2CC(NC(=O)c3cc(NC(=O)C(Cl)Cl)cc(C(*)=O)c3)CC2C1"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 0,
+        "record_id": "omg_v3_0000004",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "light_denoise",
+        "text_view_1": "*<mask>C1CC2CC(<mask>C(=O)c3cc(NC<mask>=O)C(Cl)Cl)<mask>c(C(*)=O)c3)CC2C1"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000005",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)Cc1cccc(CNC(=O)c2cc(F)c(C(*)=O)cc2F)c1"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000006",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)C(=NN=Cc1ccccc1Br)NC(=O)c1csc(C(*)=O)c1Br"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 0,
+        "record_id": "omg_v3_0000006",
+        "selected_retry_attempt": 1,
+        "split": "train",
+        "strategy": "light_denoise",
+        "text_view_1": "*NC(=NN=Cc1ccccc1Br)NC(=O)c1c<mask><mask>(C(*)<mask>O)c1Br"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000007",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)OCONC(=O)c1ccccc1C(=O)NC(CC(C)C)C(*)=O"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000008",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)c1nonc1-c1nonc1-c1nonc1NC(=O)C1(C(*)=O)CC2(CC(OC)(OC)C2)C1"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 0,
+        "record_id": "omg_v3_0000008",
+        "selected_retry_attempt": 1,
+        "split": "train",
+        "strategy": "light_denoise",
+        "text_view_1": "*Nc1nonc1-c<mask>nonc1-c1nonc1<mask>C(<mask>O)C1(C(*<mask>=O)CC2(CC(OC)(OC)C2)C<mask>"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000009",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)C(=S)C(=S)NC(=O)C(C)(COC)C(*)=O"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000010",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)c1ccc(NS(=O)(=O)c2cccc(NC(=O)CN(CC(*)=O)N=Cc3ccccc3OCc3ccccc3)c2)cc1"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000011",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)S(=O)(=O)c1ccc(C(=O)OC)cc1NC(=O)COC1(C(*)=O)CC1"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000012",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)CCCCCCCNC(=O)C(C)NC(C)C(*)=O"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000013",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)C(c1ccccc1)C(NC(=O)CC(CC(*)=O)c1c(Cl)cccc1Cl)c1ccccc1"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 0,
+        "record_id": "omg_v3_0000013",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "light_denoise",
+        "text_view_1": "*NC(c1ccccc1)C<mask>NC(=O)CC(CC(*)=O)c<mask>c(Cl)cccc1Cl)c<mask>cc<mask>cc1"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000014",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)c1cc(NC(=O)c2cccc(C(*)=O)c2)c(SC)cc1Cl"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 0,
+        "record_id": "omg_v3_0000014",
+        "selected_retry_attempt": 3,
+        "split": "train",
+        "strategy": "light_denoise",
+        "text_view_1": "*Nc1cc(NC(=O)c2cccc(C(*)=O<mask>c2)c<mask>SC)<mask>c1Cl"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000015",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)Cc1cc(Cl)c(NC(=O)CCSC(C)C(*)=O)c(Cl)c1"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 2,
+        "record_id": "omg_v3_0000016",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "attachment_rooted_smiles",
+        "text_view_1": "N(*)c1ccc(S(=O)(=O)NC(=O)CN(CC(*)=O)N=Cc2ccc(OCC)cc2)cc1"
+      },
+      {
+        "distinct_surface_variant": false,
+        "duplicate_attempt_count": 0,
+        "record_id": "omg_v3_0000016",
+        "selected_retry_attempt": 2,
+        "split": "train",
+        "strategy": "light_denoise",
+        "text_view_1": "*Nc1c<mask>c(S(=<mask>)(=O)NC(=O)CN(CC(*)=O)N=Cc2ccc(OCC)<mask>c2)<mask>c1"
+      }
+    ],
+    "distinct_view_audit_row_count": 1497767,
+    "distinct_view_policy": "retry_seed_or_root_then_bracket_attachment_surface_variant"
+  },
+  "expected": {
+    "base_record_count": 1000000,
+    "training_row_count": 5000000
+  },
+  "generated_at_utc": "2026-06-10T18:56:48.406637+00:00",
+  "graph_path": "data/processed/omg_repeat_unit_graphs_v3.jsonl",
+  "input_files": {
+    "dataset_dir": "data/baselite_smiles_v3",
+    "graph_jsonl": "data/processed/omg_repeat_unit_graphs_v3.jsonl"
+  },
+  "input_label_conflicts": {
+    "audit_examples": [],
+    "input_label_conflict_final_count": 0
+  },
+  "limits": {
+    "max_seq_len_restore_label": 512,
+    "max_seq_len_view": 512
+  },
+  "output_dir": "data/baselite_smiles_aug_v3",
+  "outputs": {
+    "augmentation_failures_jsonl": "data/baselite_smiles_aug_v3/augmentation_failures.jsonl",
+    "distinct_view_audit_jsonl": "data/baselite_smiles_aug_v3/distinct_view_audit.jsonl",
+    "input_label_conflict_audit_jsonl": "data/baselite_smiles_aug_v3/input_label_conflict_audit.jsonl",
+    "report_md": "data/baselite_smiles_aug_v3/training_template_report.md",
+    "stats_json": "data/baselite_smiles_aug_v3/training_template_stats.json",
+    "training_preview_jsonl": "data/baselite_smiles_aug_v3/training_template_preview.jsonl"
+  },
+  "previews": {
+    "training": {
+      "counts": {
+        "test": 500000,
+        "total": 5000000,
+        "train": 4000000,
+        "valid": 500000
+      },
+      "quality_checks": {
+        "mask_failure_count": 0,
+        "mask_failure_examples": [],
+        "restore_label_length_overflow_count": 0,
+        "restore_label_length_overflow_examples": [],
+        "restore_roundtrip_failure_count": 0,
+        "restore_roundtrip_failure_examples": [],
+        "view_length_overflow_count": 0,
+        "view_length_overflow_examples": [],
+        "view_roundtrip_failure_count": 0,
+        "view_roundtrip_failure_examples": []
+      },
+      "record_strategy_quality": {
+        "bad_record_count": 0,
+        "bad_record_examples": [],
+        "record_count": 1000000,
+        "records_with_exactly_five_strategies": 1000000
+      },
+      "splits": {
+        "test": {
+          "restore_label_length": {
+            "count": 500000,
+            "max": 126,
+            "mean": 36.0242,
+            "min": 6,
+            "p50": 35,
+            "p90": 47,
+            "p95": 52,
+            "p99": 64
+          },
+          "view1_token_length": {
+            "count": 500000,
+            "max": 162,
+            "mean": 51.3276,
+            "min": 19,
+            "p50": 50,
+            "p90": 63,
+            "p95": 69,
+            "p99": 82
+          }
+        },
+        "train": {
+          "restore_label_length": {
+            "count": 4000000,
+            "max": 128,
+            "mean": 35.9852,
+            "min": 5,
+            "p50": 35,
+            "p90": 47,
+            "p95": 52,
+            "p99": 64
+          },
+          "view1_token_length": {
+            "count": 4000000,
+            "max": 168,
+            "mean": 51.291,
+            "min": 18,
+            "p50": 50,
+            "p90": 63,
+            "p95": 69,
+            "p99": 82
+          }
+        },
+        "valid": {
+          "restore_label_length": {
+            "count": 500000,
+            "max": 131,
+            "mean": 36.0072,
+            "min": 6,
+            "p50": 35,
+            "p90": 47,
+            "p95": 52,
+            "p99": 65
+          },
+          "view1_token_length": {
+            "count": 500000,
+            "max": 171,
+            "mean": 51.3126,
+            "min": 19,
+            "p50": 50,
+            "p90": 63,
+            "p95": 69,
+            "p99": 82
+          }
+        }
+      },
+      "strategy_counts": {
+        "attachment_rooted_smiles": 1000000,
+        "direction_flip": 1000000,
+        "identity": 1000000,
+        "light_denoise": 1000000,
+        "rdkit_random_smiles": 1000000
+      },
+      "strategy_counts_by_split": {
+        "test": {
+          "attachment_rooted_smiles": 100000,
+          "direction_flip": 100000,
+          "identity": 100000,
+          "light_denoise": 100000,
+          "rdkit_random_smiles": 100000
+        },
+        "train": {
+          "attachment_rooted_smiles": 800000,
+          "direction_flip": 800000,
+          "identity": 800000,
+          "light_denoise": 800000,
+          "rdkit_random_smiles": 800000
+        },
+        "valid": {
+          "attachment_rooted_smiles": 100000,
+          "direction_flip": 100000,
+          "identity": 100000,
+          "light_denoise": 100000,
+          "rdkit_random_smiles": 100000
+        }
+      },
+      "validity_counts": {
+        "canonical_match": {
+          "false": 0,
+          "true": 4000000,
+          "unknown": 1000000
+        },
+        "rdkit_valid": {
+          "false": 0,
+          "true": 4000000,
+          "unknown": 1000000
+        },
+        "two_attachment_valid": {
+          "false": 0,
+          "true": 5000000,
+          "unknown": 0
+        }
+      }
+    }
+  },
+  "stage": "stage_b_restore_aug_v3_template_preview",
+  "template": {
+    "augmentation_policy": "restore_aug_v3",
+    "difficulty_by_strategy": {
+      "attachment_rooted_smiles": {
+        "level": 4,
+        "name": "attachment_rooted_equivalent"
+      },
+      "direction_flip": {
+        "level": 3,
+        "name": "direction_flip_equivalent"
+      },
+      "identity": {
+        "level": 1,
+        "name": "identity"
+      },
+      "light_denoise": {
+        "level": 5,
+        "name": "light_denoise"
+      },
+      "rdkit_random_smiles": {
+        "level": 2,
+        "name": "equivalent_random_smiles"
+      }
+    },
+    "input_text_view1": "<polymer_view_smiles>\\n{text_view_1}\\n</polymer_view_smiles>\\n",
+    "strategies": [
+      "identity",
+      "rdkit_random_smiles",
+      "direction_flip",
+      "attachment_rooted_smiles",
+      "light_denoise"
+    ],
+    "target_text": "canonical_text_target + tokenizer.eos_token",
+    "task": "stage_b_restore_only_augmented_v3",
+    "uses_graph_sidecar": true,
+    "views_per_record": 5
+  },
+  "tokenizer": {
+    "class": "Qwen2Tokenizer",
+    "eos_token": "<|endoftext|>",
+    "eos_token_id": 151643,
+    "is_fast": true,
+    "len": 151665,
+    "model_max_length": 131072,
+    "pad_token": "<|endoftext|>",
+    "pad_token_id": 151643,
+    "path": "models/qwen2.5-7b-tokenizer",
+    "vocab_size": 151643
+  }
+}

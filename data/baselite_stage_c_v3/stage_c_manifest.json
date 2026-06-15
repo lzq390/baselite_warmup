@@ -1,0 +1,123 @@
+{
+  "counts": {
+    "dataset_rows": 1000000,
+    "graph_rows": 1000000,
+    "split": {
+      "test": 100000,
+      "train": 800000,
+      "valid": 100000
+    },
+    "unique_canonical_hash": 1000000,
+    "unique_graph_hash": 1000000,
+    "unique_record_id": 1000000
+  },
+  "dataset_dir": "data/baselite_smiles_v3",
+  "feature_schema_summary": {
+    "edge_categorical_sizes": {
+      "bond_type": 4
+    },
+    "edge_feature_dim": 7,
+    "node_categorical_sizes": {
+      "attachment_role": 3,
+      "element": 11,
+      "hybridization": 5
+    },
+    "node_feature_dim": 25
+  },
+  "fragment_vocab": null,
+  "generated_at_utc": "2026-06-10T09:21:39.203105+00:00",
+  "graph_path": "data/processed/omg_repeat_unit_graphs_v3.jsonl",
+  "graph_stats": {
+    "bond_types": {
+      "AROMATIC": 10388451,
+      "DOUBLE": 3089610,
+      "SINGLE": 18040170,
+      "TRIPLE": 46995
+    },
+    "edge_count": {
+      "count": 1000000,
+      "max": 149,
+      "mean": 31.5652,
+      "min": 4,
+      "p50": 30,
+      "p90": 42,
+      "p95": 46,
+      "p99": 61
+    },
+    "node_count": {
+      "count": 1000000,
+      "max": 150,
+      "mean": 30.4142,
+      "min": 5,
+      "p50": 29,
+      "p90": 40,
+      "p95": 44,
+      "p99": 58
+    },
+    "top_elements": [
+      [
+        "C",
+        19811928
+      ],
+      [
+        "O",
+        5327372
+      ],
+      [
+        "*",
+        2000000
+      ],
+      [
+        "N",
+        1859940
+      ],
+      [
+        "F",
+        482010
+      ],
+      [
+        "S",
+        409829
+      ],
+      [
+        "Cl",
+        294080
+      ],
+      [
+        "Br",
+        213287
+      ],
+      [
+        "Si",
+        5665
+      ],
+      [
+        "B",
+        5496
+      ],
+      [
+        "P",
+        4572
+      ]
+    ]
+  },
+  "join_quality": {
+    "canonical_hash_mismatch_count": 0,
+    "canonical_hash_mismatch_examples": [],
+    "dataset_rows": 1000000,
+    "extra_graph_record_count": 0,
+    "extra_graph_record_examples": [],
+    "graph_rows": 1000000,
+    "missing_graph_by_canonical_hash": 0,
+    "missing_graph_by_record_id": 0
+  },
+  "output_dir": "data/baselite_stage_c_v3",
+  "outputs": {
+    "graph_feature_schema": "data/baselite_stage_c_v3/graph_feature_schema.json",
+    "join_report": "data/baselite_stage_c_v3/stage_c_join_report.md",
+    "manifest": "data/baselite_stage_c_v3/stage_c_manifest.json"
+  },
+  "stage": "stage_c_non_vocab_dataset_audit",
+  "uses_fragment_labels": false,
+  "uses_graph_tensor": true
+}

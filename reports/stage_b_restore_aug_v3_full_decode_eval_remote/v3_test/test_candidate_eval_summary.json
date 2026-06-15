@@ -1,0 +1,18 @@
+[
+  {
+    "batch_size": 16,
+    "candidate_name": "v3_epoch001",
+    "canonical_match": 0.939926,
+    "checkpoint_dir": "/root/autodl-tmp/baselite_omg_v3_stageb/work/outputs/stage_b_restore_aug_v3_full_1epoch",
+    "decode_sample_limit": 500000,
+    "decoded_sample_count": 500000,
+    "exact_string_match": 0.938814,
+    "loss": 0.006073873070413393,
+    "preview_path": "/root/autodl-tmp/baselite_omg_v3_stageb/work/data/baselite_smiles_aug_v3/training_template_preview.jsonl",
+    "rdkit_validity": 0.985668,
+    "sample_count": 500000,
+    "split": "test",
+    "token_accuracy": 0.9979640787220001,
+    "two_attachment_validity": 0.985386
+  }
+]

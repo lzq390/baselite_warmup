@@ -1,0 +1,68 @@
+{
+  "all_view_by_strategy": {
+    "attachment_rooted_smiles": {
+      "canonical_match": 0.96,
+      "exact_string_match": 0.96,
+      "failed_count": 1,
+      "rdkit_validity": 1.0,
+      "sample_count": 25,
+      "two_attachment_validity": 1.0
+    },
+    "direction_flip": {
+      "canonical_match": 0.9615384615384616,
+      "exact_string_match": 0.9615384615384616,
+      "failed_count": 1,
+      "rdkit_validity": 0.9615384615384616,
+      "sample_count": 26,
+      "two_attachment_validity": 0.9615384615384616
+    },
+    "identity": {
+      "canonical_match": 0.9615384615384616,
+      "exact_string_match": 0.9615384615384616,
+      "failed_count": 1,
+      "rdkit_validity": 1.0,
+      "sample_count": 26,
+      "two_attachment_validity": 1.0
+    },
+    "light_denoise": {
+      "canonical_match": 0.72,
+      "exact_string_match": 0.72,
+      "failed_count": 7,
+      "rdkit_validity": 1.0,
+      "sample_count": 25,
+      "two_attachment_validity": 1.0
+    },
+    "rdkit_random_smiles": {
+      "canonical_match": 0.9230769230769231,
+      "exact_string_match": 0.9230769230769231,
+      "failed_count": 2,
+      "rdkit_validity": 1.0,
+      "sample_count": 26,
+      "two_attachment_validity": 1.0
+    }
+  },
+  "all_view_strategy_macro_avg": {
+    "canonical_match": 0.9052307692307693,
+    "exact_string_match": 0.9052307692307693,
+    "rdkit_validity": 0.9923076923076923,
+    "strategies": [
+      "attachment_rooted_smiles",
+      "direction_flip",
+      "identity",
+      "light_denoise",
+      "rdkit_random_smiles"
+    ],
+    "strategy_count": 5,
+    "two_attachment_validity": 0.9923076923076923
+  },
+  "canonical_match": 0.90625,
+  "decoded_sample_count": 128,
+  "exact_string_match": 0.90625,
+  "formal_eval_full_decode": false,
+  "full_final_decode": false,
+  "loss": 0.006055140897246442,
+  "rdkit_validity": 0.9921875,
+  "sample_count": 500000,
+  "token_accuracy": 0.9979656279439926,
+  "two_attachment_validity": 0.9921875
+}

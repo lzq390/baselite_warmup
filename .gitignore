@@ -216,6 +216,11 @@ reports/**/*failed_cases.jsonl
 reports/**/train_input_label_conflicts.jsonl
 reports/**/*_remote_current/
 
+# Large OMG v3 generated datasets and graph sidecars
+data/baselite_smiles_v3/*.jsonl
+data/baselite_smiles_aug_v3/*.jsonl
+data/processed/omg_repeat_unit_graphs_v3.jsonl
+
 # PyPI configuration file
 .pypirc
 

@@ -1,0 +1,10 @@
+{
+  "checkpoint_name": "epoch_001",
+  "epoch": 1,
+  "epoch_train_loss_mean": 0.030147588076369386,
+  "eval_decode_sample_limit": 128,
+  "eval_sample_limit": 10000,
+  "formal_eval_full_decode": false,
+  "optimizer_step": 250000,
+  "recent_train_loss": 0.004670290742069483
+}

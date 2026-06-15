@@ -1,0 +1,2 @@
+checkpoint_name,checkpoint_epoch,checkpoint_optimizer_step,checkpoint_recent_train_loss,checkpoint_epoch_train_loss_mean,sample_count,decoded_sample_count,loss,token_accuracy,exact_string_match,rdkit_validity,two_attachment_validity,canonical_match,early_stopping_metric,early_stopping_mode,early_stopping_current,early_stopping_best,early_stopping_best_checkpoint,early_stopping_wait,early_stopping_stop_training,early_stopping_reason
+epoch_001,1,250000,0.004670290742069483,0.030147588076369386,10000,128,0.005396987014536717,0.9980779826164246,0.96875,1.0,1.0,0.96875,,,,,,,,
