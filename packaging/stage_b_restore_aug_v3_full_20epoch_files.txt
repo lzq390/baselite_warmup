@@ -10,7 +10,7 @@ data/baselite_smiles_aug_v3/training_template_report.md
 models/qwen2.5-7b-tokenizer/chat_template.jinja
 models/qwen2.5-7b-tokenizer/tokenizer.json
 models/qwen2.5-7b-tokenizer/tokenizer_config.json
-packaging/stage_b_restore_aug_v3_full_1epoch_files.txt
+packaging/stage_b_restore_aug_v3_full_20epoch_files.txt
 scripts/build_omg_baselite_v3_dataset.py
 scripts/build_omg_repeat_unit_graphs_v3.py
 scripts/build_stage_b_restore_v3_template.py
@@ -19,6 +19,7 @@ scripts/build_stage_b_v3_full_decode_eval_html_report.py
 scripts/omg_v3_common.py
 scripts/train_stage_b_restore_full.py
 scripts/train_stage_b_restore_smoke.py
+scripts/evaluate_stage_b_restore_checkpoint.py
 tests/test_omg_v3_builders.py
 tests/test_build_baselite_restore_template_preview.py
 tests/test_train_stage_b_restore_smoke.py

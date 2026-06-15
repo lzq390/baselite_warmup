@@ -1,6 +1,6 @@
-# Stage B Restore Aug v3 Full-data 训练流程
+# Stage B Restore Aug v3 Full-data 20 Epoch 训练流程
 
-本文档记录 OMG v3 百万级数据进入 Stage B restore-only warmup 的完整流程。v3 数据用于大规模预训练/热身，不直接替代 curated v2/v1 Stage B；正式结论需要同时看 OMG v3 分布内 full-decode 和 curated v2 迁移评估。
+本文档记录 OMG v3 百万级数据进入 Stage B restore-only full 训练的完整流程。v3 数据用于大规模预训练/热身，不直接替代 curated v2/v1 Stage B；正式结论需要同时看 OMG v3 分布内 full-decode 和 curated v2 迁移评估。
 
 ## 目标与范围
 
@@ -26,7 +26,7 @@ OMG v3 five-view augmented_smiles_view -> L_restore -> canonical_smiles
 - `L_align`
 - fragment vocab / matcher / fragment labels
 
-注意：v3 模板行数很大，当前已验证的训练配置是 full-data 1 epoch warmup。更长 epoch 需要重新评估时间和 GPU 成本，不建议直接照 v2 的 20 epoch 口径套用。
+正式全量训练使用和 v2 Stage B full 相同的训练策略：20 epoch、effective batch size 16、early-stopping monitor-only、正式评估 full decode。已有 1 epoch 结果只作为 smoke/warmup 参考。
 
 ## 数据口径
 
@@ -189,53 +189,54 @@ python -m py_compile \
 python -m pytest tests/test_omg_v3_builders.py tests/test_train_stage_b_restore_smoke.py -q
 ```
 
-## 启动 v3 full-data 1 epoch warmup
+## 启动 v3 full-data 20 epoch full 训练
 
 直接使用 Hugging Face model id：
 
 ```bash
 python scripts/train_stage_b_restore_full.py \
-  --config configs/stage_b_restore_aug_v3_full_1epoch_bf16.yaml \
+  --config configs/stage_b_restore_aug_v3_full_20epoch_bf16.yaml \
   --model-name-or-path Qwen/Qwen2.5-7B \
-  --output-dir outputs/stage_b_restore_aug_v3_full_1epoch
+  --output-dir outputs/stage_b_restore_aug_v3_full_20epoch
 ```
 
 如果模型已经提前下载到本地：
 
 ```bash
 python scripts/train_stage_b_restore_full.py \
-  --config configs/stage_b_restore_aug_v3_full_1epoch_bf16.yaml \
+  --config configs/stage_b_restore_aug_v3_full_20epoch_bf16.yaml \
   --model-name-or-path /data/models/Qwen2.5-7B \
-  --output-dir outputs/stage_b_restore_aug_v3_full_1epoch
+  --output-dir outputs/stage_b_restore_aug_v3_full_20epoch
 ```
 
 当前配置要点：
 
 ```text
-max_epochs: 1
-train rows: 4,000,000
+max_epochs: 20
+train rows per epoch: 4,000,000
 valid rows: 500,000
 test rows: 500,000
-per_device_train_batch_size: 8
-gradient_accumulation_steps: 2
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 16
 effective batch size: 16
-estimated optimizer steps: 250,000
-quick eval every: 5,000 optimizer steps
+estimated optimizer steps per epoch: 250,000
+estimated optimizer steps at 20 epochs: 5,000,000
+quick eval every: 1,000 optimizer steps
 quick eval samples: 256 rows, 32 decode samples
-checkpoint eval samples: 10,000 rows, 128 decode samples
-final eval decode samples: 128
-formal_eval_full_decode: false
-early stopping: disabled
+checkpoint eval: full valid rows, full decode
+final eval: full valid/test decode
+formal_eval_full_decode: true
+early stopping: enabled, monitor-only
 ```
 
-不建议在训练过程中打开 `formal_eval_full_decode: true`：v3 valid/test 各 500,000 行，逐 epoch 全量 decode 成本很高。正式 full-decode 应在选定 checkpoint 后单独补跑。
+注意：严格对齐 v2 full 策略后，epoch checkpoint 和 final eval 都会对 500,000 行 valid/test 做 full decode，成本显著高于 1 epoch smoke。若云端时间不可接受，可以临时使用 `configs/stage_b_restore_aug_v3_full_1epoch_bf16.yaml` 做可运行性验证，但正式全量结果以 20 epoch 配置为准。
 
 ## 训练产物验收
 
 期望输出：
 
 ```text
-outputs/stage_b_restore_aug_v3_full_1epoch/
+outputs/stage_b_restore_aug_v3_full_20epoch/
   eval_metrics.json
   eval_report.md
   identity_test_eval_metrics.json
@@ -254,16 +255,18 @@ outputs/stage_b_restore_aug_v3_full_1epoch/
 验收标准：
 
 ```text
-completed_epochs: 1
-optimizer_steps: 250,000
+completed_epochs: 20
+optimizer_steps: 5,000,000
 train_sample_count: 4,000,000
 valid_sample_count: 500,000
 test_sample_count: 500,000
 reload_smoke.status: passed
-formal_eval_full_decode: false
+formal_eval_full_decode: true
+eval_metrics.decoded_sample_count: 500,000
+identity_test_eval_metrics.decoded_sample_count: 500,000
 ```
 
-生成训练报告：
+1 epoch 参考结果可以继续用已有报告脚本生成：
 
 ```bash
 python scripts/build_stage_b_v3_full_1epoch_report.py \
@@ -272,6 +275,8 @@ python scripts/build_stage_b_v3_full_1epoch_report.py \
   --dataset-manifest data/baselite_smiles_v3/dataset_manifest.json \
   --output reports/stage_b_restore_aug_v3_full_1epoch_report.html
 ```
+
+20 epoch 正式训练完成后，报告脚本需要同步成通用 Stage B v3 full 报告，或新增 `build_stage_b_v3_full_20epoch_report.py`，避免沿用 1epoch 标题和默认路径。
 
 ## 选定 checkpoint 后 full-decode 评估
 
@@ -282,7 +287,7 @@ python scripts/evaluate_stage_b_restore_checkpoint.py \
   --model-name-or-path Qwen/Qwen2.5-7B \
   --preview-path data/baselite_smiles_aug_v3/training_template_preview.jsonl \
   --split test \
-  --candidate v3_epoch001=outputs/stage_b_restore_aug_v3_full_1epoch/checkpoints/epoch_001 \
+  --candidate v3_epoch020=outputs/stage_b_restore_aug_v3_full_20epoch/checkpoints/epoch_020 \
   --output-dir reports/stage_b_restore_aug_v3_full_decode_eval_remote/v3_test \
   --batch-size 16 \
   --decode-sample-limit 0
@@ -295,7 +300,7 @@ python scripts/evaluate_stage_b_restore_checkpoint.py \
   --model-name-or-path Qwen/Qwen2.5-7B \
   --preview-path data/baselite_smiles_aug_v2/training_template_preview.jsonl \
   --split test \
-  --candidate v3_epoch001=outputs/stage_b_restore_aug_v3_full_1epoch/checkpoints/epoch_001 \
+  --candidate v3_epoch020=outputs/stage_b_restore_aug_v3_full_20epoch/checkpoints/epoch_020 \
   --output-dir reports/stage_b_restore_aug_v3_full_decode_eval_remote/v2_test \
   --batch-size 16 \
   --decode-sample-limit 0
@@ -311,9 +316,9 @@ python scripts/build_stage_b_v3_full_decode_eval_html_report.py \
 
 当前报告脚本需要本地存在 `test_predictions.jsonl`；这些文件被 `.gitignore` 忽略，不随 Git 提交分发。若只保留轻量 metrics，需要先把 prediction 明细从外部 artifact 拉回，或后续改造报告脚本读取聚合 analysis JSON。
 
-## 已知结果口径
+## 1 epoch 参考结果口径
 
-当前已完成的 v3 full-data 1 epoch 结果：
+当前已完成的 v3 full-data 1 epoch smoke/warmup 结果：
 
 ```text
 V3 OMG test full-decode:
@@ -331,9 +336,9 @@ V2 curated test full-decode:
 
 解释：
 
-- v3 checkpoint 在 OMG v3 分布内表现强，适合作为大规模 warmup。
+- v3 1 epoch checkpoint 在 OMG v3 分布内表现强，说明数据和模板可以作为大规模 warmup 起点。
 - curated v2 迁移明显不足，不能直接作为最终 Stage B restore 模型。
-- 下一步应在支持 checkpoint 初始化后，继续用 curated v2/v1 数据 fine-tune，并保持 v3/v2 双口径评估。
+- 下一步正式结果应以 V3 full 20epoch 配置重跑，并保持 v3/v2 双口径评估。
 
 ## 后续补强项
 
