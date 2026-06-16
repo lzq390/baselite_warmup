@@ -7,9 +7,9 @@ output:
 
 train:
   max_epochs: 20
-  per_device_train_batch_size: 1
-  per_device_eval_batch_size: 1
-  gradient_accumulation_steps: 16
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 16
+  gradient_accumulation_steps: 1
   quick_eval_every_steps: 1000
   quick_eval_samples: 256
   quick_eval_decode_samples: 32

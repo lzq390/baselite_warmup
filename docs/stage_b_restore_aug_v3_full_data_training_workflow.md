@@ -221,7 +221,8 @@ configs/stage_b_restore_aug_v3_full_20epoch_bf16.yaml
 
 configs/stage_b_restore_aug_v3_full_20epoch_bf16_114_214_255_153.yaml
   114.214.255.153 专用配置，只把 preview_path/output_dir 固定到
-  /home/devuser/work/baselite_omg_v3_stageb/work；训练策略与通用配置一致。
+  /home/devuser/work/baselite_omg_v3_stageb/work；并把 micro-batch 调到
+  A100 80GB 单卡优先档。effective batch size 仍为 16。
 ```
 
 ## 启动 v3 full-data 20 epoch full 训练
@@ -263,8 +264,10 @@ max_epochs: 20
 train rows per epoch: 4,000,000
 valid rows: 500,000
 test rows: 500,000
-per_device_train_batch_size: 1
-gradient_accumulation_steps: 16
+generic config: train batch 1 / eval batch 1 / accum 16
+per_device_train_batch_size on 114.214.255.153: 16
+per_device_eval_batch_size on 114.214.255.153: 16
+gradient_accumulation_steps on 114.214.255.153: 1
 effective batch size: 16
 estimated optimizer steps per epoch: 250,000
 estimated optimizer steps at 20 epochs: 5,000,000
@@ -277,6 +280,24 @@ early stopping: enabled, monitor-only
 ```
 
 注意：严格对齐 v2 full 策略后，每个 epoch checkpoint 会对 500,000 行 valid 做 full decode，final eval 会对 500,000 行 valid 和 500,000 行 test 做 full decode，成本显著高于 1 epoch smoke。若云端时间不可接受，可以临时使用 `configs/stage_b_restore_aug_v3_full_1epoch_bf16.yaml` 做可运行性验证，但正式全量结果以 20 epoch 配置为准。
+
+114.214.255.153 当前是 A100 80GB 单卡训练入口，专用配置优先使用：
+
+```yaml
+per_device_train_batch_size: 16
+gradient_accumulation_steps: 1
+per_device_eval_batch_size: 16
+```
+
+这与 v2 Stage B full 的 effective batch size 16 一致，但显著减少 micro-batch 循环次数。若实测 OOM，优先回退到：
+
+```yaml
+per_device_train_batch_size: 8
+gradient_accumulation_steps: 2
+per_device_eval_batch_size: 8
+```
+
+如果仍 OOM，再回退到保守通用配置的 batch 1 / accum 16。
 
 ## 训练产物验收
 

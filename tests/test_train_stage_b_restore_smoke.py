@@ -224,26 +224,38 @@ def test_formal_eval_full_decode_uses_dataset_length() -> None:
 
 def test_full_stage_b_configs_use_full_decode_and_monitor_only() -> None:
     root = Path(__file__).resolve().parents[1]
-    for config_name, preview_path, output_dir in (
+    for config_name, preview_path, output_dir, train_batch_size, eval_batch_size, grad_accum in (
         (
             "stage_b_restore_aug_v2_full_20epoch_bf16.yaml",
             "data/baselite_smiles_aug_v2/training_template_preview.jsonl",
             "outputs/stage_b_restore_aug_v2_full_20epoch",
+            1,
+            1,
+            16,
         ),
         (
             "stage_b_restore_aug_v2_curriculum_full_20epoch_bf16.yaml",
             "data/baselite_smiles_aug_v2/training_template_preview.jsonl",
             "outputs/stage_b_restore_aug_v2_curriculum_full_20epoch",
+            1,
+            1,
+            16,
         ),
         (
             "stage_b_restore_aug_v3_full_20epoch_bf16.yaml",
             "data/baselite_smiles_aug_v3/training_template_preview.jsonl",
             "outputs/stage_b_restore_aug_v3_full_20epoch",
+            1,
+            1,
+            16,
         ),
         (
             "stage_b_restore_aug_v3_full_20epoch_bf16_114_214_255_153.yaml",
             "/home/devuser/work/baselite_omg_v3_stageb/work/data/baselite_smiles_aug_v3/training_template_preview.jsonl",
             "/home/devuser/work/baselite_omg_v3_stageb/work/outputs/stage_b_restore_aug_v3_full_20epoch",
+            16,
+            16,
+            1,
         ),
     ):
         config = load_yaml_config(root / "configs" / config_name)
@@ -251,6 +263,10 @@ def test_full_stage_b_configs_use_full_decode_and_monitor_only() -> None:
         assert config.preview_path == preview_path
         assert config.output_dir == output_dir
         assert config.max_epochs == 20
+        assert config.per_device_train_batch_size == train_batch_size
+        assert config.per_device_eval_batch_size == eval_batch_size
+        assert config.gradient_accumulation_steps == grad_accum
+        assert config.per_device_train_batch_size * config.gradient_accumulation_steps == 16
         assert config.checkpoint_eval_samples == 0
         assert config.checkpoint_eval_decode_samples == 0
         assert config.eval_decode_samples == 0
