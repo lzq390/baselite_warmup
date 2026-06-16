@@ -1,8 +1,0 @@
-fragment_id,fragment_name,raw_substruct_period_hits,raw_substruct_period_coverage,raw_substruct_source_hits,raw_substruct_source_coverage,raw_substruct_match_total,raw_substruct_max_per_period,normalized_period_hits,normalized_period_coverage,normalized_source_hits,normalized_source_coverage,normalized_match_total,normalized_max_per_period,resolved_period_hits,resolved_period_coverage,resolved_source_hits,resolved_source_coverage,resolved_match_total,resolved_max_per_period,current_priority,note
-fragment_001,amide,27559,50.05%,3934,37.67%,124626,18,27559,50.05%,3934,37.67%,79308,10,16600,30.15%,2396,22.94%,30312,8,40,实例级过滤，排除 imide/urethane/urea 覆盖的 amide-like 局部。
-fragment_002,imide,11348,20.61%,1993,19.08%,21357,6,11348,20.61%,1993,19.08%,21309,4,11348,20.61%,1993,19.08%,21309,4,70,保留核心，priority=70，dedup 后去掉少量对称重复。
-fragment_003,ester,21707,39.42%,3455,33.08%,44034,8,21707,39.42%,3455,33.08%,41952,8,18291,33.22%,3435,32.89%,34707,8,50,按 carbonyl anchor 排除 carbonate/urethane 覆盖。
-fragment_004,ether,23780,43.19%,4113,39.38%,48102,24,23780,43.19%,4113,39.38%,48102,24,23780,43.19%,4113,39.38%,48102,24,30,已收窄为非 carbonyl-adjacent C-O-C。
-fragment_005,carbonate,1428,2.59%,283,2.71%,2082,3,1428,2.59%,283,2.71%,2082,3,1428,2.59%,283,2.71%,2082,3,70,保留 carbonate，priority=70。
-fragment_006,urethane,3027,5.50%,315,3.02%,5291,6,3027,5.50%,315,3.02%,5163,4,3027,5.50%,315,3.02%,5163,4,70,移除自然语言 constraints，按 carbonyl/O/N 核心去重。
-fragment_007,urea,1117,2.03%,143,1.37%,2465,8,1117,2.03%,143,1.37%,1762,3,1117,2.03%,143,1.37%,1762,3,70,移除自然语言 constraints，按 carbonyl + unordered 两个 N 去重。

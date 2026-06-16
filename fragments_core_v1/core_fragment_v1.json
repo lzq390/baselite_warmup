@@ -11,14 +11,12 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][NX3:2][CX3:3](=[O:4])[*:5]"
+      "pattern": "[NX3:1][CX3:2](=[O:3])"
     },
     "atom_roles": {
-      "1": "connected_atom_left",
-      "2": "amide_nitrogen",
-      "3": "carbonyl_carbon",
-      "4": "carbonyl_oxygen",
-      "5": "connected_atom_right"
+      "1": "amide_nitrogen",
+      "2": "carbonyl_carbon",
+      "3": "carbonyl_oxygen"
     },
     "anchor_rule": {
       "anchor_type": "atom",
@@ -76,6 +74,12 @@
           }
         ]
       }
+    },
+    "deduplication": {
+      "roles": [
+        "amide_nitrogen",
+        "carbonyl_carbon"
+      ]
     }
   },
   {
@@ -161,12 +165,12 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[#6;!$(C=O):1][OX2:2][#6;!$(C=O):3]"
+      "pattern": "[$([#6;!$(C=O)]),$([#0]):1][OX2:2][$([#6;!$(C=O)]),$([#0]):3]"
     },
     "atom_roles": {
-      "1": "ether_carbon_left",
+      "1": "ether_neighbor_left",
       "2": "ether_oxygen",
-      "3": "ether_carbon_right"
+      "3": "ether_neighbor_right"
     },
     "anchor_rule": {
       "anchor_type": "atom",
@@ -220,15 +224,13 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][OX2:2][CX3:3](=[O:4])[NX3:5][*:6]"
+      "pattern": "[OX2:1][CX3:2](=[O:3])[NX3:4]"
     },
     "atom_roles": {
-      "1": "connected_atom_left",
-      "2": "alkoxy_oxygen",
-      "3": "carbonyl_carbon",
-      "4": "carbonyl_oxygen",
-      "5": "urethane_nitrogen",
-      "6": "connected_atom_right_or_H"
+      "1": "alkoxy_oxygen",
+      "2": "carbonyl_carbon",
+      "3": "carbonyl_oxygen",
+      "4": "urethane_nitrogen"
     },
     "anchor_rule": {
       "anchor_type": "atom",
@@ -259,15 +261,13 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][NX3:2][CX3:3](=[O:4])[NX3:5][*:6]"
+      "pattern": "[NX3:1][CX3:2](=[O:3])[NX3:4]"
     },
     "atom_roles": {
-      "1": "connected_atom_left",
-      "2": "urea_nitrogen_left",
-      "3": "carbonyl_carbon",
-      "4": "carbonyl_oxygen",
-      "5": "urea_nitrogen_right",
-      "6": "connected_atom_right"
+      "1": "urea_nitrogen_left",
+      "2": "carbonyl_carbon",
+      "3": "carbonyl_oxygen",
+      "4": "urea_nitrogen_right"
     },
     "anchor_rule": {
       "anchor_type": "atom",
@@ -301,12 +301,12 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[#6;!$(C=O):1]-[SX2:2]-[#6;!$(C=O):3]"
+      "pattern": "[$([#6;!$(C=O)]),$([#0]):1]-[SX2:2]-[$([#6;!$(C=O)]),$([#0]):3]"
     },
     "atom_roles": {
-      "1": "thioether_carbon_left",
+      "1": "thioether_neighbor_left",
       "2": "thioether_sulfur",
-      "3": "thioether_carbon_right"
+      "3": "thioether_neighbor_right"
     },
     "anchor_rule": {
       "anchor_type": "atom",
@@ -323,7 +323,7 @@
   },
   {
     "fragment_id": "fragment_009",
-    "fragment_name": "sulfone",
+    "fragment_name": "sulfonyl_group",
     "category": "functional_group",
     "core_status": "core",
     "semantic_tags": [
@@ -338,14 +338,14 @@
     },
     "atom_roles": {
       "1": "connected_atom_left",
-      "2": "sulfone_sulfur",
+      "2": "sulfonyl_sulfur",
       "3": "sulfonyl_oxygen_1",
       "4": "sulfonyl_oxygen_2",
       "5": "connected_atom_right"
     },
     "anchor_rule": {
       "anchor_type": "atom",
-      "anchor_role": "sulfone_sulfur"
+      "anchor_role": "sulfonyl_sulfur"
     },
     "overlap_policy": {
       "priority": 80
@@ -353,7 +353,7 @@
   },
   {
     "fragment_id": "fragment_010",
-    "fragment_name": "sulfoxide",
+    "fragment_name": "sulfinyl_group",
     "category": "functional_group",
     "core_status": "core",
     "semantic_tags": [
@@ -368,13 +368,13 @@
     },
     "atom_roles": {
       "1": "connected_atom_left",
-      "2": "sulfoxide_sulfur",
+      "2": "sulfinyl_sulfur",
       "3": "sulfinyl_oxygen",
       "4": "connected_atom_right"
     },
     "anchor_rule": {
       "anchor_type": "atom",
-      "anchor_role": "sulfoxide_sulfur"
+      "anchor_role": "sulfinyl_sulfur"
     },
     "overlap_policy": {
       "priority": 70
@@ -459,15 +459,16 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][NX3:2][*:3]",
+      "pattern": "[*:1][NX3:2]",
       "constraints": {
-        "exclude_atom_role_adjacent_to_carbonyl": "amine_nitrogen"
+        "exclude_atom_role_adjacent_to_carbonyl": "amine_nitrogen",
+        "exclude_atom_role_adjacent_to_sulfonyl": "amine_nitrogen",
+        "exclude_atom_role_with_oxygen_neighbor": "amine_nitrogen"
       }
     },
     "atom_roles": {
-      "1": "attached_atom_left",
-      "2": "amine_nitrogen",
-      "3": "attached_atom_right"
+      "1": "attached_atom",
+      "2": "amine_nitrogen"
     },
     "anchor_rule": {
       "anchor_type": "atom",
@@ -504,13 +505,11 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][C:2](=[O:3])[*:4]"
+      "pattern": "[C:1](=[O:2])"
     },
     "atom_roles": {
-      "1": "connected_atom_left",
-      "2": "carbonyl_carbon",
-      "3": "carbonyl_oxygen",
-      "4": "connected_atom_right"
+      "1": "carbonyl_carbon",
+      "2": "carbonyl_oxygen"
     },
     "anchor_rule": {
       "anchor_type": "atom",
@@ -641,10 +640,6 @@
       "3": "ring_atom_3",
       "4": "ring_atom_4"
     },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "four_membered_ring_center"
-    },
     "overlap_policy": {
       "priority": 60
     },
@@ -695,10 +690,6 @@
       "4": "ring_atom_4",
       "5": "ring_atom_5"
     },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "five_membered_aromatic_ring_center"
-    },
     "overlap_policy": {
       "priority": 50
     },
@@ -747,10 +738,6 @@
       "3": "ring_atom_3",
       "4": "ring_atom_4",
       "5": "ring_atom_5"
-    },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "five_membered_not_fully_aromatic_ring_center"
     },
     "overlap_policy": {
       "priority": 50
@@ -803,10 +790,6 @@
       "5": "ring_atom_5",
       "6": "ring_atom_6"
     },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "six_membered_aromatic_ring_center"
-    },
     "overlap_policy": {
       "priority": 50
     },
@@ -856,10 +839,6 @@
       "5": "ring_atom_5",
       "6": "ring_atom_6"
     },
-    "anchor_rule": {
-      "anchor_type": "composite",
-      "anchor_role": "six_membered_not_fully_aromatic_ring_center"
-    },
     "overlap_policy": {
       "priority": 50
     },
@@ -867,7 +846,7 @@
   },
   {
     "fragment_id": "fragment_021",
-    "fragment_name": "vinylene_linkage",
+    "fragment_name": "alkenylene_linkage",
     "category": "mainchain_linker",
     "core_status": "core",
     "semantic_tags": [
@@ -875,17 +854,18 @@
       "semi_rigid",
       "planar",
       "sp2_hybridized",
+      "substituted_alkenylene",
       "backbone_common"
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][CX3H1:2]=[CX3H1:3][*:4]"
+      "pattern": "[*:1][CX3:2]=!@[CX3:3][*:4]"
     },
     "atom_roles": {
-      "1": "vinylene_terminal_left",
-      "2": "vinyl_carbon_1",
-      "3": "vinyl_carbon_2",
-      "4": "vinylene_terminal_right"
+      "1": "alkenylene_terminal_left",
+      "2": "alkene_carbon_1",
+      "3": "alkene_carbon_2",
+      "4": "alkenylene_terminal_right"
     },
     "anchor_rule": {
       "anchor_type": "bond",
@@ -897,15 +877,15 @@
     "deduplication": {
       "unordered_role_groups": [
         [
-          "vinyl_carbon_1",
-          "vinyl_carbon_2"
+          "alkene_carbon_1",
+          "alkene_carbon_2"
         ]
       ]
     }
   },
   {
     "fragment_id": "fragment_022",
-    "fragment_name": "ethynylene_linkage",
+    "fragment_name": "alkynylene_linkage",
     "category": "mainchain_linker",
     "core_status": "core",
     "semantic_tags": [
@@ -920,10 +900,10 @@
       "pattern": "[*:1][CX2:2]#[CX2:3][*:4]"
     },
     "atom_roles": {
-      "1": "ethynylene_terminal_left",
+      "1": "alkynylene_terminal_left",
       "2": "alkyne_carbon_1",
       "3": "alkyne_carbon_2",
-      "4": "ethynylene_terminal_right"
+      "4": "alkynylene_terminal_right"
     },
     "anchor_rule": {
       "anchor_type": "bond",
@@ -958,7 +938,8 @@
       "type": "smarts",
       "pattern": "[*:1][NH:2][*:3]",
       "constraints": {
-        "exclude_atom_role_adjacent_to_carbonyl": "secondary_nitrogen"
+        "exclude_atom_role_adjacent_to_carbonyl": "secondary_nitrogen",
+        "exclude_atom_role_adjacent_to_sulfonyl": "secondary_nitrogen"
       }
     },
     "atom_roles": {
@@ -1085,19 +1066,17 @@
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][#6:2]-[C:3]([F:4])([F:5])[F:6]",
+      "pattern": "[*:1][C:2]([F:3])([F:4])[F:5]",
       "constraints": {
-        "exact_fluorine_count": 3,
-        "exclude_perfluoroalkyl_chain": true
+        "exact_fluorine_count": 3
       }
     },
     "atom_roles": {
       "1": "connected_atom",
-      "2": "attached_carbon",
-      "3": "trifluoromethyl_carbon",
-      "4": "fluorine_atom_1",
-      "5": "fluorine_atom_2",
-      "6": "fluorine_atom_3"
+      "2": "trifluoromethyl_carbon",
+      "3": "fluorine_atom_1",
+      "4": "fluorine_atom_2",
+      "5": "fluorine_atom_3"
     },
     "anchor_rule": {
       "anchor_type": "atom",
@@ -1114,36 +1093,167 @@
   },
   {
     "fragment_id": "fragment_027",
-    "fragment_name": "methyl",
-    "category": "side_group",
-    "core_status": "derived_attribute",
+    "fragment_name": "thiocarbonyl_group",
+    "category": "functional_group",
+    "core_status": "core",
     "semantic_tags": [
-      "alkyl",
-      "hydrophobic",
-      "electron_donating",
-      "small",
-      "substituent"
+      "polarizable",
+      "soft_interaction",
+      "sulfur_containing",
+      "carbonyl_analog",
+      "backbone_possible"
     ],
     "match_rule": {
       "type": "smarts",
-      "pattern": "[*:1][#6:2]-[CH3:3]"
+      "pattern": "[#6:1]=[S:2]"
     },
     "atom_roles": {
-      "1": "connected_atom",
-      "2": "attached_carbon",
-      "3": "methyl_carbon"
+      "1": "thiocarbonyl_carbon",
+      "2": "thiocarbonyl_sulfur"
     },
     "anchor_rule": {
       "anchor_type": "atom",
-      "anchor_role": "methyl_carbon"
+      "anchor_role": "thiocarbonyl_carbon"
     },
     "overlap_policy": {
-      "priority": 50
+      "priority": 65
     },
-    "status_reason": "Methyl is retained as an auxiliary substituent count, not an independent core fragment.",
     "deduplication": {
       "roles": [
-        "methyl_carbon"
+        "thiocarbonyl_carbon"
+      ]
+    }
+  },
+  {
+    "fragment_id": "fragment_028",
+    "fragment_name": "nitrogen_oxygen_bond_motif",
+    "category": "functional_group",
+    "core_status": "core",
+    "semantic_tags": [
+      "polar",
+      "heteroatom_linkage",
+      "electron_withdrawing_possible",
+      "hydrogen_bonding_possible",
+      "redox_relevant"
+    ],
+    "match_rule": {
+      "type": "smarts",
+      "pattern": "[N:1]~[O:2]"
+    },
+    "atom_roles": {
+      "1": "nitrogen_atom",
+      "2": "oxygen_atom"
+    },
+    "anchor_rule": {
+      "anchor_type": "atom",
+      "anchor_role": "nitrogen_atom"
+    },
+    "overlap_policy": {
+      "priority": 55
+    },
+    "deduplication": {
+      "atom_set_role_groups": [
+        [
+          "nitrogen_atom",
+          "oxygen_atom"
+        ]
+      ]
+    }
+  },
+  {
+    "fragment_id": "fragment_029",
+    "fragment_name": "sulfanyl_or_thiol_group",
+    "category": "functional_group",
+    "core_status": "core",
+    "semantic_tags": [
+      "sulfur_containing",
+      "protic",
+      "soft_interaction",
+      "polarizable",
+      "reactive_possible"
+    ],
+    "match_rule": {
+      "type": "smarts",
+      "pattern": "[*:1][SX2H1:2]"
+    },
+    "atom_roles": {
+      "1": "attached_atom",
+      "2": "sulfanyl_sulfur"
+    },
+    "anchor_rule": {
+      "anchor_type": "atom",
+      "anchor_role": "sulfanyl_sulfur"
+    },
+    "overlap_policy": {
+      "priority": 35
+    },
+    "deduplication": {
+      "roles": [
+        "sulfanyl_sulfur"
+      ]
+    }
+  },
+  {
+    "fragment_id": "fragment_030",
+    "fragment_name": "silicon_center",
+    "category": "inorganic_or_organometallic",
+    "core_status": "core",
+    "semantic_tags": [
+      "silicon_containing",
+      "inorganic_character",
+      "flexibility_possible",
+      "hydrophobic_possible",
+      "low_tg_possible"
+    ],
+    "match_rule": {
+      "type": "smarts",
+      "pattern": "[Si:1]"
+    },
+    "atom_roles": {
+      "1": "silicon_atom"
+    },
+    "anchor_rule": {
+      "anchor_type": "atom",
+      "anchor_role": "silicon_atom"
+    },
+    "overlap_policy": {
+      "priority": 60
+    },
+    "deduplication": {
+      "roles": [
+        "silicon_atom"
+      ]
+    }
+  },
+  {
+    "fragment_id": "fragment_031",
+    "fragment_name": "phosphorus_center",
+    "category": "inorganic_or_organometallic",
+    "core_status": "core",
+    "semantic_tags": [
+      "phosphorus_containing",
+      "polar",
+      "flame_retardant_possible",
+      "coordination_possible",
+      "inorganic_character"
+    ],
+    "match_rule": {
+      "type": "smarts",
+      "pattern": "[P:1]"
+    },
+    "atom_roles": {
+      "1": "phosphorus_atom"
+    },
+    "anchor_rule": {
+      "anchor_type": "atom",
+      "anchor_role": "phosphorus_atom"
+    },
+    "overlap_policy": {
+      "priority": 60
+    },
+    "deduplication": {
+      "roles": [
+        "phosphorus_atom"
       ]
     }
   }

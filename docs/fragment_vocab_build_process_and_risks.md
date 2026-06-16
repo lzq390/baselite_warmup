@@ -298,7 +298,7 @@ def pass_constraints(mol, fragment):
 constraints.not_smarts
 ```
 
-但 `fragments_1/base_fragments.json` 中实际存在多种 constraints 写法，例如：
+但 `fragments_core_v1/core_fragment_v1.json` 中实际存在多种 constraints 写法，例如：
 
 ```json
 "constraints": {

@@ -1,7 +1,7 @@
 # fragment_001 amide 修复前后匹配统计对比
 
-- 核心词表：`fragments_1/base_fragment_new2.json`
-- 统计文件：`data/processed/base_fragment_new2_resolved_stats.csv`
+- 核心词表：`fragments_core_v1/core_fragment_v1.json`
+- 统计文件：`data/processed/core_fragment_v1_resolved_stats.csv`
 - 口径：当前 resolved 先做 dedup，再按 `instance_suppression` 删除被 imide/urethane/urea 覆盖的 amide 实例。
 
 ## 统计对比
