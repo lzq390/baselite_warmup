@@ -1,9 +1,9 @@
 data:
-  preview_path: /home/devuser/work/baselite_omg_v3_stageb/work/data/baselite_smiles_aug_v3/training_template_preview.jsonl
+  preview_path: /home/devuser/lzq/data/baselite_smiles_aug_v3/training_template_preview.jsonl
   max_seq_len_restore_label: 512
 
 output:
-  output_dir: /home/devuser/work/baselite_omg_v3_stageb/work/outputs/stage_b_restore_aug_v3_full_20epoch
+  output_dir: /home/devuser/lzq/outputs/stage_b_restore_aug_v3_full_20epoch
 
 train:
   max_epochs: 20

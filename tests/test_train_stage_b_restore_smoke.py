@@ -251,8 +251,8 @@ def test_full_stage_b_configs_use_full_decode_and_monitor_only() -> None:
         ),
         (
             "stage_b_restore_aug_v3_full_20epoch_bf16_114_214_255_153.yaml",
-            "/home/devuser/work/baselite_omg_v3_stageb/work/data/baselite_smiles_aug_v3/training_template_preview.jsonl",
-            "/home/devuser/work/baselite_omg_v3_stageb/work/outputs/stage_b_restore_aug_v3_full_20epoch",
+            "/home/devuser/lzq/data/baselite_smiles_aug_v3/training_template_preview.jsonl",
+            "/home/devuser/lzq/outputs/stage_b_restore_aug_v3_full_20epoch",
             16,
             16,
             1,
