@@ -130,13 +130,31 @@ view/restore length overflow: 0
 
 ## 云端环境准备
 
+目标机器：
+
+```text
+ssh devuser@114.214.255.153
+hostname: ubuntu
+GPU: 2 * NVIDIA A100 80GB PCIe
+driver/CUDA: 580.126.09 / 13.0
+```
+
+实测存储口径：
+
+```text
+/data             1.6T free, devuser 当前不可写
+/home/devuser     362G free, devuser 可写
+/home/devuser/work 可写
+```
+
+因此当前默认使用 `/home/devuser/work` 下的工作目录。若后续管理员创建 `/data/devuser` 或其他 devuser 可写的数据盘目录，可以把 `BASE_DIR` 整体迁移到数据盘；训练配置仍保持相对路径，从工作目录运行即可。
+
 建议目录：
 
 ```text
-/root/autodl-tmp/baselite_omg_v3_stageb/
+/home/devuser/work/baselite_omg_v3_stageb/
   packages/
   work/
-  venv/
   hf_cache/
   logs/
 ```
@@ -144,14 +162,18 @@ view/restore length overflow: 0
 环境：
 
 ```bash
-python3 -m venv --system-site-packages /root/autodl-tmp/baselite_omg_v3_stageb/venv
-source /root/autodl-tmp/baselite_omg_v3_stageb/venv/bin/activate
-python -m pip install --upgrade pip
-pip install -r requirements-stage-b.txt
+BASE_DIR=/home/devuser/work/baselite_omg_v3_stageb
+mkdir -p "$BASE_DIR"/{packages,work,hf_cache,logs}
 
-export HF_HOME=/root/autodl-tmp/baselite_omg_v3_stageb/hf_cache
-export TRANSFORMERS_CACHE=/root/autodl-tmp/baselite_omg_v3_stageb/hf_cache/transformers
+source /home/devuser/miniconda3/bin/activate posttrain
+python -m pip install --upgrade pip
+pip install rdkit pyyaml
+
+export HF_HOME=$BASE_DIR/hf_cache
+export TRANSFORMERS_CACHE=$BASE_DIR/hf_cache/transformers
 ```
+
+`posttrain` 环境实测已有 `torch 2.11.0+cu130`、`transformers`、`peft`、`yaml`，且可见 A100；当前缺 `rdkit`，所以需要补装 RDKit 后再训练。系统 Python 3.12.3 缺少 torch/transformers/peft/rdkit，不作为默认训练环境。
 
 如 Hugging Face 直连不稳定：
 
@@ -189,24 +211,49 @@ python -m py_compile \
 python -m pytest tests/test_omg_v3_builders.py tests/test_train_stage_b_restore_smoke.py -q
 ```
 
+当前 `train_stage_b_restore_full.py` 使用 `device_map={"": 0}`，是单进程单卡训练入口，不会自动使用两张 A100。正式配置仍保持与 v2 Stage B full 相同的 effective batch size 16；如需双卡，需要先新增 DDP/Accelerate 训练入口，再单独改配置。
+
+配置文件：
+
+```text
+configs/stage_b_restore_aug_v3_full_20epoch_bf16.yaml
+  通用相对路径配置，适合在仓库根目录运行。
+
+configs/stage_b_restore_aug_v3_full_20epoch_bf16_114_214_255_153.yaml
+  114.214.255.153 专用配置，只把 preview_path/output_dir 固定到
+  /home/devuser/work/baselite_omg_v3_stageb/work；训练策略与通用配置一致。
+```
+
 ## 启动 v3 full-data 20 epoch full 训练
 
 直接使用 Hugging Face model id：
 
 ```bash
+cd /home/devuser/work/baselite_omg_v3_stageb/work
+source /home/devuser/miniconda3/bin/activate posttrain
+export BASE_DIR=/home/devuser/work/baselite_omg_v3_stageb
+export HF_HOME=$BASE_DIR/hf_cache
+export TRANSFORMERS_CACHE=$BASE_DIR/hf_cache/transformers
+export CUDA_VISIBLE_DEVICES=0
+
 python scripts/train_stage_b_restore_full.py \
-  --config configs/stage_b_restore_aug_v3_full_20epoch_bf16.yaml \
-  --model-name-or-path Qwen/Qwen2.5-7B \
-  --output-dir outputs/stage_b_restore_aug_v3_full_20epoch
+  --config configs/stage_b_restore_aug_v3_full_20epoch_bf16_114_214_255_153.yaml \
+  --model-name-or-path Qwen/Qwen2.5-7B
 ```
 
 如果模型已经提前下载到本地：
 
 ```bash
+cd /home/devuser/work/baselite_omg_v3_stageb/work
+source /home/devuser/miniconda3/bin/activate posttrain
+export BASE_DIR=/home/devuser/work/baselite_omg_v3_stageb
+export HF_HOME=$BASE_DIR/hf_cache
+export TRANSFORMERS_CACHE=$BASE_DIR/hf_cache/transformers
+export CUDA_VISIBLE_DEVICES=0
+
 python scripts/train_stage_b_restore_full.py \
-  --config configs/stage_b_restore_aug_v3_full_20epoch_bf16.yaml \
-  --model-name-or-path /data/models/Qwen2.5-7B \
-  --output-dir outputs/stage_b_restore_aug_v3_full_20epoch
+  --config configs/stage_b_restore_aug_v3_full_20epoch_bf16_114_214_255_153.yaml \
+  --model-name-or-path /home/devuser/work/models/Qwen2.5-7B
 ```
 
 当前配置要点：
@@ -229,7 +276,7 @@ formal_eval_full_decode: true
 early stopping: enabled, monitor-only
 ```
 
-注意：严格对齐 v2 full 策略后，epoch checkpoint 和 final eval 都会对 500,000 行 valid/test 做 full decode，成本显著高于 1 epoch smoke。若云端时间不可接受，可以临时使用 `configs/stage_b_restore_aug_v3_full_1epoch_bf16.yaml` 做可运行性验证，但正式全量结果以 20 epoch 配置为准。
+注意：严格对齐 v2 full 策略后，每个 epoch checkpoint 会对 500,000 行 valid 做 full decode，final eval 会对 500,000 行 valid 和 500,000 行 test 做 full decode，成本显著高于 1 epoch smoke。若云端时间不可接受，可以临时使用 `configs/stage_b_restore_aug_v3_full_1epoch_bf16.yaml` 做可运行性验证，但正式全量结果以 20 epoch 配置为准。
 
 ## 训练产物验收
 

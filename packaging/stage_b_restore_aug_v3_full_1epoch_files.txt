@@ -2,6 +2,7 @@ README.md
 requirements-stage-b.txt
 docs/stage_b_restore_aug_v3_full_data_training_workflow.md
 configs/stage_b_restore_aug_v3_full_20epoch_bf16.yaml
+configs/stage_b_restore_aug_v3_full_20epoch_bf16_114_214_255_153.yaml
 configs/stage_b_restore_aug_v3_full_1epoch_bf16.yaml
 data/baselite_smiles_v3/dataset_manifest.json
 data/baselite_smiles_v3/split_report.md

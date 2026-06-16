@@ -1,0 +1,52 @@
+data:
+  preview_path: /home/devuser/work/baselite_omg_v3_stageb/work/data/baselite_smiles_aug_v3/training_template_preview.jsonl
+  max_seq_len_restore_label: 512
+
+output:
+  output_dir: /home/devuser/work/baselite_omg_v3_stageb/work/outputs/stage_b_restore_aug_v3_full_20epoch
+
+train:
+  max_epochs: 20
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 16
+  quick_eval_every_steps: 1000
+  quick_eval_samples: 256
+  quick_eval_decode_samples: 32
+  checkpoint_at_epoch_end: true
+  checkpoint_every_steps: 0
+  checkpoint_eval_samples: 0
+  checkpoint_eval_decode_samples: 0
+  early_stopping_enabled: true
+  early_stopping_monitor_only: true
+  early_stopping_metric: loss
+  early_stopping_mode: min
+  early_stopping_patience: 5
+  early_stopping_min_delta: 0.001
+  early_stopping_min_epochs: 10
+  eval_decode_samples: 0
+  formal_eval_full_decode: true
+  precision: bf16
+  seed: 42
+  max_grad_norm: 1.0
+
+optimizer:
+  learning_rate_lora: 1.0e-4
+  learning_rate_restore_head: 5.0e-5
+  weight_decay: 0.01
+
+lora:
+  lora_rank: 8
+  lora_alpha: 16
+  lora_dropout: 0.05
+  lora_target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+
+restore_head:
+  restore_hidden_size: 512
+  restore_num_layers: 2
+  restore_num_attention_heads: 8
+  restore_dropout: 0.05

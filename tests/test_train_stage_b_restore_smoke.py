@@ -222,18 +222,33 @@ def test_formal_eval_full_decode_uses_dataset_length() -> None:
     ) == 128
 
 
-def test_v2_full_configs_use_full_decode_and_monitor_only() -> None:
+def test_full_stage_b_configs_use_full_decode_and_monitor_only() -> None:
     root = Path(__file__).resolve().parents[1]
-    for config_name, output_dir in (
-        ("stage_b_restore_aug_v2_full_20epoch_bf16.yaml", "outputs/stage_b_restore_aug_v2_full_20epoch"),
+    for config_name, preview_path, output_dir in (
+        (
+            "stage_b_restore_aug_v2_full_20epoch_bf16.yaml",
+            "data/baselite_smiles_aug_v2/training_template_preview.jsonl",
+            "outputs/stage_b_restore_aug_v2_full_20epoch",
+        ),
         (
             "stage_b_restore_aug_v2_curriculum_full_20epoch_bf16.yaml",
+            "data/baselite_smiles_aug_v2/training_template_preview.jsonl",
             "outputs/stage_b_restore_aug_v2_curriculum_full_20epoch",
+        ),
+        (
+            "stage_b_restore_aug_v3_full_20epoch_bf16.yaml",
+            "data/baselite_smiles_aug_v3/training_template_preview.jsonl",
+            "outputs/stage_b_restore_aug_v3_full_20epoch",
+        ),
+        (
+            "stage_b_restore_aug_v3_full_20epoch_bf16_114_214_255_153.yaml",
+            "/home/devuser/work/baselite_omg_v3_stageb/work/data/baselite_smiles_aug_v3/training_template_preview.jsonl",
+            "/home/devuser/work/baselite_omg_v3_stageb/work/outputs/stage_b_restore_aug_v3_full_20epoch",
         ),
     ):
         config = load_yaml_config(root / "configs" / config_name)
 
-        assert config.preview_path == "data/baselite_smiles_aug_v2/training_template_preview.jsonl"
+        assert config.preview_path == preview_path
         assert config.output_dir == output_dir
         assert config.max_epochs == 20
         assert config.checkpoint_eval_samples == 0
